@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import {
   IconX,
   IconMinus,
@@ -25,8 +25,40 @@ interface Project {
 export function ProjectsWindow({ onClose }: ProjectsWindowProps) {
   const [isMaximized, setIsMaximized] = useState(false);
   const [position, setPosition] = useState({ x: window.innerWidth / 4, y: window.innerHeight / 8 });
+  const windowRef = useRef<HTMLDivElement>(null);
   const constraintsRef = useRef<HTMLDivElement>(null);
   const dragControls = useDragControls();
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (windowRef.current) {
+        const rect = windowRef.current.getBoundingClientRect();
+        setPosition(prev => ({
+          x: Math.min(prev.x, window.innerWidth - rect.width),
+          y: Math.min(prev.y, window.innerHeight - rect.height),
+        }));
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const handleDragEnd = (event: any, info: any) => {
+    if (!windowRef.current) return;
+
+    const windowWidth = windowRef.current.offsetWidth;
+    const windowHeight = windowRef.current.offsetHeight;
+
+    // Calculate position relative to the drag start point
+    const newX = Math.min(Math.max(0, position.x + info.delta.x), window.innerWidth - windowWidth);
+    const newY = Math.min(
+      Math.max(0, position.y + info.delta.y),
+      window.innerHeight - windowHeight
+    );
+
+    setPosition({ x: newX, y: newY });
+  };
 
   const projects: Project[] = [
     {
@@ -93,9 +125,7 @@ export function ProjectsWindow({ onClose }: ProjectsWindowProps) {
         dragConstraints={constraintsRef}
         dragMomentum={false}
         dragElastic={0}
-        onDragEnd={(event, info) => {
-          setPosition({ x: info.point.x, y: info.point.y });
-        }}
+        onDragEnd={handleDragEnd}
         className={`fixed bg-black/80 backdrop-blur-md rounded-lg overflow-hidden pointer-events-auto`}
         style={{
           boxShadow: '0 0 20px rgba(0,0,0,0.3)',

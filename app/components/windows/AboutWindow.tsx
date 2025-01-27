@@ -29,14 +29,18 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
   }, []);
 
   const handleDragEnd = (event: any, info: any) => {
-    const newX = Math.min(
-      Math.max(0, info.point.x),
-      window.innerWidth - (windowRef.current?.offsetWidth || 0)
-    );
+    if (!windowRef.current) return;
+
+    const windowWidth = windowRef.current.offsetWidth;
+    const windowHeight = windowRef.current.offsetHeight;
+
+    // Calculate position relative to the drag start point
+    const newX = Math.min(Math.max(0, position.x + info.delta.x), window.innerWidth - windowWidth);
     const newY = Math.min(
-      Math.max(0, info.point.y),
-      window.innerHeight - (windowRef.current?.offsetHeight || 0)
+      Math.max(0, position.y + info.delta.y),
+      window.innerHeight - windowHeight
     );
+
     setPosition({ x: newX, y: newY });
   };
 
