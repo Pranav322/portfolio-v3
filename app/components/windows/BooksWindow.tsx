@@ -1,6 +1,7 @@
+'use client';
 import { useState, useRef } from 'react';
 import { IconX, IconMinus, IconSquare, IconBook } from '@tabler/icons-react';
-import { motion, AnimatePresence, useDragControls } from 'framer-motion';
+import { motion, useDragControls } from 'framer-motion';
 import { Worker, Viewer } from '@react-pdf-viewer/core';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import '@react-pdf-viewer/core/lib/styles/index.css';

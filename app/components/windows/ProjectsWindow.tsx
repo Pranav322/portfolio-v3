@@ -7,7 +7,7 @@ import {
   IconBrandGithub,
   IconExternalLink,
 } from '@tabler/icons-react';
-import { motion, AnimatePresence, useDragControls } from 'framer-motion';
+import { motion, useDragControls } from 'framer-motion';
 
 interface ProjectsWindowProps {
   onClose: () => void;
@@ -138,7 +138,7 @@ export function ProjectsWindow({ onClose }: ProjectsWindowProps) {
             animate="show"
             className="grid grid-cols-2 gap-6"
           >
-            {projects.map((project, index) => (
+            {projects.map(project => (
               <motion.div
                 key={project.title}
                 variants={item}

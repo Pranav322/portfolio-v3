@@ -3,15 +3,16 @@ import {
   IconFolder,
   IconUser,
   IconTools,
-  IconBriefcase,
-  IconFileCode,
   IconBrandGithub,
   IconMail,
   IconBook,
 } from '@tabler/icons-react';
 // import { AboutWindow } from '../windows/AboutWindow';
 import AboutWindow from '../windows/AboutWindow';
-import { BooksWindow } from '../windows/BooksWindow';
+import dynamic from 'next/dynamic';
+const BooksWindow = dynamic(() => import('../windows/BooksWindow').then(mod => mod.BooksWindow), {
+  ssr: false,
+});
 import { ProjectsWindow } from '../windows/ProjectsWindow';
 
 export function DesktopIcons() {
@@ -89,7 +90,7 @@ export function DesktopIcons() {
   return (
     <>
       <div className="fixed left-4 top-4 grid grid-cols-1 gap-6">
-        {icons.map((icon, index) => (
+        {icons.map(icon => (
           <div
             key={icon.name}
             className={`group flex flex-col items-center gap-1 cursor-pointer w-24 ${
