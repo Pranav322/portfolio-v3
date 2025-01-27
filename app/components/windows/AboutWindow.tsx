@@ -115,19 +115,19 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
                     whileHover={{ scale: 1.05 }}
                     className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors"
                   >
-                    <span>📍</span> Location
+                    <span>📍</span> Chandigarh
                   </motion.a>
                   <motion.a
                     whileHover={{ scale: 1.05 }}
                     className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors"
                   >
-                    <span>📧</span> your@email.com
+                    <span>📧</span> pranavdotdev@gmail.com
                   </motion.a>
                   <motion.a
                     whileHover={{ scale: 1.05 }}
                     className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors"
                   >
-                    <span>🔗</span> github.com/yourusername
+                    <span>🔗</span> github.com/pranav322
                   </motion.a>
                 </div>
               </motion.div>
