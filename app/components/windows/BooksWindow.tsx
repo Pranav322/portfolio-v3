@@ -45,9 +45,7 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
         color: '#ffffff',
       },
     },
-    toolbarPlugin: {
-      darkMode: true,
-    },
+    toolbarPlugin: {},
     sidebarPlugin: {
       thumbnailPlugin: {
         thumbnailWidth: 150,
