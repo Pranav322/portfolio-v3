@@ -1,8 +1,16 @@
-import { useState, useEffect, useRef } from 'react';
-import { IconX, IconMinus, IconSquare, IconUser } from '@tabler/icons-react';
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  IconX,
+  IconMinus,
+  IconSquare,
+  IconUser,
+  IconBrandGithub,
+  IconExternalLink,
+} from '@tabler/icons-react';
 import { motion, AnimatePresence, useDragControls } from 'framer-motion';
 import { WindowWrapper } from '../ui/WindowWrapper';
-
+import { skills } from '../helpers/Skills';
+import { projects } from '../helpers/Projects';
 interface AboutWindowProps {
   onClose: () => void;
 }
@@ -12,14 +20,9 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
   const dragControls = useDragControls();
 
   return (
-    <WindowWrapper
-      isMaximized={isMaximized}
-      onClose={onClose}
-      initialWidth={900}
-      initialHeight={600}
-    >
+    <WindowWrapper isMaximized={isMaximized} onClose={onClose}>
       <div className="h-full flex flex-col">
-        {/* Title Bar */}
+        {/* Window Header */}
         <motion.div
           className="h-12 bg-gradient-to-r from-gray-800/50 to-gray-900/50 flex items-center justify-between px-4 cursor-move border-b border-white/10"
           onPointerDown={e => !isMaximized && dragControls.start(e)}
@@ -30,6 +33,7 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
             </div>
             <span className="text-white/90 text-sm font-medium">About Me</span>
           </div>
+          {/* Window Controls */}
           <div className="flex items-center gap-1">
             <motion.button
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
@@ -58,6 +62,7 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
         <div className="flex-1 overflow-auto">
           <div className="p-8 h-[calc(100%-3rem)] overflow-y-auto">
             <div className="max-w-4xl mx-auto">
+              {/* Header Section */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -83,126 +88,108 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors"
-                    onClick={() =>
-                      window.open('/browser?url=https://github.com/Pranav322', '_blank')
-                    }
+                    onClick={() => window.open('https://github.com/Pranav322', '_blank')}
                   >
                     <span>🔗</span> github.com/pranav322
                   </motion.button>
                 </div>
               </motion.div>
 
-              <div className="grid grid-cols-[1fr_2fr] gap-12">
-                {/* Left Column */}
-                <div className="space-y-8">
-                  <motion.section
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.2 }}
-                  >
-                    <h2 className="text-xl font-semibold mb-4 text-blue-400">Education</h2>
-                    <motion.div
-                      whileHover={{ scale: 1.02 }}
-                      className="bg-white/5 p-4 rounded-lg border border-white/5"
-                    >
-                      <h3 className="font-medium text-white/90">B.E. Computer Science</h3>
-                      <p className="text-sm text-white/60 mt-2">Chandigarh University</p>
-                      <p className="text-sm text-white/60">2020 - 2024</p>
-                    </motion.div>
-                  </motion.section>
-                  <motion.section initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
-                    <h2 className="text-xl font-semibold mb-4 text-blue-400">Skills</h2>
-                    <div className="space-y-3">
-                      {[
-                        'Languages',
-                        'Backend Development',
-                        'Databases',
-                        'Mobile Development',
-                        'Tools',
-                      ].map((category, index) => (
-                        <motion.div
-                          key={category}
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: index * 0.1 }}
-                          className="bg-white/5 p-4 rounded-lg hover:bg-white/8 transition-colors border border-white/5"
-                        >
-                          <h3 className="font-medium mb-2 text-white/90">{category}</h3>
-                          <p className="text-sm text-white/60">
-                            {category === 'Languages' && 'JavaScript, TypeScript, Dart, SQL'}
-                            {category === 'Backend Development' &&
-                              'Node.js, Express.js, REST APIs, Authentication (JWT, OAuth)'}
-                            {category === 'Databases' && 'PostgreSQL, MongoDB, SQLite, Prisma'}
-                            {category === 'Mobile Development' &&
-                              'Flutter, Firebase, Android/iOS SDKs'}
-                            {category === 'Tools' &&
-                              'Git, Docker, Firebase, Figma, React, Django, Next.js'}
-                          </p>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </motion.section>
-                </div>
+              {/* About Section */}
+              <motion.section
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="mb-8"
+              >
+                <h2 className="text-xl font-semibold mb-4 text-blue-400">About</h2>
+                <p className="text-white/70 leading-relaxed">
+                  Full Stack Developer with a passion for building beautiful, functional, and
+                  user-friendly applications. I specialize in React, Next.js, Node.js, and modern
+                  web technologies. Currently exploring AI/ML and always eager to learn new
+                  technologies.
+                </p>
+              </motion.section>
 
-                {/* Right Column */}
-                <div className="space-y-8">
-                  <motion.section initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-                    <h2 className="text-xl font-semibold mb-4 text-blue-400">Experience</h2>
+              {/* Skills Section */}
+              <motion.section
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 }}
+                className="mb-8"
+              >
+                <h2 className="text-xl font-semibold mb-4 text-blue-400">Skills</h2>
+                <div className="grid grid-cols-2 gap-4">
+                  {skills.map(category => (
                     <motion.div
-                      whileHover={{ scale: 1.02 }}
-                      className="bg-white/5 p-5 rounded-lg border border-white/5"
+                      key={category.category}
+                      whileHover={{ scale: 1.01 }}
+                      className="bg-white/5 p-4 rounded-lg border border-white/10"
                     >
-                      <h3 className="font-medium text-white/90">Full Stack Developer</h3>
-                      <p className="text-sm text-blue-400/80 mt-1">Company Name • 2023 - Present</p>
-                      <ul className="mt-3 space-y-2">
-                        {[
-                          'Developed and maintained web applications',
-                          'Collaborated with cross-functional teams',
-                          'Implemented new features and optimizations',
-                        ].map((item, index) => (
-                          <motion.li
-                            key={index}
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: index * 0.1 }}
-                            className="flex items-center gap-2 text-sm text-white/60"
-                          >
-                            <div className="w-1.5 h-1.5 rounded-full bg-blue-400/40" />
-                            {item}
-                          </motion.li>
-                        ))}
-                      </ul>
-                    </motion.div>
-                  </motion.section>
-
-                  <motion.section
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.2 }}
-                  >
-                    <h2 className="text-xl font-semibold mb-4 text-blue-400">Projects</h2>
-                    <motion.div
-                      whileHover={{ scale: 1.02 }}
-                      className="bg-white/5 p-5 rounded-lg border border-white/5"
-                    >
-                      <h3 className="font-medium text-white/90">Portfolio Website</h3>
-                      <div className="flex gap-2 mt-2">
-                        {['Next.js', 'TypeScript', 'Tailwind CSS'].map((tech, index) => (
+                      <h3 className="text-blue-400/80 font-medium mb-3">{category.category}</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {category.items.map(skill => (
                           <span
-                            key={tech}
-                            className="text-xs px-2 py-1 bg-blue-500/10 text-blue-400 rounded-full"
+                            key={skill}
+                            className="px-2 py-1 bg-white/5 rounded-full text-xs text-white/70"
                           >
-                            {tech}
+                            {skill}
                           </span>
                         ))}
                       </div>
-                      <p className="text-sm text-white/60 mt-3">
-                        A modern portfolio website with CLI and GUI interfaces
-                      </p>
                     </motion.div>
-                  </motion.section>
+                  ))}
                 </div>
-              </div>
+              </motion.section>
+
+              {/* Featured Projects Section */}
+              <motion.section
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 }}
+                className="mb-8"
+              >
+                <h2 className="text-xl font-semibold mb-4 text-blue-400">Featured Projects</h2>
+                <div className="grid grid-cols-2 gap-4">
+                  {projects.slice(0, 4).map((project, index) => (
+                    <motion.div
+                      key={project.title}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      whileHover={{ scale: 1.02 }}
+                      className="group bg-white/5 rounded-lg overflow-hidden border border-white/10 hover:border-white/20 transition-all duration-300"
+                    >
+                      {project.image && (
+                        <div className="h-32 overflow-hidden">
+                          <motion.img
+                            src={project.image}
+                            alt={project.title}
+                            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                          />
+                        </div>
+                      )}
+                      <div className="p-4">
+                        <h3 className="text-lg font-medium text-white/90 mb-2 group-hover:text-blue-400 transition-colors">
+                          {project.title}
+                        </h3>
+                        <p className="text-white/60 text-sm mb-3 line-clamp-2">
+                          {project.description}
+                        </p>
+                        <div className="flex flex-wrap gap-1.5 mb-3">
+                          {project.techStack.slice(0, 3).map(tech => (
+                            <span
+                              key={tech}
+                              className="px-2 py-0.5 bg-white/10 rounded-full text-xs text-white/70"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.section>
             </div>
           </div>
         </div>

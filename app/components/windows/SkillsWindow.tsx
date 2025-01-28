@@ -3,33 +3,10 @@ import { motion } from 'framer-motion';
 import { useDragControls } from 'framer-motion';
 import { IconX, IconMinus, IconSquare, IconTools } from '@tabler/icons-react';
 import { WindowWrapper } from '../ui/WindowWrapper';
-
+import { skills } from '../helpers/Skills';
 interface SkillsWindowProps {
   onClose: () => void;
 }
-
-const skills = [
-  {
-    category: 'Languages',
-    items: ['JavaScript', 'TypeScript', 'Python', 'Java', 'SQL'],
-  },
-  {
-    category: 'Frontend',
-    items: ['React', 'Next.js', 'TailwindCSS', 'HTML/CSS', 'Redux'],
-  },
-  {
-    category: 'Backend',
-    items: ['Node.js', 'Express', 'Django', 'REST APIs', 'GraphQL'],
-  },
-  {
-    category: 'Database',
-    items: ['PostgreSQL', 'MongoDB', 'Redis', 'Firebase'],
-  },
-  {
-    category: 'DevOps',
-    items: ['Docker', 'Git', 'AWS', 'CI/CD', 'Linux'],
-  },
-];
 
 export function SkillsWindow({ onClose }: SkillsWindowProps) {
   const [isMaximized, setIsMaximized] = useState(false);
