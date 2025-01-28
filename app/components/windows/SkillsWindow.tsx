@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, Github, Minus, Maximize2, Minimize2, PenTool } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { useDragControls } from 'framer-motion';
+import { IconX, IconMinus, IconSquare, IconTools } from '@tabler/icons-react';
+import { WindowWrapper } from '../ui/WindowWrapper';
 
 interface SkillsWindowProps {
   onClose: () => void;
@@ -8,54 +10,30 @@ interface SkillsWindowProps {
 
 const skills = [
   {
-    name: 'React/Next.js',
-    description: 'Modern frontend development with TypeScript',
-    icon: '⚛️',
-    github: 'https://github.com/Pranav322/portfolio',
-    projects: ['Portfolio Site', 'E-commerce Platform'],
+    category: 'Languages',
+    items: ['JavaScript', 'TypeScript', 'Python', 'Java', 'SQL'],
   },
   {
-    name: 'Node.js',
-    description: 'Backend development & REST APIs',
-    icon: '🚀',
-    github: 'https://github.com/Pranav322/backend-boilerplate',
-    projects: ['API Service', 'Authentication System'],
+    category: 'Frontend',
+    items: ['React', 'Next.js', 'TailwindCSS', 'HTML/CSS', 'Redux'],
   },
   {
-    name: 'Flutter',
-    description: 'Cross-platform mobile development',
-    icon: '📱',
-    github: 'https://github.com/Pranav322/flutter-weather-app',
-    projects: ['Weather App', 'Task Manager'],
+    category: 'Backend',
+    items: ['Node.js', 'Express', 'Django', 'REST APIs', 'GraphQL'],
   },
   {
-    name: 'Python/Django',
-    description: 'Full-stack web applications',
-    icon: '🐍',
-    github: 'https://github.com/Pranav322/ecommerce-django',
-    projects: ['E-commerce Platform', 'CMS'],
+    category: 'Database',
+    items: ['PostgreSQL', 'MongoDB', 'Redis', 'Firebase'],
+  },
+  {
+    category: 'DevOps',
+    items: ['Docker', 'Git', 'AWS', 'CI/CD', 'Linux'],
   },
 ];
 
 export function SkillsWindow({ onClose }: SkillsWindowProps) {
-  const [hoveredSkill, setHoveredSkill] = useState<number | null>(null);
   const [isMaximized, setIsMaximized] = useState(false);
-  const [position, setPosition] = useState({ x: window.innerWidth / 4, y: window.innerHeight / 8 });
-  const windowRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (windowRef.current) {
-        const rect = windowRef.current.getBoundingClientRect();
-        setPosition(prev => ({
-          x: Math.min(prev.x, window.innerWidth - rect.width),
-          y: Math.min(prev.y, window.innerHeight - rect.height),
-        }));
-      }
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  const dragControls = useDragControls();
 
   const container = {
     hidden: { opacity: 0 },
@@ -63,144 +41,82 @@ export function SkillsWindow({ onClose }: SkillsWindowProps) {
       opacity: 1,
       transition: {
         staggerChildren: 0.1,
-        delayChildren: 0.3,
       },
     },
   };
 
   const item = {
-    hidden: { y: 20, opacity: 0 },
-    show: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: 'spring',
-        stiffness: 300,
-        damping: 24,
-      },
-    },
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 },
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
-        transition={{ type: 'spring', duration: 0.5 }}
-        style={{
-          width: isMaximized ? '95vw' : '750px',
-          height: isMaximized ? '90vh' : '600px',
-        }}
-        className="bg-gradient-to-br from-gray-900/95 to-black/95 rounded-xl overflow-hidden border border-white/10 shadow-2xl"
-        ref={windowRef}
-      >
-        <div className="h-14 bg-gradient-to-r from-gray-800/50 to-gray-900/50 flex items-center justify-between px-4 border-b border-white/10">
+    <WindowWrapper
+      isMaximized={isMaximized}
+      onClose={onClose}
+      initialWidth={800}
+      initialHeight={600}
+    >
+      <div className="h-full flex flex-col">
+        <motion.div
+          className="h-12 bg-gradient-to-r from-gray-800/50 to-gray-900/50 flex items-center justify-between px-4 cursor-move border-b border-white/10"
+          onPointerDown={e => !isMaximized && dragControls.start(e)}
+        >
           <div className="flex items-center gap-3">
-            <div className="bg-blue-500/20 p-2 rounded-lg">
-              <PenTool size={18} className="text-blue-400" />
+            <div className="bg-green-500/20 p-1.5 rounded-full">
+              <IconTools size={16} className="text-green-400" />
             </div>
-            <span className="text-white/90 text-base font-medium">My Skills & Projects</span>
+            <span className="text-white/90 text-sm font-medium">Skills</span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+              whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
+              className="p-2 rounded-full"
             >
-              <Minus size={16} className="text-white/80" />
+              <IconMinus size={14} className="text-white/80" />
             </motion.button>
             <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={() => setIsMaximized(!isMaximized)}
-              className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+              className="p-2 rounded-full"
             >
-              {isMaximized ? (
-                <Minimize2 size={16} className="text-white/80" />
-              ) : (
-                <Maximize2 size={16} className="text-white/80" />
-              )}
+              <IconSquare size={14} className="text-white/80" />
             </motion.button>
             <motion.button
-              whileHover={{ scale: 1.1, backgroundColor: 'rgb(239 68 68 / 0.2)' }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
               onClick={onClose}
-              className="p-2 hover:bg-red-500/20 rounded-lg transition-colors"
+              className="p-2 rounded-full"
             >
-              <X size={16} className="text-white/80" />
+              <IconX size={14} className="text-white/80" />
             </motion.button>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="p-8 h-[calc(100%-3.5rem)] overflow-y-auto">
-          <motion.div
-            variants={container}
-            initial="hidden"
-            animate="show"
-            className="grid grid-cols-2 gap-6"
-          >
-            {skills.map((skill, index) => (
+        <div className="p-6 h-[calc(100%-3rem)] overflow-y-auto">
+          <motion.div variants={container} initial="hidden" animate="show" className="grid gap-6">
+            {skills.map(category => (
               <motion.div
-                key={skill.name}
+                key={category.category}
                 variants={item}
-                className="relative group"
-                onHoverStart={() => setHoveredSkill(index)}
-                onHoverEnd={() => setHoveredSkill(null)}
+                className="bg-white/5 p-4 rounded-lg border border-white/10"
               >
-                <motion.div
-                  className="bg-white/5 p-6 rounded-xl border border-white/10 hover:border-blue-500/50 transition-all duration-300"
-                  whileHover={{ y: -4 }}
-                >
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="text-2xl mb-1">{skill.icon}</div>
-                    <motion.a
-                      href={skill.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-white/40 hover:text-blue-400 transition-colors"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.95 }}
+                <h3 className="text-green-400 font-medium mb-3">{category.category}</h3>
+                <div className="flex flex-wrap gap-2">
+                  {category.items.map(skill => (
+                    <motion.span
+                      key={skill}
+                      whileHover={{ scale: 1.05 }}
+                      className="px-3 py-1.5 bg-white/5 rounded-lg text-sm text-white/70 hover:text-white/90 transition-colors"
                     >
-                      <Github size={18} />
-                    </motion.a>
-                  </div>
-                  <h3 className="text-lg font-semibold text-blue-400 mb-2">{skill.name}</h3>
-                  <p className="text-white/60 text-sm leading-relaxed">{skill.description}</p>
-                </motion.div>
-
-                <AnimatePresence>
-                  {hoveredSkill === index && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 5 }}
-                      transition={{ type: 'spring', stiffness: 300, damping: 24 }}
-                      className="absolute z-10 top-full left-0 right-0 mt-4 bg-gray-900/95 backdrop-blur-xl p-4 rounded-xl border border-white/10 shadow-xl"
-                    >
-                      <h4 className="text-sm font-medium text-blue-400 mb-3">Featured Projects</h4>
-                      <div className="space-y-2">
-                        {skill.projects.map((project, i) => (
-                          <motion.div
-                            key={i}
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: i * 0.1 }}
-                            className="flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors"
-                          >
-                            <div className="w-1.5 h-1.5 rounded-full bg-blue-500/50" />
-                            {project}
-                          </motion.div>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                      {skill}
+                    </motion.span>
+                  ))}
+                </div>
               </motion.div>
             ))}
           </motion.div>
         </div>
-      </motion.div>
-    </div>
+      </div>
+    </WindowWrapper>
   );
 }
