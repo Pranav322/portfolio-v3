@@ -3,8 +3,9 @@
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "skipLibCheck": true,
-    "strict": false,
+    "strict": false, // Disable all strict rules
+    "skipLibCheck": true, // Skip type-checking libraries
+    "noImplicitAny": false, // Allow 'any' usage freely,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",

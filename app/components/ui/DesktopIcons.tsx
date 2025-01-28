@@ -9,6 +9,7 @@ import {
   IconBrowser,
   IconMusic,
   IconSettings,
+  IconBrandSpotify,
 } from '@tabler/icons-react';
 import AboutWindow from '../windows/AboutWindow';
 import dynamic from 'next/dynamic';
@@ -20,6 +21,7 @@ import { BrowserWindow } from '../windows/BrowserWindow';
 import { SkillsWindow } from '../windows/SkillsWindow';
 import { motion } from 'framer-motion';
 import { SettingsWindow } from '../windows/SettingsWindow';
+import { SpotifyWindow } from '../windows/SpotifyWindow';
 
 export function DesktopIcons({
   onWallpaperChange,
@@ -35,6 +37,7 @@ export function DesktopIcons({
   const [showSkills, setShowSkills] = useState(false);
   const [showMusic, setShowMusic] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showSpotify, setShowSpotify] = useState(false);
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleIconClick = (iconName: string, action?: () => void) => {
@@ -103,14 +106,20 @@ export function DesktopIcons({
       icon: <IconSettings size={32} />,
       color: 'text-purple-400',
     },
+    {
+      name: 'My Spotify',
+      icon: <IconBrandSpotify size={28} />,
+      color: 'text-[#1DB954]',
+      action: () => setShowSpotify(true),
+    },
   ];
 
   return (
     <>
       <div className="fixed left-4 top-4 w-auto">
         <div
-          className="grid auto-rows-min grid-cols-[repeat(auto-fit,minmax(9
-        6px,1fr))] gap-6"
+          className="flex flex-wrap gap-6 w-full max-w-[90vw]"
+          style={{ flexDirection: 'column', height: '100vh', overflow: 'auto' }}
         >
           {icons.map(icon => (
             <div
@@ -180,6 +189,7 @@ export function DesktopIcons({
           onClose={() => setShowMusic(false)}
         />
       )}
+      {showSpotify && <SpotifyWindow onClose={() => setShowSpotify(false)} />}
     </>
   );
 }
