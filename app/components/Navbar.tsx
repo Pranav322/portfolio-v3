@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FloatingDock } from './ui/flaoting-dock';
 import {
   IconBrandGithub,
@@ -7,10 +7,15 @@ import {
   IconHome,
   IconNewSection,
   IconTerminal2,
+  IconSettings,
+  IconDeviceGamepad2,
 } from '@tabler/icons-react';
 import Image from 'next/image';
+import { BrowserWindow } from './windows/BrowserWindow';
 
 function FloatingDockDemo({ desktopClassName, mobileClassName }) {
+  const [githubUrl, setGithubUrl] = useState<string | null>(null);
+
   const links = [
     {
       title: 'Home',
@@ -18,50 +23,43 @@ function FloatingDockDemo({ desktopClassName, mobileClassName }) {
       href: '#',
     },
     {
-      title: 'Products',
-      icon: <IconTerminal2 className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+      title: 'Settings',
+      icon: <IconSettings className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
       href: '#',
     },
+    // {
+    //   title: 'Components',
+    //   icon: <IconNewSection className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+    //   href: '#',
+    // },
+
     {
-      title: 'Components',
-      icon: <IconNewSection className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
-      href: '#',
-    },
-    {
-      title: 'Aceternity UI',
-      icon: (
-        <Image
-          src="https://assets.aceternity.com/logo-dark.png"
-          width={20}
-          height={20}
-          alt="Aceternity Logo"
-        />
-      ),
-      href: '#',
-    },
-    {
-      title: 'Changelog',
-      icon: <IconExchange className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+      title: 'Games',
+      icon: <IconDeviceGamepad2 className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
       href: '#',
     },
     {
       title: 'Twitter',
       icon: <IconBrandX className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
-      href: '#',
+      href: 'https://x.com/_pranav69',
     },
     {
       title: 'GitHub',
       icon: <IconBrandGithub className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
-      href: '#',
+      href: 'https://github.com/Pranav322',
+      // action: () => setGithubUrl('https://github.com/Pranav322')
     },
   ];
 
   return (
-    <FloatingDock
-      items={links}
-      desktopClassName={desktopClassName}
-      mobileClassName={mobileClassName}
-    />
+    <>
+      <FloatingDock
+        items={links}
+        desktopClassName={desktopClassName}
+        mobileClassName={mobileClassName}
+      />
+      {githubUrl && <BrowserWindow initialUrl={githubUrl} onClose={() => setGithubUrl(null)} />}
+    </>
   );
 }
 
