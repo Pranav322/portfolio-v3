@@ -17,10 +17,21 @@ interface AboutWindowProps {
 
 export default function AboutWindow({ onClose }: AboutWindowProps) {
   const [isMaximized, setIsMaximized] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
   const dragControls = useDragControls();
 
+  const handleMinimize = () => {
+    setIsMinimized(true);
+  };
+
   return (
-    <WindowWrapper isMaximized={isMaximized} onClose={onClose}>
+    <WindowWrapper
+      isMaximized={isMaximized}
+      onClose={onClose}
+      onMinimize={handleMinimize}
+      initialWidth={800}
+      initialHeight={600}
+    >
       <div className="h-full flex flex-col">
         {/* Window Header */}
         <motion.div

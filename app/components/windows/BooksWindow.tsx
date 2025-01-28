@@ -7,6 +7,7 @@ import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import { WindowWrapper } from '../ui/WindowWrapper';
+import React from 'react';
 
 interface BooksWindowProps {
   onClose: () => void;
@@ -25,6 +26,11 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
   const dragControls = useDragControls();
   const [selectedBook, setSelectedBook] = useState<string | null>(null);
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
+  const [isMinimized, setIsMinimized] = useState(false);
+
+  const handleMinimize = () => {
+    setIsMinimized(true);
+  };
 
   // Handle window resize
   useEffect(() => {
@@ -74,6 +80,7 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
     <WindowWrapper
       isMaximized={isMaximized}
       onClose={onClose}
+      onMinimize={handleMinimize}
       initialWidth={800}
       initialHeight={600}
     >

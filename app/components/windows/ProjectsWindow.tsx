@@ -17,6 +17,10 @@ interface ProjectsWindowProps {
 export function ProjectsWindow({ onClose }: ProjectsWindowProps) {
   const [isMaximized, setIsMaximized] = useState(false);
   const dragControls = useDragControls();
+  const [isMinimized, setIsMinimized] = useState(false);
+  const handleMinimize = () => {
+    setIsMinimized(true);
+  };
 
   return (
     <WindowWrapper
@@ -24,6 +28,7 @@ export function ProjectsWindow({ onClose }: ProjectsWindowProps) {
       onClose={onClose}
       initialWidth={800}
       initialHeight={600}
+      onMinimize={handleMinimize}
     >
       <div className="h-full flex flex-col">
         <motion.div

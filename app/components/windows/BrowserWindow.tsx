@@ -25,6 +25,11 @@ export function BrowserWindow({
   const [url, setUrl] = useState(initialUrl);
   const [history, setHistory] = useState<string[]>([initialUrl]);
   const [historyIndex, setHistoryIndex] = useState(0);
+  const [isMinimized, setIsMinimized] = useState(false);
+
+  const handleMinimize = () => {
+    setIsMinimized(true);
+  };
 
   const handleUrlChange = (newUrl: string) => {
     setUrl(newUrl);
@@ -56,6 +61,7 @@ export function BrowserWindow({
     <WindowWrapper
       isMaximized={isMaximized}
       onClose={onClose}
+      onMinimize={handleMinimize}
       initialWidth={1000}
       initialHeight={700}
     >

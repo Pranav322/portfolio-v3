@@ -10,7 +10,11 @@ interface SkillsWindowProps {
 
 export function SkillsWindow({ onClose }: SkillsWindowProps) {
   const [isMaximized, setIsMaximized] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
   const dragControls = useDragControls();
+  const handleMinimize = () => {
+    setIsMinimized(true);
+  };
 
   const container = {
     hidden: { opacity: 0 },
@@ -31,6 +35,7 @@ export function SkillsWindow({ onClose }: SkillsWindowProps) {
     <WindowWrapper
       isMaximized={isMaximized}
       onClose={onClose}
+      onMinimize={handleMinimize}
       initialWidth={800}
       initialHeight={600}
     >

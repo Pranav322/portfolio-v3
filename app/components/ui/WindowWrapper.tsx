@@ -7,6 +7,7 @@ interface WindowWrapperProps {
   children: React.ReactNode;
   isMaximized: boolean;
   onClose: () => void;
+  onMinimize: () => void;
   initialWidth?: number;
   initialHeight?: number;
 }
@@ -15,6 +16,7 @@ export function WindowWrapper({
   children,
   isMaximized,
   onClose,
+  onMinimize,
   initialWidth = 800,
   initialHeight = 600,
 }: WindowWrapperProps) {
@@ -116,6 +118,9 @@ export function WindowWrapper({
           )}
           {isMaximized && children}
         </motion.div>
+      </div>
+      <div className="window-controls">
+        <button onClick={onMinimize}>Minimize</button>
       </div>
     </motion.div>
   );
