@@ -6,9 +6,11 @@ import Terminalcomp from './components/Terminal/Terminal';
 import { DesktopIcons } from './components/ui/DesktopIcons';
 import { BrowserWindow } from './components/windows/BrowserWindow';
 import { Quote } from './components/ui/Quote';
+
 export default function Home() {
   const [isCLI, setIsCLI] = useState(false);
   const [browserUrl, setBrowserUrl] = useState<string | null>(null);
+  const [wallpaper, setWallpaper] = useState<string | null>(null);
 
   const handleDockItemClick = (href: string) => {
     if (href === 'github') {
@@ -16,8 +18,23 @@ export default function Home() {
     }
   };
 
+  const handleWallpaperChange = (newWallpaper: string) => {
+    console.log('New wallpaper:', newWallpaper); // Debug log
+    setWallpaper(newWallpaper);
+  };
+
+  // Add this style to your main container
+  const backgroundStyle = wallpaper
+    ? {
+        backgroundImage: `url(${wallpaper})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }
+    : {};
+
   return (
-    <div className="relative h-screen w-full dark:bg-black bg-white dark:bg-dot-white/[0.2] bg-dot-black/[0.2]">
+    <div className="relative h-screen w-full overflow-hidden" style={backgroundStyle}>
       {/* Radial gradient for the container to give a faded look */}
       <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
 
@@ -26,7 +43,7 @@ export default function Home() {
 
       {/* Main content area */}
       <div className="relative h-full flex flex-col">
-        {!isCLI && <DesktopIcons />}
+        {!isCLI && <DesktopIcons onWallpaperChange={handleWallpaperChange} />}
 
         {/* Toggle button section */}
         <div className="flex-grow flex items-center justify-center">
@@ -48,6 +65,7 @@ export default function Home() {
             desktopClassName="fixed bottom-8 left-1/2 -translate-x-1/2"
             mobileClassName="fixed bottom-8 right-8"
             onItemClick={handleDockItemClick}
+            onWallpaperChange={handleWallpaperChange}
           />
         )}
 
