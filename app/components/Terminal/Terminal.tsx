@@ -255,6 +255,15 @@ const Terminalcomp = () => {
 
   return (
     <div className="w-full h-full flex justify-center items-center">
+      {/* Quote positioned relative to viewport */}
+      <div className="fixed top-4 right-4 max-w-md p-2 border border-gray-800 rounded bg-black/50 z-50">
+        <p className="text-gray-500 italic text-sm">
+          "Some people never go crazy. What truly horrible lives they must lead."
+        </p>
+        <p className="text-gray-600 text-right text-xs">— Charles Bukowski</p>
+      </div>
+
+      {/* Terminal window */}
       <div className="border-2 border-neutral-800 dark:border-neutral-700 rounded-sm w-[700px] h-[500px] bg-black/90 backdrop-blur-sm p-4 overflow-y-auto font-mono">
         <div className="flex justify-between mb-5 items-center sticky top-0 bg-black/90 z-20 backdrop-blur-lg p-2 rounded-sm">
           <div className="flex gap-2">
