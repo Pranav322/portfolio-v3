@@ -4,14 +4,25 @@ import { useState } from 'react';
 import FloatingDockDemo from './components/Navbar';
 import Terminalcomp from './components/Terminal/Terminal';
 import { DesktopIcons } from './components/ui/DesktopIcons';
-
+import { BrowserWindow } from './components/windows/BrowserWindow';
+import { Quote } from './components/ui/Quote';
 export default function Home() {
   const [isCLI, setIsCLI] = useState(false);
+  const [browserUrl, setBrowserUrl] = useState<string | null>(null);
+
+  const handleDockItemClick = (href: string) => {
+    if (href === 'github') {
+      setBrowserUrl('https://github.com/Pranav322');
+    }
+  };
 
   return (
     <div className="relative h-screen w-full dark:bg-black bg-white dark:bg-dot-white/[0.2] bg-dot-black/[0.2]">
       {/* Radial gradient for the container to give a faded look */}
       <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
+
+      {/* Add Quote component here */}
+      {!isCLI && <Quote />}
 
       {/* Main content area */}
       <div className="relative h-full flex flex-col">
@@ -36,7 +47,12 @@ export default function Home() {
           <FloatingDockDemo
             desktopClassName="fixed bottom-8 left-1/2 -translate-x-1/2"
             mobileClassName="fixed bottom-8 right-8"
+            onItemClick={handleDockItemClick}
           />
+        )}
+
+        {browserUrl && (
+          <BrowserWindow initialUrl={browserUrl} onClose={() => setBrowserUrl(null)} />
         )}
       </div>
     </div>
