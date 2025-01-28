@@ -6,6 +6,7 @@ import {
   IconBrandGithub,
   IconMail,
   IconBook,
+  IconBrowser,
 } from '@tabler/icons-react';
 // import { AboutWindow } from '../windows/AboutWindow';
 import AboutWindow from '../windows/AboutWindow';
@@ -14,23 +15,34 @@ const BooksWindow = dynamic(() => import('../windows/BooksWindow').then(mod => m
   ssr: false,
 });
 import { ProjectsWindow } from '../windows/ProjectsWindow';
+import { BrowserWindow } from '../windows/BrowserWindow';
+import { SkillsWindow } from '../windows/SkillsWindow';
 
 export function DesktopIcons() {
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
   const [showAbout, setShowAbout] = useState(false);
   const [showBooks, setShowBooks] = useState(false);
   const [showProjects, setShowProjects] = useState(false);
+  const [showGitHub, setShowGitHub] = useState(false);
+  const [showBrowser, setShowBrowser] = useState(false);
+  const [showSkills, setShowSkills] = useState(false);
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleIconClick = (iconName: string) => {
+  const handleIconClick = (iconName: string, action?: () => void) => {
     if (selectedIcon === iconName) {
       // Double click detected
-      if (iconName === 'About Me') {
-        setShowAbout(true);
-      } else if (iconName === 'Books') {
-        setShowBooks(true);
-      } else if (iconName === 'Projects') {
-        setShowProjects(true);
+      if (action) {
+        action();
+      } else {
+        if (iconName === 'About Me') {
+          setShowAbout(true);
+        } else if (iconName === 'Books') {
+          setShowBooks(true);
+        } else if (iconName === 'Projects') {
+          setShowProjects(true);
+        } else if (iconName === 'Skills') {
+          setShowSkills(true);
+        }
       }
       setSelectedIcon(null);
       if (clickTimeoutRef.current) {
@@ -44,7 +56,7 @@ export function DesktopIcons() {
       }
       clickTimeoutRef.current = setTimeout(() => {
         setSelectedIcon(null);
-      }, 500); // Reset after 500ms if no second click
+      }, 500);
     }
   };
 
@@ -54,7 +66,6 @@ export function DesktopIcons() {
       icon: <IconUser size={32} />,
       color: 'text-blue-400',
     },
-
     {
       name: 'Projects',
       icon: <IconFolder size={32} />,
@@ -70,20 +81,16 @@ export function DesktopIcons() {
       icon: <IconBook size={32} />,
       color: 'text-yellow-400',
     },
-    // {
-    //   name: 'Experience',
-    //   icon: <IconBriefcase size={32} />,
-    //   color: 'text-purple-400',
-    // },
     {
-      name: 'GitHub',
-      icon: <IconBrandGithub size={32} />,
-      color: 'text-gray-400',
+      name: 'Browser',
+      icon: <IconBrowser size={32} />,
+      color: 'text-blue-400',
+      action: () => setShowBrowser(true),
     },
     {
       name: 'Contact',
       icon: <IconMail size={32} />,
-      color: 'text-pink-400',
+      color: 'text-purple-400',
     },
   ];
 
@@ -96,12 +103,26 @@ export function DesktopIcons() {
             className={`group flex flex-col items-center gap-1 cursor-pointer w-24 ${
               selectedIcon === icon.name ? 'bg-white/20 rounded-lg' : ''
             }`}
-            onClick={() => handleIconClick(icon.name)}
+            onClick={() => handleIconClick(icon.name, icon.action)}
           >
             <div
               className={`p-3 rounded-lg backdrop-blur-md bg-black/20 group-hover:bg-black/30 transition-all ${icon.color}`}
             >
-              {icon.icon}
+              {icon.name === 'GitHub' && (
+                <button
+                  onClick={e => {
+                    e.stopPropagation();
+                    setShowGitHub(true);
+                  }}
+                  className="flex flex-col items-center group focus:outline-none"
+                >
+                  <IconBrandGithub className="w-12 h-12 text-white group-hover:text-purple-400 transition-colors" />
+                  <span className="text-white text-sm mt-1 group-hover:text-purple-400 transition-colors">
+                    GitHub
+                  </span>
+                </button>
+              )}
+              {icon.name !== 'GitHub' && icon.icon}
             </div>
             <span className="text-xs text-white/80 text-center px-2 py-1 rounded backdrop-blur-sm bg-black/20 w-full">
               {icon.name}
@@ -113,6 +134,13 @@ export function DesktopIcons() {
       {showAbout && <AboutWindow onClose={() => setShowAbout(false)} />}
       {showBooks && <BooksWindow onClose={() => setShowBooks(false)} />}
       {showProjects && <ProjectsWindow onClose={() => setShowProjects(false)} />}
+      {showSkills && <SkillsWindow onClose={() => setShowSkills(false)} />}
+      {showBrowser && (
+        <BrowserWindow
+          initialUrl="https://iframee.vercel.app"
+          onClose={() => setShowBrowser(false)}
+        />
+      )}
     </>
   );
 }
