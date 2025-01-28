@@ -3,7 +3,7 @@ import { TerminalSquare } from 'lucide-react';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs } from 'firebase/firestore';
 import { db } from '../../../lib/firebase';
-// Add Firebase configuration (replace with your actual config)
+
 import { HelpCommand } from '@/app/components/Terminal/HelpCommand';
 
 const Terminalcomp = () => {
@@ -58,7 +58,7 @@ const Terminalcomp = () => {
       const name = input.trim();
       if (name) {
         try {
-          // Save to Firestore
+          // Saved to firestoreeeeeeee
           await addDoc(collection(db, 'visitors'), {
             name,
             timestamp: new Date(),
@@ -258,7 +258,7 @@ const Terminalcomp = () => {
       {/* Quote positioned relative to viewport */}
       <div className="fixed top-4 right-4 max-w-md p-2 border border-gray-800 rounded bg-black/50 z-50">
         <p className="text-gray-500 italic text-sm">
-          "Some people never go crazy. What truly horrible lives they must lead."
+          &ldquo;Some people never go crazy. What truly horrible lives they must lead.&rdquo;
         </p>
         <p className="text-gray-600 text-right text-xs">— Charles Bukowski</p>
       </div>
