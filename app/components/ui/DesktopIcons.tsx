@@ -7,6 +7,7 @@ import {
   IconMail,
   IconBook,
   IconBrowser,
+  IconMusic,
 } from '@tabler/icons-react';
 // import { AboutWindow } from '../windows/AboutWindow';
 import AboutWindow from '../windows/AboutWindow';
@@ -17,6 +18,7 @@ const BooksWindow = dynamic(() => import('../windows/BooksWindow').then(mod => m
 import { ProjectsWindow } from '../windows/ProjectsWindow';
 import { BrowserWindow } from '../windows/BrowserWindow';
 import { SkillsWindow } from '../windows/SkillsWindow';
+import { motion } from 'framer-motion';
 
 export function DesktopIcons() {
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
@@ -26,6 +28,7 @@ export function DesktopIcons() {
   const [showGitHub, setShowGitHub] = useState(false);
   const [showBrowser, setShowBrowser] = useState(false);
   const [showSkills, setShowSkills] = useState(false);
+  const [showMusic, setShowMusic] = useState(false);
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleIconClick = (iconName: string, action?: () => void) => {
@@ -129,6 +132,17 @@ export function DesktopIcons() {
             </span>
           </div>
         ))}
+        <motion.div
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => setShowMusic(true)}
+          className="flex flex-col items-center gap-1 cursor-pointer group"
+        >
+          <div className="p-3 rounded-xl bg-white/5 group-hover:bg-white/10 backdrop-blur-sm border border-white/10 group-hover:border-white/20 transition-all duration-300">
+            <IconMusic size={24} className="text-purple-400" />
+          </div>
+          <span className="text-xs text-white/70 group-hover:text-white/90">Music</span>
+        </motion.div>
       </div>
 
       {showAbout && <AboutWindow onClose={() => setShowAbout(false)} />}
@@ -139,6 +153,12 @@ export function DesktopIcons() {
         <BrowserWindow
           initialUrl="https://iframee.vercel.app"
           onClose={() => setShowBrowser(false)}
+        />
+      )}
+      {showMusic && (
+        <BrowserWindow
+          initialUrl="https://soulifyy.vercel.app"
+          onClose={() => setShowMusic(false)}
         />
       )}
     </>
