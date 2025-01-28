@@ -10,7 +10,6 @@ import {
   IconMusic,
   IconSettings,
 } from '@tabler/icons-react';
-// import { AboutWindow } from '../windows/AboutWindow';
 import AboutWindow from '../windows/AboutWindow';
 import dynamic from 'next/dynamic';
 const BooksWindow = dynamic(() => import('../windows/BooksWindow').then(mod => mod.BooksWindow), {
@@ -99,7 +98,6 @@ export function DesktopIcons({
       color: 'text-blue-400',
       action: () => setShowBrowser(true),
     },
-
     {
       name: 'Settings',
       icon: <IconSettings size={32} />,
@@ -109,50 +107,55 @@ export function DesktopIcons({
 
   return (
     <>
-      <div className="fixed left-4 top-4 grid grid-cols-1 gap-6">
-        {icons.map(icon => (
-          <div
-            key={icon.name}
-            className={`group flex flex-col items-center gap-1 cursor-pointer w-24 ${
-              selectedIcon === icon.name ? 'bg-white/20 rounded-lg' : ''
-            }`}
-            onClick={() => handleIconClick(icon.name, icon.action)}
-          >
-            <div
-              className={`p-3 rounded-lg backdrop-blur-md bg-black/20 group-hover:bg-black/30 transition-all ${icon.color}`}
-            >
-              {icon.name === 'GitHub' && (
-                <button
-                  onClick={e => {
-                    e.stopPropagation();
-                    setShowGitHub(true);
-                  }}
-                  className="flex flex-col items-center group focus:outline-none"
-                >
-                  <IconBrandGithub className="w-12 h-12 text-white group-hover:text-purple-400 transition-colors" />
-                  <span className="text-white text-sm mt-1 group-hover:text-purple-400 transition-colors">
-                    GitHub
-                  </span>
-                </button>
-              )}
-              {icon.name !== 'GitHub' && icon.icon}
-            </div>
-            <span className="text-xs text-white/80 text-center px-2 py-1 rounded backdrop-blur-sm bg-black/20 w-full">
-              {icon.name}
-            </span>
-          </div>
-        ))}
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => setShowMusic(true)}
-          className="flex flex-col items-center gap-1 cursor-pointer group"
+      <div className="fixed left-4 top-4 w-auto">
+        <div
+          className="grid auto-rows-min grid-cols-[repeat(auto-fit,minmax(9
+        6px,1fr))] gap-6"
         >
-          <div className="p-3 rounded-xl bg-white/5 group-hover:bg-white/10 backdrop-blur-sm border border-white/10 group-hover:border-white/20 transition-all duration-300">
-            <IconMusic size={24} className="text-purple-400" />
-          </div>
-          <span className="text-xs text-white/70 group-hover:text-white/90">Music</span>
-        </motion.div>
+          {icons.map(icon => (
+            <div
+              key={icon.name}
+              className={`group flex flex-col items-center gap-1 cursor-pointer w-24 ${
+                selectedIcon === icon.name ? 'bg-white/20 rounded-lg' : ''
+              }`}
+              onClick={() => handleIconClick(icon.name, icon.action)}
+            >
+              <div
+                className={`p-3 rounded-lg backdrop-blur-md bg-black/20 group-hover:bg-black/30 transition-all ${icon.color}`}
+              >
+                {icon.name === 'GitHub' && (
+                  <button
+                    onClick={e => {
+                      e.stopPropagation();
+                      setShowGitHub(true);
+                    }}
+                    className="flex flex-col items-center group focus:outline-none"
+                  >
+                    <IconBrandGithub className="w-12 h-12 text-white group-hover:text-purple-400 transition-colors" />
+                    <span className="text-white text-sm mt-1 group-hover:text-purple-400 transition-colors">
+                      GitHub
+                    </span>
+                  </button>
+                )}
+                {icon.name !== 'GitHub' && icon.icon}
+              </div>
+              <span className="text-xs text-white/80 text-center px-2 py-1 rounded backdrop-blur-sm bg-black/20 w-full">
+                {icon.name}
+              </span>
+            </div>
+          ))}
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setShowMusic(true)}
+            className="flex flex-col items-center gap-1 cursor-pointer group"
+          >
+            <div className="p-3 rounded-xl bg-white/5 group-hover:bg-white/10 backdrop-blur-sm border border-white/10 group-hover:border-white/20 transition-all duration-300">
+              <IconMusic size={24} className="text-purple-400" />
+            </div>
+            <span className="text-xs text-white/70 group-hover:text-white/90">Music</span>
+          </motion.div>
+        </div>
       </div>
 
       {showAbout && <AboutWindow onClose={() => setShowAbout(false)} />}
