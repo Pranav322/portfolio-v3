@@ -8,6 +8,7 @@ import {
   IconBook,
   IconBrowser,
   IconMusic,
+  IconSettings,
 } from '@tabler/icons-react';
 // import { AboutWindow } from '../windows/AboutWindow';
 import AboutWindow from '../windows/AboutWindow';
@@ -19,8 +20,13 @@ import { ProjectsWindow } from '../windows/ProjectsWindow';
 import { BrowserWindow } from '../windows/BrowserWindow';
 import { SkillsWindow } from '../windows/SkillsWindow';
 import { motion } from 'framer-motion';
+import { SettingsWindow } from '../windows/SettingsWindow';
 
-export function DesktopIcons() {
+export function DesktopIcons({
+  onWallpaperChange,
+}: {
+  onWallpaperChange?: (wallpaper: string) => void;
+}) {
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
   const [showAbout, setShowAbout] = useState(false);
   const [showBooks, setShowBooks] = useState(false);
@@ -29,6 +35,7 @@ export function DesktopIcons() {
   const [showBrowser, setShowBrowser] = useState(false);
   const [showSkills, setShowSkills] = useState(false);
   const [showMusic, setShowMusic] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleIconClick = (iconName: string, action?: () => void) => {
@@ -45,6 +52,8 @@ export function DesktopIcons() {
           setShowProjects(true);
         } else if (iconName === 'Skills') {
           setShowSkills(true);
+        } else if (iconName === 'Settings') {
+          setShowSettings(true);
         }
       }
       setSelectedIcon(null);
@@ -90,11 +99,12 @@ export function DesktopIcons() {
       color: 'text-blue-400',
       action: () => setShowBrowser(true),
     },
-    // {
-    //   name: 'Contact',
-    //   icon: <IconMail size={32} />,
-    //   color: 'text-purple-400',
-    // },
+
+    {
+      name: 'Settings',
+      icon: <IconSettings size={32} />,
+      color: 'text-purple-400',
+    },
   ];
 
   return (
@@ -149,6 +159,12 @@ export function DesktopIcons() {
       {showBooks && <BooksWindow onClose={() => setShowBooks(false)} />}
       {showProjects && <ProjectsWindow onClose={() => setShowProjects(false)} />}
       {showSkills && <SkillsWindow onClose={() => setShowSkills(false)} />}
+      {showSettings && (
+        <SettingsWindow
+          onClose={() => setShowSettings(false)}
+          onWallpaperChange={onWallpaperChange!}
+        />
+      )}
       {showBrowser && (
         <BrowserWindow
           initialUrl="https://iframee.vercel.app"
