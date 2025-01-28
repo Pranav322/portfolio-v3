@@ -1,11 +1,11 @@
 export const skills = [
   {
     category: 'Languages',
-    items: ['JavaScript', 'TypeScript', 'Python', 'Java', 'SQL'],
+    items: ['JavaScript', 'TypeScript', 'Python', 'Java', 'SQL', 'dart'],
   },
   {
     category: 'Frontend',
-    items: ['React', 'Next.js', 'TailwindCSS', 'HTML/CSS', 'Redux'],
+    items: ['React', 'Next.js', 'TailwindCSS', 'HTML/CSS', 'Redux', 'Flutter'],
   },
   {
     category: 'Backend',
