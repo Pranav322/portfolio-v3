@@ -2,7 +2,7 @@ import React, { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from '
 import { TerminalSquare } from 'lucide-react';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs } from 'firebase/firestore';
-import { db } from '../../../lib/firebase';
+import { db } from '@/lib/firebase';
 
 import { HelpCommand } from '@/app/components/Terminal/HelpCommand';
 
@@ -58,12 +58,14 @@ const Terminalcomp = () => {
       const name = input.trim();
       if (name) {
         try {
-          // Saved to firestoreeeeeeee
-          await addDoc(collection(db, 'visitors'), {
+          // Add to Firestore with proper error handling
+          const docRef = await addDoc(collection(db, 'visitors'), {
             name,
-            timestamp: new Date(),
+            timestamp: new Date().toISOString(),
             uniqueId: crypto.randomUUID(),
           });
+
+          console.log('Document written with ID: ', docRef.id);
 
           setUserName(name);
           setIsAskingName(false);
@@ -77,6 +79,7 @@ const Terminalcomp = () => {
             },
           ]);
         } catch (error) {
+          console.error('Error adding document: ', error);
           setCommands(prev => [
             ...prev,
             {
@@ -211,8 +214,13 @@ const Terminalcomp = () => {
         output = 'Please enter your name:';
         break;
       case 'visitors':
-        const querySnapshot = await getDocs(collection(db, 'visitors'));
-        output = `Total unique visitors: ${querySnapshot.size}`;
+        try {
+          const querySnapshot = await getDocs(collection(db, 'visitors'));
+          output = `Total unique visitors: ${querySnapshot.size}`;
+        } catch (error) {
+          console.error('Error getting visitors: ', error);
+          output = 'Error fetching visitor count.';
+        }
         break;
       default:
         if (command.startsWith('echo ')) {
@@ -264,7 +272,7 @@ const Terminalcomp = () => {
       </div>
 
       {/* Terminal window */}
-      <div className="border-2 border-neutral-800 dark:border-neutral-700 rounded-sm w-[700px] h-[500px] bg-black/90 backdrop-blur-sm p-4 overflow-y-auto font-mono">
+      <div className="border-2 border-neutral-800 dark:border-neutral-700 rounded-sm w-[700px] h-[500px] bg-black/90 backdrop-blur-sm p-4 overflow-y-auto font-mono terminal-glow">
         <div className="flex justify-between mb-5 items-center sticky top-0 bg-black/90 z-20 backdrop-blur-lg p-2 rounded-sm">
           <div className="flex gap-2">
             <div
