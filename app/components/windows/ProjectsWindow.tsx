@@ -7,7 +7,8 @@ import {
   IconBrandGithub,
   IconExternalLink,
 } from '@tabler/icons-react';
-import { motion, useDragControls } from 'framer-motion';
+import { motion, useDragControls, AnimatePresence } from 'framer-motion';
+import { WindowWrapper } from '../ui/WindowWrapper';
 
 interface ProjectsWindowProps {
   onClose: () => void;
@@ -16,209 +17,173 @@ interface ProjectsWindowProps {
 interface Project {
   title: string;
   description: string;
+  image: string;
   techStack: string[];
   githubUrl: string;
   liveUrl?: string;
-  image?: string;
 }
 
 export function ProjectsWindow({ onClose }: ProjectsWindowProps) {
   const [isMaximized, setIsMaximized] = useState(false);
-  const [position, setPosition] = useState({ x: window.innerWidth / 4, y: window.innerHeight / 8 });
-  const windowRef = useRef<HTMLDivElement>(null);
-  const constraintsRef = useRef<HTMLDivElement>(null);
   const dragControls = useDragControls();
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (windowRef.current) {
-        const rect = windowRef.current.getBoundingClientRect();
-        setPosition(prev => ({
-          x: Math.min(prev.x, window.innerWidth - rect.width),
-          y: Math.min(prev.y, window.innerHeight - rect.height),
-        }));
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const handleDragEnd = (event: any, info: any) => {
-    if (!windowRef.current) return;
-
-    const windowWidth = windowRef.current.offsetWidth;
-    const windowHeight = windowRef.current.offsetHeight;
-
-    // Calculate position relative to the drag start point
-    const newX = Math.min(Math.max(0, position.x + info.delta.x), window.innerWidth - windowWidth);
-    const newY = Math.min(
-      Math.max(0, position.y + info.delta.y),
-      window.innerHeight - windowHeight
-    );
-
-    setPosition({ x: newX, y: newY });
-  };
-
+  // Sample projects data
   const projects: Project[] = [
     {
-      title: 'TeamFinder',
+      title: 'Portfolio Website',
       description:
-        'A platform for finding team members for your projects. Connect with developers, designers, and other professionals.',
-      techStack: ['React', 'Node.js', 'MongoDB', 'Socket.io'],
-      githubUrl: 'https://github.com/yourusername/teamfinder',
-      liveUrl: 'https://teamfinder.demo',
-      image: '/projects/teamfinder.png',
-    },
-    {
-      title: 'Spotify-telegram-bot',
-      description:
-        'A Telegram bot that lets you control Spotify, search for songs, and share music with friends.',
-      techStack: ['Python', 'Telegram API', 'Spotify API'],
-      githubUrl: 'https://github.com/yourusername/spotify-telegram-bot',
-    },
-    {
-      title: 'QuizApp',
-      description:
-        'An interactive quiz application with real-time scoring and multiplayer support.',
-      techStack: ['Next.js', 'TypeScript', 'Firebase'],
-      githubUrl: 'https://github.com/yourusername/quizapp',
-      liveUrl: 'https://quizapp.demo',
+        'A modern portfolio website with CLI and GUI interfaces built with Next.js and TailwindCSS.',
+      image: '/projects/portfolio.png',
+      techStack: ['Next.js', 'TypeScript', 'TailwindCSS', 'Framer Motion'],
+      githubUrl: 'https://github.com/yourusername/portfolio',
+      liveUrl: 'https://yourportfolio.com',
     },
     {
       title: 'ElecTrade',
       description:
-        'A cryptocurrency trading platform with real-time price updates and portfolio tracking.',
-      techStack: ['React', 'Node.js', 'WebSocket', 'PostgreSQL'],
-      githubUrl: 'https://github.com/yourusername/electrade',
+        'Energy trading platform with blockchain integration allowing users to trade electricity',
+      techStack: ['React', 'Node.js', 'MongoDB', 'Blockchain', 'Web3'],
+      githubUrl: 'https://github.com/Pranav322/ElecTrade',
+      liveUrl: 'https://electrade.demo',
+      image: '/projects/electrade.png',
+    },
+    {
+      title: 'TeamFinder',
+      description: 'Platform for finding team members and projects with AI-powered matching',
+      techStack: ['Next.js', 'Auth0', 'Prisma', 'PostgreSQL', 'Node.js'],
+      githubUrl: 'https://github.com/Pranav322/TeamFinder',
+      liveUrl: 'https://teamfinder.demo',
+      image: '/projects/teamfinder.png',
+    },
+    {
+      title: 'Redact - Privacy App',
+      description: 'Cross-platform mobile app for hiding sensitive information in photos',
+      techStack: ['Flutter', 'Dart', 'Firebase', 'Android SDK', 'iOS SDK'],
+      githubUrl: 'https://github.com/Pranav322/redact',
+      liveUrl: 'https://redact.demo',
+      image: '/projects/redact.png',
+    },
+    {
+      title: 'Tech Quiz App',
+      description:
+        'Mobile application for testing technical knowledge in various programming domains',
+      techStack: ['Flutter', 'Dart', 'Firebase', 'Node.js'],
+      githubUrl: 'https://github.com/Pranav322/Quizapp',
+      liveUrl: 'https://quizapp.demo',
+      image: '/projects/quizapp.png',
+    },
+    {
+      title: 'Real Time Chat App',
+      description: 'Secure messaging platform with real-time notifications and E2E encryption',
+      techStack: ['Flutter', 'Node.js', 'Firebase', 'WebSocket', 'Dart'],
+      githubUrl: 'https://github.com/Pranav322/ChatApp',
+      liveUrl: 'https://chat.demo',
+      image: '/projects/chat.png',
     },
   ];
 
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0 },
-  };
-
   return (
-    <div ref={constraintsRef} className="fixed inset-0 pointer-events-none">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{
-          opacity: 1,
-          scale: 1,
-          x: isMaximized ? 0 : position.x,
-          y: isMaximized ? 0 : position.y,
-          width: isMaximized ? '100%' : '900px',
-          height: isMaximized ? '100%' : '600px',
-        }}
-        drag={!isMaximized}
-        dragConstraints={constraintsRef}
-        dragMomentum={false}
-        dragElastic={0}
-        onDragEnd={handleDragEnd}
-        className={`fixed bg-black/80 backdrop-blur-md rounded-lg overflow-hidden pointer-events-auto`}
-        style={{
-          boxShadow: '0 0 20px rgba(0,0,0,0.3)',
-        }}
-      >
-        {/* Window Title Bar - Make it the drag handle */}
+    <WindowWrapper
+      isMaximized={isMaximized}
+      onClose={onClose}
+      initialWidth={800}
+      initialHeight={600}
+    >
+      <div className="h-full flex flex-col">
         <motion.div
-          className="h-10 bg-gray-900/50 flex items-center justify-between px-4 cursor-move"
-          onPointerDown={e => {
-            if (!isMaximized) {
-              dragControls.start(e);
-            }
-          }}
+          className="h-12 bg-gradient-to-r from-gray-800/50 to-gray-900/50 flex items-center justify-between px-4 cursor-move border-b border-white/10"
+          onPointerDown={e => !isMaximized && dragControls.start(e)}
         >
-          <div className="flex items-center gap-2">
-            <IconFolder size={16} className="text-yellow-400" />
-            <span className="text-white/80 text-sm">Projects</span>
+          <div className="flex items-center gap-3">
+            <div className="bg-yellow-500/20 p-1.5 rounded-full">
+              <IconFolder size={16} className="text-yellow-400" />
+            </div>
+            <span className="text-white/90 text-sm font-medium">Projects</span>
           </div>
-          <div className="flex items-center gap-2">
-            <button onClick={() => {}} className="p-1.5 hover:bg-gray-700/50 rounded-full">
+          <div className="flex items-center gap-1">
+            <motion.button
+              whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
+              className="p-2 rounded-full"
+            >
               <IconMinus size={14} className="text-white/80" />
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={() => setIsMaximized(!isMaximized)}
-              className="p-1.5 hover:bg-gray-700/50 rounded-full"
+              className="p-2 rounded-full"
             >
               <IconSquare size={14} className="text-white/80" />
-            </button>
-            <button onClick={onClose} className="p-1.5 hover:bg-red-500/50 rounded-full">
+            </motion.button>
+            <motion.button
+              whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
+              onClick={onClose}
+              className="p-2 rounded-full"
+            >
               <IconX size={14} className="text-white/80" />
-            </button>
+            </motion.button>
           </div>
         </motion.div>
 
         {/* Content Area */}
-        <div className="p-6 h-[calc(100%-2.5rem)] overflow-y-auto">
-          <motion.div
-            variants={container}
-            initial="hidden"
-            animate="show"
-            className="grid grid-cols-2 gap-6"
-          >
-            {projects.map(project => (
+        <div className="p-6 overflow-auto custom-scrollbar">
+          <motion.div className="grid grid-cols-2 gap-4">
+            {projects.map((project, index) => (
               <motion.div
                 key={project.title}
-                variants={item}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
                 whileHover={{ scale: 1.02 }}
-                className="bg-white/5 rounded-lg overflow-hidden backdrop-blur-sm border border-white/10 hover:border-white/20 transition-colors"
+                className="group bg-white/5 rounded-lg overflow-hidden border border-white/10 hover:border-white/20 transition-all duration-300"
               >
                 {project.image && (
                   <div className="h-40 overflow-hidden">
-                    <img
+                    <motion.img
                       src={project.image}
                       alt={project.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
                 )}
-                <div className="p-5">
-                  <h3 className="text-xl font-semibold text-white mb-2">{project.title}</h3>
-                  <p className="text-white/60 text-sm mb-4">{project.description}</p>
-
-                  <div className="flex flex-wrap gap-2 mb-4">
+                <div className="p-4">
+                  <h3 className="text-lg font-medium text-white/90 mb-2 group-hover:text-yellow-400 transition-colors">
+                    {project.title}
+                  </h3>
+                  <p className="text-white/60 text-sm mb-3 line-clamp-2">{project.description}</p>
+                  <div className="flex flex-wrap gap-1.5 mb-3">
                     {project.techStack.map(tech => (
                       <span
                         key={tech}
-                        className="px-2 py-1 bg-white/10 rounded-full text-xs text-white/80"
+                        className="px-2 py-0.5 bg-white/10 rounded-full text-xs text-white/70"
                       >
                         {tech}
                       </span>
                     ))}
                   </div>
-
-                  <div className="flex gap-3">
-                    <a
+                  <div className="flex gap-2">
+                    <motion.a
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
                       href={project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-3 py-1.5 bg-white/10 rounded-lg text-white/80 hover:bg-white/20 transition-colors text-sm"
+                      className="flex items-center gap-1.5 px-3 py-1.5 bg-white/10 rounded-lg text-white/80 hover:bg-white/20 text-xs"
                     >
-                      <IconBrandGithub size={16} />
+                      <IconBrandGithub size={14} />
                       GitHub
-                    </a>
+                    </motion.a>
                     {project.liveUrl && (
-                      <a
+                      <motion.a
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
                         href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-3 py-1.5 bg-white/10 rounded-lg text-white/80 hover:bg-white/20 transition-colors text-sm"
+                        className="flex items-center gap-1.5 px-3 py-1.5 bg-white/10 rounded-lg text-white/80 hover:bg-white/20 text-xs"
                       >
-                        <IconExternalLink size={16} />
+                        <IconExternalLink size={14} />
                         Live Demo
-                      </a>
+                      </motion.a>
                     )}
                   </div>
                 </div>
@@ -226,7 +191,7 @@ export function ProjectsWindow({ onClose }: ProjectsWindowProps) {
             ))}
           </motion.div>
         </div>
-      </motion.div>
-    </div>
+      </div>
+    </WindowWrapper>
   );
 }
