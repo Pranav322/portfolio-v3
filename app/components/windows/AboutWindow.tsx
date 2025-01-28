@@ -88,20 +88,20 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
                     whileHover={{ scale: 1.05 }}
                     className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors"
                   >
-                    <span>📍</span> Chandigarh
+                    <span>📍</span> <p className="text-white/90">Chandigarh</p>
                   </motion.a>
                   <motion.a
                     whileHover={{ scale: 1.05 }}
                     className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors"
                   >
-                    <span>📧</span> pranavdotdev@gmail.com
+                    <span>📧</span> <p className="text-white/90">pranavdotdev@gmail.com</p>
                   </motion.a>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors"
                     onClick={() => window.open('https://github.com/Pranav322', '_blank')}
                   >
-                    <span>🔗</span> github.com/pranav322
+                    <span>🔗</span> <p className="text-white/90">github.com/pranav322</p>
                   </motion.button>
                 </div>
               </motion.div>
@@ -116,8 +116,7 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
                 <p className="text-white/70 leading-relaxed">
                   Full Stack Developer with a passion for building beautiful, functional, and
                   user-friendly applications. I specialize in React, Next.js, Node.js, and modern
-                  web technologies. Currently exploring AI/ML and always eager to learn new
-                  technologies.
+                  web technologies and asking chatgpt to do things for me.
                 </p>
               </motion.section>
 
