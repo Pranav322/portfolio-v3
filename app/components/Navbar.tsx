@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FloatingDock } from './ui/flaoting-dock';
+import { FloatingDock } from './ui/floating-dock';
 import {
   IconBrandGithub,
   IconBrandX,
@@ -13,7 +13,17 @@ import {
 import Image from 'next/image';
 import { BrowserWindow } from './windows/BrowserWindow';
 
-function FloatingDockDemo({ desktopClassName, mobileClassName }) {
+interface FloatingDockDemoProps {
+  desktopClassName: string;
+  mobileClassName: string;
+  onItemClick?: (href: string) => void;
+}
+
+function FloatingDockDemo({
+  desktopClassName,
+  mobileClassName,
+  onItemClick,
+}: FloatingDockDemoProps) {
   const [githubUrl, setGithubUrl] = useState<string | null>(null);
 
   const links = [
@@ -46,8 +56,8 @@ function FloatingDockDemo({ desktopClassName, mobileClassName }) {
     {
       title: 'GitHub',
       icon: <IconBrandGithub className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
-      href: 'https://github.com/Pranav322',
-      // action: () => setGithubUrl('https://github.com/Pranav322')
+      href: 'github',
+      action: () => onItemClick?.('github'),
     },
   ];
 
