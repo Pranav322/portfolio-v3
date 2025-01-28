@@ -24,7 +24,7 @@ export const projects: Project[] = [
     techStack: ['React', 'Node.js', 'MongoDB', 'Blockchain', 'Web3'],
     githubUrl: 'https://github.com/Pranav322/ElecTrade',
     liveUrl: 'https://notfoundproject.vercel.app',
-    image: '/projects/electrade.png',
+    image: '/projects/ElecTrade.jpg',
   },
   {
     title: 'TeamFinder',
@@ -32,7 +32,7 @@ export const projects: Project[] = [
     techStack: ['Next.js', 'Auth0', 'Prisma', 'PostgreSQL', 'Node.js'],
     githubUrl: 'https://github.com/Pranav322/TeamFinder',
     liveUrl: 'https://',
-    image: '/projects/teamfinder.png',
+    image: '/projects/TeamzFinder.png',
   },
   {
     title: 'Redact - Privacy App',
@@ -40,7 +40,7 @@ export const projects: Project[] = [
     techStack: ['Flutter', 'Dart', 'Firebase', 'Android SDK', 'iOS SDK'],
     githubUrl: 'https://github.com/Pranav322/redact',
     liveUrl: 'https://redact.demo',
-    image: '/projects/redact.png',
+    image: '/projects/redact.jpg',
   },
   {
     title: 'Tech Quiz App',
