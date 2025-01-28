@@ -90,11 +90,11 @@ export function DesktopIcons() {
       color: 'text-blue-400',
       action: () => setShowBrowser(true),
     },
-    {
-      name: 'Contact',
-      icon: <IconMail size={32} />,
-      color: 'text-purple-400',
-    },
+    // {
+    //   name: 'Contact',
+    //   icon: <IconMail size={32} />,
+    //   color: 'text-purple-400',
+    // },
   ];
 
   return (
