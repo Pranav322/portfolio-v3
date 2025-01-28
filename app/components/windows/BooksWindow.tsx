@@ -2,12 +2,13 @@
 import { useState, useRef, useEffect } from 'react';
 import { IconX, IconMinus, IconSquare, IconBook } from '@tabler/icons-react';
 import { motion, useDragControls, AnimatePresence } from 'framer-motion';
-import { Worker, Viewer } from '@react-pdf-viewer/core';
+import { Worker, Viewer, SpecialZoomLevel, ThemeContext } from '@react-pdf-viewer/core';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import { WindowWrapper } from '../ui/WindowWrapper';
 import React from 'react';
+import Image from 'next/image';
 
 interface BooksWindowProps {
   onClose: () => void;
@@ -16,6 +17,8 @@ interface BooksWindowProps {
 interface Book {
   title: string;
   path: string;
+  author?: string;
+  coverImage: string;
 }
 
 export function BooksWindow({ onClose }: BooksWindowProps) {
@@ -25,7 +28,32 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
   const constraintsRef = useRef<HTMLDivElement>(null);
   const dragControls = useDragControls();
   const [selectedBook, setSelectedBook] = useState<string | null>(null);
-  const defaultLayoutPluginInstance = defaultLayoutPlugin();
+  const defaultLayoutPluginInstance = defaultLayoutPlugin({
+    theme: {
+      background: '#1a1b1e',
+      text: '#ffffff',
+      controlLabel: {
+        backgroundColor: '#2b2c2f',
+        color: '#ffffff',
+      },
+      toolbar: {
+        backgroundColor: '#2b2c2f',
+        color: '#ffffff',
+      },
+      tooltip: {
+        backgroundColor: '#3f3f3f',
+        color: '#ffffff',
+      },
+    },
+    toolbarPlugin: {
+      darkMode: true,
+    },
+    sidebarPlugin: {
+      thumbnailPlugin: {
+        thumbnailWidth: 150,
+      },
+    },
+  });
   const [isMinimized, setIsMinimized] = useState(false);
 
   const handleMinimize = () => {
@@ -72,8 +100,24 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
   const pdfWorkerUrl = `https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`;
 
   const books: Book[] = [
-    { title: 'Woman By Charles Bukowski', path: '/books/Women-CharlesBukowski.pdf' },
-    // Add more books here
+    {
+      title: 'Women',
+      path: '/books/Women-CharlesBukowski.pdf',
+      author: 'Charles Bukowski',
+      coverImage: '/books/covers/womenbukowski.jpg',
+    },
+    {
+      title: 'No Longer Human',
+      path: '/books/no-osamu.pdf',
+      author: 'Dazai Osamu',
+      coverImage: '/books/covers/nolongercover.jpg',
+    },
+    {
+      title: 'A Thousand Splendid Suns',
+      path: '/books/thousand-khaled.pdf',
+      author: 'Khaled Hosseini',
+      coverImage: '/books/covers/thousand.jpg',
+    },
   ];
 
   return (
@@ -84,7 +128,7 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
       initialWidth={800}
       initialHeight={600}
     >
-      <div className="h-full flex flex-col">
+      <div className="h-full flex flex-col bg-[#1a1b1e]">
         <motion.div
           className="h-12 bg-gradient-to-r from-gray-800/50 to-gray-900/50 flex items-center justify-between px-4 cursor-move border-b border-white/10"
           onPointerDown={e => !isMaximized && dragControls.start(e)}
@@ -119,24 +163,63 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
           </div>
         </motion.div>
 
-        {/* Content Area */}
-        <div className="flex-1 overflow-hidden">
+        {/* Content Area - Now with fixed height */}
+        <div className="flex-1 overflow-hidden" style={{ height: 'calc(100% - 3rem)' }}>
           {!selectedBook ? (
-            <div className="grid grid-cols-4 gap-4">
+            <div
+              className="grid grid-cols-3 gap-6 p-6 overflow-y-auto"
+              style={{ maxHeight: '500px' }}
+            >
               {books.map(book => (
-                <div
+                <motion.div
                   key={book.title}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={() => setSelectedBook(book.path)}
-                  className="flex flex-col items-center gap-2 p-4 rounded-lg bg-white/5 hover:bg-white/10 cursor-pointer transition-colors"
+                  className="flex flex-col items-center gap-4 p-6 rounded-xl bg-white/5 hover:bg-white/10 cursor-pointer transition-all duration-300 group"
                 >
-                  <IconBook size={48} className="text-yellow-400" />
-                  <span className="text-white/80 text-sm text-center">{book.title}</span>
-                </div>
+                  <div className="relative w-32 h-40 rounded-lg shadow-lg overflow-hidden">
+                    {book.coverImage ? (
+                      <Image
+                        src={book.coverImage}
+                        alt={`${book.title} cover`}
+                        fill
+                        className="object-cover transition-transform group-hover:scale-105 duration-300"
+                        sizes="(max-width: 128px) 100vw, 128px"
+                        onError={e => {
+                          // If image fails to load, remove src to show fallback
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                          target.parentElement?.classList.add('fallback-active');
+                        }}
+                      />
+                    ) : null}
+                    {/* Fallback that shows when there's no image or if image fails to load */}
+                    <div
+                      className={`absolute inset-0 w-full h-full bg-gradient-to-b from-gray-700/50 to-gray-900/50 flex items-center justify-center ${book.coverImage ? 'hidden fallback' : ''}`}
+                    >
+                      <IconBook
+                        size={48}
+                        className="text-yellow-400/80 group-hover:text-yellow-400 transition-colors"
+                      />
+                    </div>
+                  </div>
+                  <div className="text-center space-y-2">
+                    <h3 className="text-white/90 font-medium group-hover:text-white transition-colors">
+                      {book.title}
+                    </h3>
+                    {book.author && (
+                      <p className="text-white/50 text-sm group-hover:text-white/70 transition-colors">
+                        {book.author}
+                      </p>
+                    )}
+                  </div>
+                </motion.div>
               ))}
             </div>
           ) : (
-            <div className="h-full flex flex-col">
-              <div className="flex justify-between mb-4">
+            <div className="h-full flex flex-col bg-[#1a1b1e]">
+              <div className="flex justify-between p-4">
                 <button
                   onClick={() => setSelectedBook(null)}
                   className="text-white/80 hover:text-white"
@@ -144,9 +227,36 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
                   ← Back to Books
                 </button>
               </div>
-              <div className="flex-1 bg-white rounded-lg">
+              <div className="flex-1">
                 <Worker workerUrl={pdfWorkerUrl}>
-                  <Viewer fileUrl={selectedBook} plugins={[defaultLayoutPluginInstance]} />
+                  <ThemeContext.Provider
+                    value={{
+                      background: '#1a1b1e',
+                      text: '#ffffff',
+                      controlLabel: {
+                        backgroundColor: '#2b2c2f',
+                        color: '#ffffff',
+                      },
+                      toolbar: {
+                        backgroundColor: '#2b2c2f',
+                        color: '#ffffff',
+                      },
+                      tooltip: {
+                        backgroundColor: '#3f3f3f',
+                        color: '#ffffff',
+                      },
+                    }}
+                  >
+                    <div style={{ height: 'calc(100vh - 160px)' }}>
+                      <Viewer
+                        fileUrl={selectedBook}
+                        plugins={[defaultLayoutPluginInstance]}
+                        defaultScale={SpecialZoomLevel.PageFit}
+                        theme="dark"
+                        className="dark-pdf-viewer"
+                      />
+                    </div>
+                  </ThemeContext.Provider>
                 </Worker>
               </div>
             </div>
