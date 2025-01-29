@@ -1,9 +1,9 @@
-# Modern Interactive Portfolio 🌟
+# Interactive Portfoliooooooo 🌟
 
 [![Live Demo](https://img.shields.io/badge/demo-live-green?style=for-the-badge)](https://dualportfolioo.vercel.app)
 ![Technology](https://img.shields.io/badge/tech-next.js%2C%20framer%20motion%2C%20tailwind-cyan?style=for-the-badge)
 
-A futuristic portfolio experience blending GUI and CLI interfaces with dynamic window management.
+A portfolio experience blending GUI and CLI interfaces with dynamic window management with some extra features noone asked for.
 
 ![Main Interface](/screenshots/desktopui.png) _Desktop interface with floating dock and windows_
 
