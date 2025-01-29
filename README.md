@@ -1,6 +1,6 @@
 # Modern Interactive Portfolio 🌟
 
-[![Live Demo](https://img.shields.io/badge/demo-live-green?style=for-the-badge)](https://your-portfolio-url.com)
+[![Live Demo](https://img.shields.io/badge/demo-live-green?style=for-the-badge)](https://dualportfolioo.vercel.app)
 ![Technology](https://img.shields.io/badge/tech-next.js%2C%20framer%20motion%2C%20tailwind-cyan?style=for-the-badge)
 
 A futuristic portfolio experience blending GUI and CLI interfaces with dynamic window management.
