@@ -5,9 +5,9 @@
 
 A futuristic portfolio experience blending GUI and CLI interfaces with dynamic window management.
 
-![Main Interface](/screenshots/main.png) _Desktop interface with floating dock and windows_
+![Main Interface](/screenshots/desktopui.png) _Desktop interface with floating dock and windows_
 
-![Terminal Interface](/screenshots/terminal.png) _Interactive terminal with command history_
+![Terminal Interface](/screenshots/terminalui.png) _Interactive terminal with command history_
 
 ## Key Features ✨
 
