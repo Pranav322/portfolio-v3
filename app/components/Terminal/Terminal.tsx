@@ -100,41 +100,19 @@ const Terminalcomp = () => {
 
     switch (command) {
       case 'hello':
-        output = 'Yahallo! how can I help you??';
+        output = 'bro I am a terminal what are you expecting';
         break;
-      case 'raj':
-        output = '';
-        window.location.href = 'https://www.youtube.com/shorts/u2O1g-BEZuo';
-        break;
-      case 'sudo':
-        output = 'missing parameters';
-        break;
-      case 'ls -a':
-      case 'ls':
-        output = '.open_me';
-        break;
-      case 'cat .open_me':
-        window.location.href = 'https://www.youtube.com/watch?v=hf1DkBQRQj4';
-        output = '';
-        break;
+
       case 'pranav':
         output =
-          "Hello there! I am Pranav, a Full Stack Developer experienced in the MERN stack, currently pursuing my Bachelor's in Computer Science and Engineering. Type 'about' to know more about me";
+          "Hello there! I am Pranav, a Full Stack Developer experienced in the MERN stack,and django and also have experience in app development with flutter,  currently pursuing my Bachelor's in Computer Science and Engineering. Type 'about' to know more about me";
         break;
-      case 'neofetch':
-        window.location.href = 'https://www.youtube.com/watch?v=Rl1ImG2b1k8&t=51s';
-        output = '';
-        break;
+
       case 'about':
         output =
           'I am Pranav, currently pursuing B.E in computer science from chandigarh university.';
         break;
-      case 'blogs':
-        output = 'Navigate to blogs page.';
-        break;
-      case 'proj':
-        output = 'Navigate to projects page.';
-        break;
+
       case 'project':
         output = "did you mean 'projects'?";
         break;
@@ -151,13 +129,15 @@ const Terminalcomp = () => {
             <li>Spotify-telegram-bot</li>
             <li>QuizApp</li>
             <li>ElecTrade</li>
+            <li>Personal Portfolio</li>
+            <li>Realtime Chat App(flutter)</li>
           </ul>
         );
         break;
       case 'help':
         output = <HelpCommand />;
         break;
-      case 'TeamFinder':
+      case 'teamfinder':
         window.location.href = 'https://github.com/Teamfinder';
         output = '';
         break;
@@ -165,11 +145,11 @@ const Terminalcomp = () => {
         window.location.href = 'https://github.com/Pranav322/spotify-telegram-bot';
         output = '';
         break;
-      case 'QuizApp':
+      case 'quizapp':
         window.location.href = 'https://github.com/Pranav322/QuizApp';
         output = '';
         break;
-      case 'ElecTrade':
+      case 'electrade':
         window.location.href = 'https://github.com/Pranav322/ElecTrade';
         output = '';
         break;
@@ -225,15 +205,6 @@ const Terminalcomp = () => {
       default:
         if (command.startsWith('echo ')) {
           output = command.substring(5);
-        } else if (command.startsWith('rm')) {
-          window.location.href = 'https://www.youtube.com/watch?v=AlLhMySQTlo';
-          output = '';
-        } else if (command.includes('apt')) {
-          output = 'You are a reliable person';
-        } else if (command.includes('pacman')) {
-          output = 'certified racist and a virgin (likes to go fast)';
-        } else if (command.includes('dnf')) {
-          output = 'gets the job done slowly but surely';
         } else if (/^\d+[+\-*/]\d+$/.test(command)) {
           try {
             output = eval(command);

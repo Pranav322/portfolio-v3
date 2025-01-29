@@ -25,7 +25,11 @@ export const HelpCommand = () => (
       <span className="text-yellow-400">clear</span>
       <span className="text-gray-400">Clear terminal</span>
       <span className="text-yellow-400">help</span>
+
       <span className="text-gray-400">Show this help</span>
+
+      <span className="text-yellow-400">[projectname]</span>
+      <span className="text-gray-400">Navigate to respective project github page</span>
     </div>
   </div>
 );
