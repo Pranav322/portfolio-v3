@@ -13,6 +13,7 @@ A portfolio experience blending GUI and CLI interfaces with dynamic window manag
 
 - **Hybrid Interface** - Switch between GUI and CLI modes
 - **Window System** - Resizable, draggable application windows
+- **change wallpaper** - my favorite hihi
 - **Visual Effects** -
   - ✨ Neumorphic design elements
   - 🌈 Smooth animations
