@@ -20,7 +20,10 @@ export function WindowWrapper({
   initialWidth = 800,
   initialHeight = 600,
 }: WindowWrapperProps) {
-  const [position, setPosition] = useState({ x: window.innerWidth / 4, y: window.innerHeight / 8 });
+  const [position, setPosition] = useState({
+    x: window.innerWidth / 2 - initialWidth / 2,
+    y: window.innerHeight / 2 - initialHeight / 2,
+  });
   const [size, setSize] = useState({ width: initialWidth, height: initialHeight });
   const windowRef = useRef<HTMLDivElement>(null);
   const constraintsRef = useRef<HTMLDivElement>(null);
@@ -68,7 +71,7 @@ export function WindowWrapper({
       <div ref={constraintsRef} className="absolute inset-0">
         <motion.div
           ref={windowRef}
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.98 }}
           animate={{
             opacity: 1,
             scale: 1,
@@ -80,7 +83,8 @@ export function WindowWrapper({
           transition={{
             type: 'spring',
             stiffness: 300,
-            damping: 30,
+            damping: 25,
+            mass: 0.5,
           }}
           drag={!isMaximized}
           dragControls={dragControls}
