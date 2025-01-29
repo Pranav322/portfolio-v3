@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import {
   IconFolder,
   IconUser,
@@ -10,6 +11,7 @@ import {
   IconMusic,
   IconSettings,
   IconBrandSpotify,
+  IconInfoCircle,
 } from '@tabler/icons-react';
 import AboutWindow from '../windows/AboutWindow';
 import dynamic from 'next/dynamic';
@@ -38,6 +40,8 @@ export function DesktopIcons({
   const [showMusic, setShowMusic] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showSpotify, setShowSpotify] = useState(false);
+  const [clickHelpIcon, setClickHelpIcon] = useState<string | null>(null);
+  const clickHelpRef = useRef<HTMLDivElement>(null);
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleIconClick = (iconName: string, action?: () => void) => {
@@ -59,17 +63,20 @@ export function DesktopIcons({
         }
       }
       setSelectedIcon(null);
+      setClickHelpIcon(null);
       if (clickTimeoutRef.current) {
         clearTimeout(clickTimeoutRef.current);
       }
     } else {
       // First click
       setSelectedIcon(iconName);
+      setClickHelpIcon(iconName);
       if (clickTimeoutRef.current) {
         clearTimeout(clickTimeoutRef.current);
       }
       clickTimeoutRef.current = setTimeout(() => {
         setSelectedIcon(null);
+        setClickHelpIcon(null);
       }, 500);
     }
   };
@@ -133,6 +140,7 @@ export function DesktopIcons({
                   selectedIcon === icon.name ? 'bg-white/20 rounded-lg' : ''
                 }`}
                 onClick={() => handleIconClick(icon.name, icon.action)}
+                ref={clickHelpRef}
               >
                 <div
                   className={`p-3 rounded-lg backdrop-blur-md bg-black/20 group-hover:bg-black/30 transition-all ${icon.color}`}
@@ -167,6 +175,7 @@ export function DesktopIcons({
                   selectedIcon === icon.name ? 'bg-white/20 rounded-lg' : ''
                 }`}
                 onClick={() => handleIconClick(icon.name, icon.action)}
+                ref={clickHelpRef}
               >
                 <div
                   className={`p-3 rounded-lg backdrop-blur-md bg-black/20 group-hover:bg-black/30 transition-all ${icon.color}`}
@@ -206,6 +215,34 @@ export function DesktopIcons({
           </div>
         </div>
       </div>
+
+      <AnimatePresence>
+        {clickHelpIcon && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-lg text-white/90 text-base rounded-lg border border-white/20 shadow-lg"
+            style={{
+              left: `clamp(1rem, ${clickHelpRef.current?.getBoundingClientRect().left}px, calc(100vw - 300px))`,
+              top: Math.max(
+                20, // Minimum top margin
+                (clickHelpRef.current?.getBoundingClientRect().top || 0) - 50
+              ),
+            }}
+          >
+            <IconInfoCircle className="animate-pulse" size={20} />
+            <span>Double-click to open</span>
+            <div
+              className="absolute -bottom-2 left-6 w-4 h-4 bg-white/20 backdrop-blur-lg"
+              style={{
+                clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)',
+                transform: 'rotate(180deg)',
+              }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {showAbout && <AboutWindow onClose={() => setShowAbout(false)} />}
       {showBooks && <BooksWindow onClose={() => setShowBooks(false)} />}
