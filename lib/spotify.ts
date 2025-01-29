@@ -89,7 +89,7 @@ export async function getTopArtists() {
 export async function getPlaylists() {
   try {
     const { access_token } = await getAccessToken();
-    const response = await fetch('https://api.spotify.com/v1/me/playlists', {
+    const response = await fetch('https://api.spotify.com/v1/me/playlists?limit=10', {
       headers: { Authorization: `Bearer ${access_token}` },
     });
     const { items } = await response.json();
