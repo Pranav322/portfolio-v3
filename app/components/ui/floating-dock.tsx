@@ -5,7 +5,7 @@
  **/
 
 import { cn } from '@/lib/utils';
-import { IconLayoutNavbarCollapse } from '@tabler/icons-react';
+import { IconLayoutNavbarCollapse, IconDeviceGamepad2 } from '@tabler/icons-react';
 import {
   AnimatePresence,
   MotionValue,
