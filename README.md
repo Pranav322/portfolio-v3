@@ -51,15 +51,4 @@ npm install
 npm run dev
 ```
 
-## Configuration 🔧
-
-Customize in `app/config.ts`:
-
-- Window default sizes
-- Desktop shortcuts
-- Visual themes
-- API endpoints
-
----
-
 Made with ❤️ and chatgpt
