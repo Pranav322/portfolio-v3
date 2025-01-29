@@ -22,15 +22,11 @@ A futuristic portfolio experience blending GUI and CLI interfaces with dynamic w
   - 📚 PDF book viewer
   - 🌐 Custom browser implementation
 
-## Usage 🖱️
+WIP)
 
-1. **Dock Interactions**
+- Hover for magnified effect
 
-   - Click icons to open applications
-   - Right-click for context menu (WIP)
-   - Hover for magnified effect
-
-2. **Window Management**
+1. **Window Management**
 
    - Drag title bars to move
    - Click corners to resize
@@ -39,7 +35,7 @@ A futuristic portfolio experience blending GUI and CLI interfaces with dynamic w
      - 🗕 Minimize
      - ✕ Close
 
-3. **Terminal Commands**
+2. **Terminal Commands**
 
 ```bash
 > help - List available commands
@@ -66,4 +62,4 @@ Customize in `app/config.ts`:
 
 ---
 
-Made with ❤️ using Next.js + Tailwind + Framer Motion
+Made with ❤️ and chatgpt
