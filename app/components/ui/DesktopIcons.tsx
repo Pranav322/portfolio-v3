@@ -224,11 +224,8 @@ export function DesktopIcons({
             exit={{ opacity: 0, y: -20 }}
             className="fixed flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-lg text-white/90 text-base rounded-lg border border-white/20 shadow-lg"
             style={{
-              left: `clamp(1rem, ${clickHelpRef.current?.getBoundingClientRect().left}px, calc(100vw - 300px))`,
-              top: Math.max(
-                20, // Minimum top margin
-                (clickHelpRef.current?.getBoundingClientRect().top || 0) - 50
-              ),
+              left: `clamp(1rem, ${clickHelpRef.current?.getBoundingClientRect().left + 420}px, calc(100vw - 300px))`,
+              top: Math.max(20, (clickHelpRef.current?.getBoundingClientRect().top || 0) - 50),
             }}
           >
             <IconInfoCircle className="animate-pulse" size={20} />
