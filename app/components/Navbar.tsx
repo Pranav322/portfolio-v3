@@ -13,6 +13,7 @@ import {
 import Image from 'next/image';
 import { BrowserWindow } from './windows/BrowserWindow';
 import { SettingsWindow } from './windows/SettingsWindow';
+import { GamesWindow } from './windows/GamesWindow';
 
 interface FloatingDockDemoProps {
   desktopClassName: string;
@@ -29,6 +30,7 @@ function FloatingDockDemo({
 }: FloatingDockDemoProps) {
   const [githubUrl, setGithubUrl] = useState<string | null>(null);
   const [showSettings, setShowSettings] = useState(false);
+  const [showGames, setShowGames] = useState(false);
 
   const links = [
     {
@@ -50,8 +52,14 @@ function FloatingDockDemo({
 
     {
       title: 'Games',
-      icon: <IconDeviceGamepad2 className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
-      href: '#',
+      icon: (
+        <IconDeviceGamepad2
+          size={24}
+          className="h-full w-full text-neutral-500 dark:text-neutral-300"
+        />
+      ),
+      label: 'Games',
+      action: () => setShowGames(true),
     },
     {
       title: 'Twitter',
@@ -80,6 +88,7 @@ function FloatingDockDemo({
           onWallpaperChange={onWallpaperChange}
         />
       )}
+      {showGames && <GamesWindow onClose={() => setShowGames(false)} />}
     </>
   );
 }
