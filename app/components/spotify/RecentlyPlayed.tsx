@@ -28,7 +28,7 @@ export function RecentlyPlayed() {
     <div className="space-y-2">
       {tracks.map(track => (
         <div key={track.playedAt} className="flex items-center gap-4 p-2 bg-white/5 rounded-lg">
-          <img src={track.image} className="w-10 h-10 rounded-md" />
+          <img src={track.albumImageUrl} className="w-10 h-10 rounded-md" />
           <div className="flex-1">
             <p className="text-sm font-medium">{track.title}</p>
             <p className="text-xs text-white/60">{track.artist}</p>
