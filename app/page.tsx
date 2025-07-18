@@ -70,12 +70,14 @@ export default function Home() {
 
         {/* Floating dock */}
         {!isCLI && (
-          <FloatingDockDemo
-            desktopClassName="fixed bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 z-40"
-            mobileClassName="fixed bottom-4 right-4 z-40"
-            onItemClick={handleDockItemClick}
-            onWallpaperChange={handleWallpaperChange}
-          />
+          <div className="fixed bottom-4 sm:bottom-8 left-0 right-0 flex justify-center z-40">
+            <FloatingDockDemo
+              desktopClassName=""
+              mobileClassName="fixed bottom-4 right-4 z-40"
+              onItemClick={handleDockItemClick}
+              onWallpaperChange={handleWallpaperChange}
+            />
+          </div>
         )}
 
         {browserUrl && (

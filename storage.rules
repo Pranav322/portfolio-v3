@@ -1,0 +1,73 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Public assets (images, documents, etc.) - read only
+    match /public/{allPaths=**} {
+      allow read: if true; // Public read access
+      allow write, delete: if request.auth != null && request.auth.token.admin == true;
+    }
+    
+    // Project images - read only for public, admin write
+    match /projects/{allPaths=**} {
+      allow read: if true; // Public read access
+      allow write, delete: if request.auth != null && 
+        request.auth.token.admin == true &&
+        isValidImage();
+    }
+    
+    // Book covers - read only for public, admin write
+    match /books/{allPaths=**} {
+      allow read: if true; // Public read access
+      allow write, delete: if request.auth != null && 
+        request.auth.token.admin == true &&
+        isValidImage();
+    }
+    
+    // Profile/avatar images - read only for public, admin write
+    match /profile/{allPaths=**} {
+      allow read: if true; // Public read access
+      allow write, delete: if request.auth != null && request.auth.token.admin == true;
+    }
+    
+    // User uploads (if you allow user file uploads)
+    match /uploads/{userId}/{allPaths=**} {
+      allow read: if true; // Public read
+      allow write: if request.auth != null && 
+        request.auth.uid == userId &&
+        isValidUpload();
+      allow delete: if request.auth != null && 
+        (request.auth.uid == userId || request.auth.token.admin == true);
+    }
+    
+    // PDFs and documents - read only for public, admin write
+    match /documents/{allPaths=**} {
+      allow read: if true; // Public read access
+      allow write, delete: if request.auth != null && 
+        request.auth.token.admin == true &&
+        isValidDocument();
+    }
+    
+    // Validation functions
+    function isValidImage() {
+      return request.resource.contentType.matches('image/.*') &&
+             request.resource.size < 5 * 1024 * 1024; // 5MB limit
+    }
+    
+    function isValidDocument() {
+      return request.resource.contentType in ['application/pdf', 'text/plain', 'application/msword'] &&
+             request.resource.size < 10 * 1024 * 1024; // 10MB limit
+    }
+    
+    function isValidUpload() {
+      return request.resource.size < 2 * 1024 * 1024 && // 2MB limit for user uploads
+             request.resource.contentType.matches('image/.*');
+    }
+    
+    // Default deny all other files
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

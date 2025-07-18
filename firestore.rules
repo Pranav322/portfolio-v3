@@ -1,0 +1,84 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Visitor analytics - allow read/write for tracking
+    match /analytics/{document} {
+      allow read, write: if true;
+    }
+    
+    // Visitor counter - allow read/write for tracking unique visitors
+    match /visitors/{document} {
+      allow read, write: if true;
+    }
+    
+    // Contact form submissions - allow write only, admin read
+    match /contacts/{document} {
+      allow write: if true; // Anyone can submit contact form
+      allow read: if request.auth != null && request.auth.token.admin == true;
+    }
+    
+    // Comments/feedback - allow write, public read
+    match /comments/{document} {
+      allow read: if true; // Public read
+      allow write: if validateComment();
+      allow update, delete: if request.auth != null && 
+        (resource.data.userId == request.auth.uid || request.auth.token.admin == true);
+    }
+    
+    // Projects data - read only for public, admin write
+    match /projects/{document} {
+      allow read: if true; // Public read
+      allow write, update, delete: if request.auth != null && request.auth.token.admin == true;
+    }
+    
+    // Skills data - read only for public, admin write
+    match /skills/{document} {
+      allow read: if true; // Public read
+      allow write, update, delete: if request.auth != null && request.auth.token.admin == true;
+    }
+    
+    // Books data - read only for public, admin write
+    match /books/{document} {
+      allow read: if true; // Public read
+      allow write, update, delete: if request.auth != null && request.auth.token.admin == true;
+    }
+    
+    // User preferences/settings - user specific
+    match /userPreferences/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Admin only collections
+    match /admin/{document} {
+      allow read, write: if request.auth != null && request.auth.token.admin == true;
+    }
+    
+    // Site configuration - read only for public, admin write
+    match /config/{document} {
+      allow read: if true; // Public read
+      allow write, update, delete: if request.auth != null && request.auth.token.admin == true;
+    }
+    
+    // Terminal commands history (if you want to track)
+    match /terminalHistory/{document} {
+      allow read, write: if true; // Allow anonymous tracking
+    }
+    
+    // Validation functions
+    function validateComment() {
+      return request.resource.data.keys().hasAll(['content', 'timestamp', 'userId']) &&
+             request.resource.data.content is string &&
+             request.resource.data.content.size() > 0 &&
+             request.resource.data.content.size() <= 1000 &&
+             request.resource.data.timestamp == request.time &&
+             request.resource.data.userId == request.auth.uid;
+    }
+    
+    // Default deny all other documents
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
