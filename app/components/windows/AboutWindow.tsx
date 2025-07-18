@@ -70,23 +70,23 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
         </motion.div>
 
         {/* Content */}
-        <div className="flex-1 overflow-auto">
-          <div className="p-8 h-[calc(100%-3rem)] overflow-y-auto">
+        <div className="flex-1 overflow-auto custom-scrollbar mobile-hide-scrollbar">
+          <div className="p-4 sm:p-8 h-[calc(100%-3rem)] overflow-y-auto">
             <div className="max-w-4xl mx-auto">
               {/* Header Section */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-center mb-12"
+                className="text-center mb-8 sm:mb-12"
               >
-                <h1 className="text-5xl font-bold mb-3 bg-gradient-to-r from-blue-400 to-cyan-300 text-transparent bg-clip-text">
+                <h1 className="text-3xl sm:text-5xl font-bold mb-3 bg-gradient-to-r from-blue-400 to-cyan-300 text-transparent bg-clip-text">
                   Pranav Kumar
                 </h1>
-                <p className="text-lg text-blue-400 mb-4">Full Stack Developer</p>
-                <div className="flex justify-center gap-6 text-sm">
+                <p className="text-base sm:text-lg text-blue-400 mb-4">Full Stack Developer</p>
+                <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6 text-sm">
                   <motion.a
                     whileHover={{ scale: 1.05 }}
-                    className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors"
+                    className="flex items-center justify-center gap-2 px-4 py-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors"
                   >
                     <span>📍</span> <p className="text-white/90">Chandigarh</p>
                   </motion.a>
@@ -128,19 +128,21 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
                 className="mb-8"
               >
                 <h2 className="text-xl font-semibold mb-4 text-blue-400">Skills</h2>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {skills.map(category => (
                     <motion.div
                       key={category.category}
                       whileHover={{ scale: 1.01 }}
-                      className="bg-white/5 p-4 rounded-lg border border-white/10"
+                      className="bg-white/5 p-3 sm:p-4 rounded-lg border border-white/10"
                     >
-                      <h3 className="text-blue-400/80 font-medium mb-3">{category.category}</h3>
-                      <div className="flex flex-wrap gap-2">
+                      <h3 className="text-blue-400/80 font-medium mb-3 text-sm sm:text-base">
+                        {category.category}
+                      </h3>
+                      <div className="flex flex-wrap gap-1.5 sm:gap-2">
                         {category.items.map(skill => (
                           <span
                             key={skill}
-                            className="px-2 py-1 bg-white/5 rounded-full text-xs text-white/70"
+                            className="px-2 py-1 bg-white/5 rounded-full text-xs text-white/70 hover:bg-white/10 hover:text-white/90 transition-colors"
                           >
                             {skill}
                           </span>

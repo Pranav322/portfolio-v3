@@ -204,9 +204,30 @@ export function SettingsWindow({ onClose, onWallpaperChange }: SettingsWindowPro
         </motion.div>
 
         {/* Content with Sidebar */}
-        <div className="flex-1 flex overflow-hidden">
-          {/* Sidebar */}
-          <div className="w-64 border-r border-white/10 bg-black/20">
+        <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
+          {/* Mobile Tab Navigation */}
+          <div className="md:hidden border-b border-white/10 bg-black/20">
+            <div className="flex overflow-x-auto mobile-hide-scrollbar">
+              {settingsTabs.map(tab => (
+                <motion.button
+                  key={tab.id}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex items-center gap-2 px-4 py-3 text-sm whitespace-nowrap transition-colors flex-shrink-0 ${
+                    activeTab === tab.id
+                      ? 'bg-blue-500/20 text-blue-400 border-b-2 border-blue-400'
+                      : 'text-white/60 hover:bg-white/5'
+                  }`}
+                >
+                  {tab.icon}
+                  <span className="hidden sm:inline">{tab.label}</span>
+                </motion.button>
+              ))}
+            </div>
+          </div>
+
+          {/* Desktop Sidebar */}
+          <div className="hidden md:block w-64 border-r border-white/10 bg-black/20">
             <nav className="p-4">
               {settingsTabs.map(tab => (
                 <motion.button
@@ -227,7 +248,9 @@ export function SettingsWindow({ onClose, onWallpaperChange }: SettingsWindowPro
           </div>
 
           {/* Main Content Area */}
-          <div className="flex-1 overflow-auto custom-scrollbar">{renderContent()}</div>
+          <div className="flex-1 overflow-auto custom-scrollbar mobile-hide-scrollbar p-4 md:p-0">
+            {renderContent()}
+          </div>
         </div>
       </div>
     </WindowWrapper>

@@ -164,56 +164,109 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
         {/* Content Area - Now with fixed height */}
         <div className="flex-1 overflow-hidden" style={{ height: 'calc(100% - 3rem)' }}>
           {!selectedBook ? (
-            <div
-              className="grid grid-cols-3 gap-6 p-6 overflow-y-auto"
-              style={{ maxHeight: '500px' }}
-            >
-              {books.map(book => (
-                <motion.div
-                  key={book.title}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => setSelectedBook(book.path)}
-                  className="flex flex-col items-center gap-4 p-6 rounded-xl bg-white/5 hover:bg-white/10 cursor-pointer transition-all duration-300 group"
-                >
-                  <div className="relative w-32 h-40 rounded-lg shadow-lg overflow-hidden">
-                    {book.coverImage ? (
-                      <Image
-                        src={book.coverImage}
-                        alt={`${book.title} cover`}
-                        fill
-                        className="object-cover transition-transform group-hover:scale-105 duration-300"
-                        sizes="(max-width: 128px) 100vw, 128px"
-                        onError={e => {
-                          // If image fails to load, remove src to show fallback
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = 'none';
-                          target.parentElement?.classList.add('fallback-active');
-                        }}
-                      />
-                    ) : null}
-                    {/* Fallback that shows when there's no image or if image fails to load */}
-                    <div
-                      className={`absolute inset-0 w-full h-full bg-gradient-to-b from-gray-700/50 to-gray-900/50 flex items-center justify-center ${book.coverImage ? 'hidden fallback' : ''}`}
+            <div className="p-3 sm:p-6 overflow-y-auto custom-scrollbar mobile-hide-scrollbar">
+              {/* Mobile: Horizontal scroll, Desktop: Grid */}
+              <div className="md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                {/* Mobile horizontal scroll container */}
+                <div className="flex gap-4 overflow-x-auto pb-4 md:hidden mobile-hide-scrollbar">
+                  {books.map(book => (
+                    <motion.div
+                      key={book.title}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setSelectedBook(book.path)}
+                      className="flex flex-col items-center gap-3 p-4 rounded-xl bg-white/5 hover:bg-white/10 cursor-pointer transition-all duration-300 group flex-shrink-0 w-40"
                     >
-                      <IconBook
-                        size={48}
-                        className="text-yellow-400/80 group-hover:text-yellow-400 transition-colors"
-                      />
-                    </div>
-                  </div>
-                  <div className="text-center space-y-2">
-                    <h3 className="text-white/90 font-medium group-hover:text-white transition-colors">
-                      {book.title}
-                    </h3>
-                    {book.author && (
-                      <p className="text-white/50 text-sm group-hover:text-white/70 transition-colors">
-                        {book.author}
-                      </p>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
+                      <div className="relative w-24 h-32 rounded-lg shadow-lg overflow-hidden">
+                        {book.coverImage ? (
+                          <Image
+                            src={book.coverImage}
+                            alt={`${book.title} cover`}
+                            fill
+                            className="object-cover transition-transform group-hover:scale-105 duration-300"
+                            sizes="(max-width: 96px) 100vw, 96px"
+                            onError={e => {
+                              // If image fails to load, remove src to show fallback
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                              target.parentElement?.classList.add('fallback-active');
+                            }}
+                          />
+                        ) : null}
+                        {/* Fallback that shows when there's no image or if image fails to load */}
+                        <div
+                          className={`absolute inset-0 w-full h-full bg-gradient-to-b from-gray-700/50 to-gray-900/50 flex items-center justify-center ${book.coverImage ? 'hidden fallback' : ''}`}
+                        >
+                          <IconBook
+                            size={32}
+                            className="text-yellow-400/80 group-hover:text-yellow-400 transition-colors"
+                          />
+                        </div>
+                      </div>
+                      <div className="text-center space-y-1">
+                        <h3 className="text-white/90 font-medium group-hover:text-white transition-colors text-xs line-clamp-2">
+                          {book.title}
+                        </h3>
+                        {book.author && (
+                          <p className="text-white/50 text-xs group-hover:text-white/70 transition-colors">
+                            {book.author}
+                          </p>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Desktop grid layout */}
+                <div className="hidden md:contents">
+                  {books.map(book => (
+                    <motion.div
+                      key={book.title}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setSelectedBook(book.path)}
+                      className="flex flex-col items-center gap-4 p-6 rounded-xl bg-white/5 hover:bg-white/10 cursor-pointer transition-all duration-300 group"
+                    >
+                      <div className="relative w-32 h-40 rounded-lg shadow-lg overflow-hidden">
+                        {book.coverImage ? (
+                          <Image
+                            src={book.coverImage}
+                            alt={`${book.title} cover`}
+                            fill
+                            className="object-cover transition-transform group-hover:scale-105 duration-300"
+                            sizes="(max-width: 128px) 100vw, 128px"
+                            onError={e => {
+                              // If image fails to load, remove src to show fallback
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                              target.parentElement?.classList.add('fallback-active');
+                            }}
+                          />
+                        ) : null}
+                        {/* Fallback that shows when there's no image or if image fails to load */}
+                        <div
+                          className={`absolute inset-0 w-full h-full bg-gradient-to-b from-gray-700/50 to-gray-900/50 flex items-center justify-center ${book.coverImage ? 'hidden fallback' : ''}`}
+                        >
+                          <IconBook
+                            size={48}
+                            className="text-yellow-400/80 group-hover:text-yellow-400 transition-colors"
+                          />
+                        </div>
+                      </div>
+                      <div className="text-center space-y-2">
+                        <h3 className="text-white/90 font-medium group-hover:text-white transition-colors">
+                          {book.title}
+                        </h3>
+                        {book.author && (
+                          <p className="text-white/50 text-sm group-hover:text-white/70 transition-colors">
+                            {book.author}
+                          </p>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
             </div>
           ) : (
             <div className="h-full flex flex-col bg-[#1a1b1e]">

@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 export const HelpCommand = () => (
-  <div className="mt-2 text-sm">
+  <div className="mt-2 text-xs sm:text-sm">
     <div className="text-green-500">COMMANDS</div>
-    <div className="grid grid-cols-[150px_1fr] gap-2 mt-2">
+    <div className="grid grid-cols-[100px_1fr] sm:grid-cols-[150px_1fr] gap-1 sm:gap-2 mt-2">
       <span className="text-yellow-400">visitors</span>
       <span className="text-gray-400">Show total unique visitors</span>
       <span className="text-yellow-400">cat name</span>
@@ -25,11 +25,9 @@ export const HelpCommand = () => (
       <span className="text-yellow-400">clear</span>
       <span className="text-gray-400">Clear terminal</span>
       <span className="text-yellow-400">help</span>
-
       <span className="text-gray-400">Show this help</span>
-
-      <span className="text-yellow-400">[projectname]</span>
-      <span className="text-gray-400">Navigate to respective project github page</span>
+      <span className="text-yellow-400">[project]</span>
+      <span className="text-gray-400">Navigate to project github page</span>
     </div>
   </div>
 );

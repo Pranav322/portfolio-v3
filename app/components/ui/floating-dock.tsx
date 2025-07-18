@@ -49,43 +49,54 @@ const FloatingDockMobile = ({ items, className }: { items: DockItem[]; className
         {open && (
           <motion.div
             layoutId="nav"
-            className="absolute bottom-full mb-2 inset-x-0 flex flex-col gap-2"
+            className="absolute bottom-full mb-2 right-0 flex flex-col gap-2 min-w-max"
           >
             {items.map((item, idx) => (
               <motion.div
                 key={item.title}
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 10, scale: 0.8 }}
                 animate={{
                   opacity: 1,
                   y: 0,
+                  scale: 1,
                 }}
                 exit={{
                   opacity: 0,
                   y: 10,
+                  scale: 0.8,
                   transition: {
                     delay: idx * 0.05,
                   },
                 }}
                 transition={{ delay: (items.length - 1 - idx) * 0.05 }}
+                className="flex items-center gap-2 bg-gray-50 dark:bg-neutral-900 rounded-full px-3 py-2"
               >
-                <Link
-                  href={item.href}
-                  key={item.title}
-                  className="h-10 w-10 rounded-full bg-gray-50 dark:bg-neutral-900 flex items-center justify-center"
+                <div
+                  onClick={() => {
+                    item.action?.();
+                    setOpen(false);
+                  }}
+                  className="h-6 w-6 cursor-pointer flex items-center justify-center"
                 >
                   <div className="h-4 w-4">{item.icon}</div>
-                </Link>
+                </div>
+                <span className="text-xs text-neutral-700 dark:text-neutral-300 whitespace-nowrap">
+                  {item.title}
+                </span>
               </motion.div>
             ))}
           </motion.div>
         )}
       </AnimatePresence>
-      <button
+      <motion.button
         onClick={() => setOpen(!open)}
-        className="h-10 w-10 rounded-full bg-gray-50 dark:bg-neutral-800 flex items-center justify-center"
+        whileTap={{ scale: 0.95 }}
+        className="h-12 w-12 rounded-full bg-gray-50 dark:bg-neutral-800 flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow"
       >
-        <IconLayoutNavbarCollapse className="h-5 w-5 text-neutral-500 dark:text-neutral-400" />
-      </button>
+        <motion.div animate={{ rotate: open ? 45 : 0 }} transition={{ duration: 0.2 }}>
+          <IconLayoutNavbarCollapse className="h-5 w-5 text-neutral-500 dark:text-neutral-400" />
+        </motion.div>
+      </motion.button>
     </div>
   );
 };
@@ -97,9 +108,17 @@ const FloatingDockDesktop = ({ items, className }: { items: DockItem[]; classNam
       onMouseMove={e => mouseX.set(e.pageX)}
       onMouseLeave={() => mouseX.set(Infinity)}
       className={cn(
-        'mx-auto hidden md:flex h-16 gap-4 items-end  rounded-2xl bg-gray-50 dark:bg-neutral-900 px-4 pb-3',
+        'mx-auto hidden md:flex h-16 gap-2 lg:gap-4 items-end rounded-2xl bg-gray-50 dark:bg-neutral-900 px-3 lg:px-4 pb-3 shadow-lg backdrop-blur-sm',
         className
       )}
+      initial={{ y: 100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{
+        type: 'spring',
+        stiffness: 300,
+        damping: 30,
+        delay: 0.2,
+      }}
     >
       {items.map(item => (
         <IconContainer mouseX={mouseX} key={item.title} {...item} />

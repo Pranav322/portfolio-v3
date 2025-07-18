@@ -66,8 +66,9 @@ export function ProjectsWindow({ onClose }: ProjectsWindowProps) {
         </motion.div>
 
         {/* Content Area */}
-        <div className="p-6 overflow-auto custom-scrollbar">
-          <motion.div className="grid grid-cols-2 gap-4">
+        <div className="p-3 sm:p-6 overflow-auto custom-scrollbar mobile-hide-scrollbar">
+          {/* Mobile: Vertical stack, Tablet: 1 col, Desktop: 2-3 cols */}
+          <motion.div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
             {projects.map((project, index) => (
               <motion.div
                 key={project.title}
@@ -75,10 +76,10 @@ export function ProjectsWindow({ onClose }: ProjectsWindowProps) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ scale: 1.02 }}
-                className="group bg-white/5 rounded-lg overflow-hidden border border-white/10 hover:border-white/20 transition-all duration-300"
+                className="group bg-white/5 rounded-lg overflow-hidden border border-white/10 hover:border-white/20 transition-all duration-300 w-full"
               >
                 {project.image && (
-                  <div className="h-40 overflow-hidden">
+                  <div className="h-32 overflow-hidden">
                     <motion.img
                       src={project.image}
                       alt={project.title}
@@ -86,12 +87,14 @@ export function ProjectsWindow({ onClose }: ProjectsWindowProps) {
                     />
                   </div>
                 )}
-                <div className="p-4">
-                  <h3 className="text-lg font-medium text-white/90 mb-2 group-hover:text-yellow-400 transition-colors">
+                <div className="p-3 sm:p-4">
+                  <h3 className="text-white/90 font-medium mb-2 text-sm sm:text-base group-hover:text-yellow-400 transition-colors">
                     {project.title}
                   </h3>
-                  <p className="text-white/60 text-sm mb-3 line-clamp-2">{project.description}</p>
-                  <div className="flex flex-wrap gap-1.5 mb-3">
+                  <p className="text-white/60 text-xs sm:text-sm mb-3 line-clamp-2">
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-1 sm:gap-1.5 mb-3">
                     {project.techStack.map(tech => (
                       <span
                         key={tech}
@@ -102,25 +105,27 @@ export function ProjectsWindow({ onClose }: ProjectsWindowProps) {
                     ))}
                   </div>
                   <div className="flex gap-2">
-                    <motion.a
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 px-3 py-1.5 bg-white/10 rounded-lg text-white/80 hover:bg-white/20 text-xs"
-                    >
-                      <IconBrandGithub size={14} />
-                      GitHub
-                    </motion.a>
-                    {project.liveUrl && (
+                    {project.githubUrl && (
                       <motion.a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
+                        className="flex items-center gap-1.5 px-3 py-1.5 bg-white/10 rounded-lg text-white/80 hover:bg-white/20 text-xs touch-target"
+                      >
+                        <IconBrandGithub size={14} />
+                        GitHub
+                      </motion.a>
+                    )}
+                    {project.liveUrl && (
+                      <motion.a
                         href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 px-3 py-1.5 bg-white/10 rounded-lg text-white/80 hover:bg-white/20 text-xs"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="flex items-center gap-1.5 px-3 py-1.5 bg-white/10 rounded-lg text-white/80 hover:bg-white/20 text-xs touch-target"
                       >
                         <IconExternalLink size={14} />
                         Live Demo

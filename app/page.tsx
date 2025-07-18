@@ -49,15 +49,21 @@ export default function Home() {
         {!isCLI && <DesktopIcons onWallpaperChange={handleWallpaperChange} />}
 
         {/* Toggle button section */}
-        <div className="flex-grow flex items-center justify-center">
-          <p className="text-4xl sm:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500 py-8">
+        <div className="flex-grow flex items-center justify-center px-4">
+          <div className="text-center">
+            {/* <p className="text-2xl sm:text-4xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500 py-4 sm:py-8">
+              {isCLI ? 'Terminal Mode' : 'Desktop Mode'}
+            </p>
+            <p className="text-sm sm:text-base text-neutral-400 mb-4 sm:mb-8">
+              {isCLI ? 'Type commands to interact' : 'Click icons to explore'}
+            </p> */}
             <ToggleButton isCLI={isCLI} onToggle={() => setIsCLI(!isCLI)} />
-          </p>
+          </div>
         </div>
 
-        {/* CLI Mode text */}
+        {/* CLI Mode */}
         {isCLI && (
-          <div className="flex-grow flex items-center justify-center px-4 mb-20">
+          <div className="flex-grow flex items-center justify-center px-2 sm:px-4 mb-16 sm:mb-20">
             <Terminalcomp />
           </div>
         )}
@@ -65,8 +71,8 @@ export default function Home() {
         {/* Floating dock */}
         {!isCLI && (
           <FloatingDockDemo
-            desktopClassName="fixed bottom-8 left-1/2 -translate-x-1/2"
-            mobileClassName="fixed bottom-8 right-8"
+            desktopClassName="fixed bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 z-40"
+            mobileClassName="fixed bottom-4 right-4 z-40"
             onItemClick={handleDockItemClick}
             onWallpaperChange={handleWallpaperChange}
           />

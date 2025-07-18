@@ -5,7 +5,7 @@ export function Quote() {
     <motion.div
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="absolute top-4 right-4 max-w-md bg-white/5 backdrop-blur-sm p-4 rounded-lg border border-white/10"
+      className="absolute top-4 right-2 sm:right-4 max-w-xs sm:max-w-md bg-white/5 backdrop-blur-sm p-3 sm:p-4 rounded-lg border border-white/10 hidden sm:block"
     >
       <p className="text-white/60 text-sm italic mb-2">
         &ldquo;Some people never go crazy. What truly horrible lives they must lead.&rdquo;

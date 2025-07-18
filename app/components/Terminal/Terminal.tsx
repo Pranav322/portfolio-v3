@@ -233,61 +233,68 @@ const Terminalcomp = () => {
   }, [commands]);
 
   return (
-    <div className="w-full h-full flex justify-center items-center">
-      {/* Quote positioned relative to viewport */}
-      <div className="fixed top-4 right-4 max-w-md p-2 border border-gray-800 rounded bg-black/50 z-50">
+    <div className="w-full h-full flex justify-center items-center px-4">
+      {/* Quote positioned relative to viewport - responsive */}
+      <div className="fixed top-4 right-4 max-w-xs sm:max-w-md p-2 border border-gray-800 rounded bg-black/50 z-50 hidden sm:block">
         <p className="text-gray-500 italic text-sm">
           &ldquo;Some people never go crazy. What truly horrible lives they must lead.&rdquo;
         </p>
         <p className="text-gray-600 text-right text-xs">— Charles Bukowski</p>
       </div>
 
-      {/* Terminal window */}
-      <div className="border-2 border-neutral-800 dark:border-neutral-700 rounded-sm w-[700px] h-[500px] bg-black/90 backdrop-blur-sm p-4 overflow-y-auto font-mono terminal-glow">
-        <div className="flex justify-between mb-5 items-center sticky top-0 bg-black/90 z-20 backdrop-blur-lg p-2 rounded-sm">
-          <div className="flex gap-2">
+      {/* Terminal window - fully responsive */}
+      <div className="border-2 border-neutral-800 dark:border-neutral-700 rounded-sm w-full max-w-[700px] h-[500px] max-h-[80vh] bg-black/90 backdrop-blur-sm p-2 sm:p-4 overflow-y-auto font-mono terminal-glow mobile-hide-scrollbar custom-scrollbar">
+        <div className="flex justify-between mb-3 sm:mb-5 items-center sticky top-0 bg-black/90 z-20 backdrop-blur-lg p-1 sm:p-2 rounded-sm">
+          <div className="flex gap-1 sm:gap-2">
             <div
-              className="w-3 h-3 duration-200 cursor-pointer bg-red-500 rounded-full hover:bg-red-400"
+              className="w-2 h-2 sm:w-3 sm:h-3 duration-200 cursor-pointer bg-red-500 rounded-full hover:bg-red-400"
               onClick={() => (window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ')}
             ></div>
-            <div className="w-3 h-3 duration-200 cursor-pointer bg-yellow-500 rounded-full hover:bg-yellow-400"></div>
-            <div className="w-3 h-3 cursor-pointer duration-200 bg-green-500 rounded-full hover:bg-green-400"></div>
+            <div className="w-2 h-2 sm:w-3 sm:h-3 duration-200 cursor-pointer bg-yellow-500 rounded-full hover:bg-yellow-400"></div>
+            <div className="w-2 h-2 sm:w-3 sm:h-3 cursor-pointer duration-200 bg-green-500 rounded-full hover:bg-green-400"></div>
           </div>
-          <h1 className="text-white text-sm">pranav@portfolio: ~</h1>
-          <span className="flex gap-1 text-sm border border-white/20 rounded-sm px-2 py-1 text-green-400">
-            <TerminalSquare size={14} />
-            zsh
+          <h1 className="text-white text-xs sm:text-sm truncate mx-2">pranav@portfolio: ~</h1>
+          <span className="flex gap-1 text-xs sm:text-sm border border-white/20 rounded-sm px-1 sm:px-2 py-0.5 sm:py-1 text-green-400">
+            <TerminalSquare size={12} className="sm:w-[14px] sm:h-[14px]" />
+            <span className="hidden sm:inline">zsh</span>
           </span>
         </div>
-        <div className="p-2 text-green-100">
-          <div className="text-xs mb-4 opacity-70">Last login: {currentTime}</div>
+        <div className="p-1 sm:p-2 text-green-100">
+          <div className="text-xs mb-2 sm:mb-4 opacity-70">Last login: {currentTime}</div>
 
           {commands.map(command => (
-            <div ref={terminalRef} key={command.id} className="mb-4" suppressHydrationWarning>
-              <div className="flex gap-2 text-sm">
+            <div
+              ref={terminalRef}
+              key={command.id}
+              className="mb-2 sm:mb-4"
+              suppressHydrationWarning
+            >
+              <div className="flex gap-1 sm:gap-2 text-xs sm:text-sm flex-wrap">
                 <span className="text-green-500">pranav@portfolio</span>
                 <span className="text-pink-400">~</span>
-                <span className="text-white">{command.input}</span>
+                <span className="text-white break-all">{command.input}</span>
               </div>
-              <div className="mt-1 text-sm text-gray-300">{command.output}</div>
+              <div className="mt-1 text-xs sm:text-sm text-gray-300 break-words">
+                {command.output}
+              </div>
             </div>
           ))}
 
           {isAskingName && !hasName && (
-            <div className="mb-4 text-sm text-yellow-400">
+            <div className="mb-2 sm:mb-4 text-xs sm:text-sm text-yellow-400">
               ➜ Please enter your name to continue:
             </div>
           )}
-          <div className="flex items-center gap-2 text-sm">
+          <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
             <span className="text-green-500">➜</span>
             <span className="text-pink-400">~</span>
-            <form className="w-full flex items-center gap-2">
+            <form className="w-full flex items-center gap-1 sm:gap-2">
               <input
                 type="text"
                 value={input}
                 onChange={handleInputChange}
                 onKeyDown={handleKeyPress}
-                className="bg-transparent w-full outline-none border-none focus:outline-none text-white caret-green-500"
+                className="bg-transparent w-full outline-none border-none focus:outline-none text-white caret-green-500 text-xs sm:text-sm"
                 spellCheck={false}
                 autoFocus
               />

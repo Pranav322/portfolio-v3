@@ -3,6 +3,23 @@ import { useRef, useState, useEffect } from 'react';
 import { Resizable } from 're-resizable';
 import { useDragControls } from 'framer-motion';
 
+// Hook to detect mobile devices
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+    return () => window.removeEventListener('resize', checkIsMobile);
+  }, []);
+
+  return isMobile;
+};
+
 interface WindowWrapperProps {
   children: React.ReactNode;
   isMaximized: boolean;
@@ -20,6 +37,7 @@ export function WindowWrapper({
   initialWidth = 800,
   initialHeight = 600,
 }: WindowWrapperProps) {
+  const isMobile = useIsMobile();
   const [position, setPosition] = useState({
     x: window.innerWidth / 2 - initialWidth / 2,
     y: window.innerHeight / 2 - initialHeight / 2,
@@ -28,6 +46,9 @@ export function WindowWrapper({
   const windowRef = useRef<HTMLDivElement>(null);
   const constraintsRef = useRef<HTMLDivElement>(null);
   const dragControls = useDragControls();
+
+  // Force fullscreen on mobile
+  const shouldBeFullscreen = isMobile || isMaximized;
 
   const handleDragEnd = (event: any, info: any) => {
     if (!windowRef.current) return;
@@ -46,7 +67,7 @@ export function WindowWrapper({
 
   useEffect(() => {
     const handleResize = () => {
-      if (windowRef.current) {
+      if (windowRef.current && !isMobile) {
         const rect = windowRef.current.getBoundingClientRect();
         setPosition(prev => ({
           x: Math.min(prev.x, window.innerWidth - rect.width),
@@ -57,7 +78,7 @@ export function WindowWrapper({
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [isMobile]);
 
   return (
     <motion.div
@@ -71,14 +92,14 @@ export function WindowWrapper({
       <div ref={constraintsRef} className="absolute inset-0">
         <motion.div
           ref={windowRef}
-          initial={{ opacity: 0, scale: 0.98 }}
+          initial={{ opacity: 0, scale: isMobile ? 1 : 0.98 }}
           animate={{
             opacity: 1,
             scale: 1,
-            x: isMaximized ? 0 : position.x,
-            y: isMaximized ? 0 : position.y,
-            width: isMaximized ? '100%' : size.width,
-            height: isMaximized ? '100%' : size.height,
+            x: shouldBeFullscreen ? 0 : position.x,
+            y: shouldBeFullscreen ? 0 : position.y,
+            width: shouldBeFullscreen ? '100%' : size.width,
+            height: shouldBeFullscreen ? '100%' : size.height,
           }}
           transition={{
             type: 'spring',
@@ -86,16 +107,18 @@ export function WindowWrapper({
             damping: 25,
             mass: 0.5,
           }}
-          drag={!isMaximized}
+          drag={!shouldBeFullscreen}
           dragControls={dragControls}
           dragConstraints={constraintsRef}
           dragMomentum={false}
           dragElastic={0}
           onDragEnd={handleDragEnd}
-          className="fixed bg-gradient-to-br from-gray-900/95 to-black/95 rounded-xl overflow-hidden border border-white/10"
-          style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}
+          className={`fixed bg-gradient-to-br from-gray-900/95 to-black/95 overflow-hidden border border-white/10 ${
+            isMobile ? 'rounded-none' : 'rounded-xl'
+          }`}
+          style={{ boxShadow: isMobile ? 'none' : '0 8px 32px rgba(0,0,0,0.4)' }}
         >
-          {!isMaximized && (
+          {!shouldBeFullscreen && (
             <Resizable
               size={size}
               onResizeStop={(e, direction, ref, d) => {
@@ -120,7 +143,7 @@ export function WindowWrapper({
               {children}
             </Resizable>
           )}
-          {isMaximized && children}
+          {shouldBeFullscreen && children}
         </motion.div>
       </div>
       <div className="window-controls">

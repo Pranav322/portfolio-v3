@@ -74,21 +74,28 @@ export function SkillsWindow({ onClose }: SkillsWindowProps) {
           </div>
         </motion.div>
 
-        <div className="p-6 h-[calc(100%-3rem)] overflow-y-auto">
-          <motion.div variants={container} initial="hidden" animate="show" className="grid gap-6">
+        <div className="p-3 sm:p-6 h-[calc(100%-3rem)] overflow-y-auto custom-scrollbar mobile-hide-scrollbar">
+          <motion.div
+            variants={container}
+            initial="hidden"
+            animate="show"
+            className="grid gap-4 sm:gap-6"
+          >
             {skills.map(category => (
               <motion.div
                 key={category.category}
                 variants={item}
-                className="bg-white/5 p-4 rounded-lg border border-white/10"
+                className="bg-white/5 p-3 sm:p-4 rounded-lg border border-white/10"
               >
-                <h3 className="text-green-400 font-medium mb-3">{category.category}</h3>
-                <div className="flex flex-wrap gap-2">
+                <h3 className="text-green-400 font-medium mb-3 text-sm sm:text-base">
+                  {category.category}
+                </h3>
+                <div className="flex flex-wrap gap-1.5 sm:gap-2">
                   {category.items.map(skill => (
                     <motion.span
                       key={skill}
                       whileHover={{ scale: 1.05 }}
-                      className="px-3 py-1.5 bg-white/5 rounded-lg text-sm text-white/70 hover:text-white/90 transition-colors"
+                      className="px-2 sm:px-3 py-1 sm:py-1.5 bg-white/5 rounded-lg text-xs sm:text-sm text-white/70 hover:text-white/90 transition-colors touch-target"
                     >
                       {skill}
                     </motion.span>
