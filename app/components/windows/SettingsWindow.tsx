@@ -53,6 +53,12 @@ const presetWallpapers = [
     url: '/wallpapers/matrix3.jpg',
     thumbnail: '/wallpapers/matrix3.jpg',
   },
+  {
+    id: 5,
+    name: 'anime',
+    url: '/wallpapers/matrix5.png',
+    thumbnail: '/wallpapers/matrix5.png',
+  }
   // Add more preset wallpapers here
 ];
 
