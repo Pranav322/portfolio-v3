@@ -41,6 +41,7 @@ import {
   IconSettings,
   IconBrandSpotify,
   IconInfoCircle,
+  IconFileText,
 } from '@tabler/icons-react';
 import AboutWindow from '../windows/AboutWindow';
 import dynamic from 'next/dynamic';
@@ -53,6 +54,7 @@ import { SkillsWindow } from '../windows/SkillsWindow';
 import { motion } from 'framer-motion';
 import { SettingsWindow } from '../windows/SettingsWindow';
 import { SpotifyWindow } from '../windows/SpotifyWindow';
+import { PdfWindow } from '../windows/PdfWindow';
 
 export function DesktopIcons({
   onWallpaperChange,
@@ -67,6 +69,7 @@ export function DesktopIcons({
   const [showGitHub, setShowGitHub] = useState(false);
   const [showBrowser, setShowBrowser] = useState(false);
   const [showSkills, setShowSkills] = useState(false);
+  const [showPdf, setShowPdf] = useState(false);
   const [showMusic, setShowMusic] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showSpotify, setShowSpotify] = useState(false);
@@ -162,6 +165,14 @@ export function DesktopIcons({
       icon: <IconBrowser size={32} />,
       color: 'text-blue-400',
       action: () => setShowBrowser(true),
+    },
+    {
+      name: 'Resume',
+      icon: <IconFileText size={32} />,
+      color: 'text-red-400',
+      action: () => {
+        setShowPdf(true);
+      },
     },
     {
       name: 'Settings',
@@ -366,6 +377,7 @@ export function DesktopIcons({
         />
       )}
       {showSpotify && <SpotifyWindow onClose={() => setShowSpotify(false)} />}
+      {showPdf && <PdfWindow filePath="/backend_dev.pdf" onClose={() => setShowPdf(false)} />}
     </>
   );
 }
