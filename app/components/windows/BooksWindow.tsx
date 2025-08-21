@@ -29,26 +29,14 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
   const dragControls = useDragControls();
   const [selectedBook, setSelectedBook] = useState<string | null>(null);
   const defaultLayoutPluginInstance = defaultLayoutPlugin({
-    theme: {
-      background: '#1a1b1e',
-      text: '#ffffff',
-      controlLabel: {
-        backgroundColor: '#2b2c2f',
-        color: '#ffffff',
-      },
-      toolbar: {
-        backgroundColor: '#2b2c2f',
-        color: '#ffffff',
-      },
-      tooltip: {
-        backgroundColor: '#3f3f3f',
-        color: '#ffffff',
-      },
-    },
-    toolbarPlugin: {},
-    sidebarPlugin: {
-      thumbnailPlugin: {
-        thumbnailWidth: 150,
+    sidebarTabs: (defaultTabs) => defaultTabs,
+    toolbarPlugin: {
+      moreActionsPopover: {
+        render: (props) => (
+          <div style={{ backgroundColor: '#2b2c2f', color: '#ffffff' }}>
+            {props.children}
+          </div>
+        ),
       },
     },
   });
@@ -102,7 +90,7 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
       title: 'Women',
       path: '/books/Women-CharlesBukowski.pdf',
       author: 'Charles Bukowski',
-      coverImage: '/books/covers/womenbukowski.jpg',
+      coverImage: '/books/covers/bukowski.jpeg',
     },
     {
       title: 'No Longer Human',
@@ -116,6 +104,12 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
       author: 'Khaled Hosseini',
       coverImage: '/books/covers/thousand.jpg',
     },
+    {
+      title: 'God is not Great',
+      path: '/books/godisnotgreat.pdf',
+      author: 'Ziauddin Sardar',
+      coverImage: '/books/covers/godisnotgreat-cover.jpeg',
+    }
   ];
 
   return (

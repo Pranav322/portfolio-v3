@@ -55,6 +55,7 @@ import { motion } from 'framer-motion';
 import { SettingsWindow } from '../windows/SettingsWindow';
 import { SpotifyWindow } from '../windows/SpotifyWindow';
 import { PdfWindow } from '../windows/PdfWindow';
+import { useTheme } from '../../contexts/ThemeContext';
 
 export function DesktopIcons({
   onWallpaperChange,
@@ -62,6 +63,7 @@ export function DesktopIcons({
   onWallpaperChange?: (wallpaper: string) => void;
 }) {
   const { deviceType, windowSize } = useDeviceType();
+  const { currentTheme } = useTheme();
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
   const [showAbout, setShowAbout] = useState(false);
   const [showBooks, setShowBooks] = useState(false);
@@ -143,33 +145,33 @@ export function DesktopIcons({
     {
       name: 'About Me',
       icon: <IconUser size={32} />,
-      color: 'text-blue-400',
+      color: currentTheme.colors.iconBlue,
     },
     {
       name: 'Projects',
       icon: <IconFolder size={32} />,
-      color: 'text-yellow-400',
+      color: currentTheme.colors.iconYellow,
     },
     {
       name: 'Skills',
       icon: <IconTools size={32} />,
-      color: 'text-green-400',
+      color: currentTheme.colors.iconGreen,
     },
     {
       name: 'Books',
       icon: <IconBook size={32} />,
-      color: 'text-yellow-400',
+      color: currentTheme.colors.iconYellow,
     },
     {
       name: 'Browser',
       icon: <IconBrowser size={32} />,
-      color: 'text-blue-400',
+      color: currentTheme.colors.iconBlue,
       action: () => setShowBrowser(true),
     },
     {
       name: 'Resume',
       icon: <IconFileText size={32} />,
-      color: 'text-red-400',
+      color: currentTheme.colors.iconRed,
       action: () => {
         setShowPdf(true);
       },
@@ -177,12 +179,12 @@ export function DesktopIcons({
     {
       name: 'Settings',
       icon: <IconSettings size={32} />,
-      color: 'text-purple-400',
+      color: currentTheme.colors.iconPurple,
     },
     {
       name: 'My Spotify',
       icon: <IconBrandSpotify size={28} />,
-      color: 'text-[#1DB954]',
+      color: currentTheme.colors.iconSpotify,
       action: () => setShowSpotify(true),
     },
   ];
@@ -287,7 +289,16 @@ export function DesktopIcons({
               ref={clickHelpRef}
             >
               <div
-                className={`p-2 sm:p-3 rounded-lg backdrop-blur-md bg-black/20 group-hover:bg-black/30 transition-all ${icon.color}`}
+                className={`p-2 sm:p-3 rounded-lg backdrop-blur-md transition-all`}
+                style={{ 
+                  backgroundColor: currentTheme.colors.glass
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.backgroundColor = currentTheme.colors.hover;
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.backgroundColor = currentTheme.colors.glass;
+                }}
               >
                 {icon.name === 'GitHub' && (
                   <button
@@ -315,7 +326,12 @@ export function DesktopIcons({
                 )}
                 {icon.name !== 'GitHub' && (
                   <div className="flex flex-col items-center">
-                    <div className={getIconSizeClasses()}>{icon.icon}</div>
+                    <div 
+                      className={getIconSizeClasses()}
+                      style={{ color: icon.color }}
+                    >
+                      {icon.icon}
+                    </div>
                   </div>
                 )}
               </div>

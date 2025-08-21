@@ -2,6 +2,50 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Dark PDF Viewer Styling */
+.dark-pdf-viewer .rpv-core__viewer {
+  background-color: #1a1b1e !important;
+}
+
+.dark-pdf-viewer .rpv-toolbar {
+  background-color: #2b2c2f !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark-pdf-viewer .rpv-toolbar__item {
+  color: #ffffff !important;
+}
+
+.dark-pdf-viewer .rpv-toolbar__item:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark-pdf-viewer .rpv-core__canvas-layer {
+  background-color: #1a1b1e !important;
+}
+
+.dark-pdf-viewer .rpv-sidebar {
+  background-color: #2b2c2f !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark-pdf-viewer .rpv-sidebar__tab {
+  color: #ffffff !important;
+}
+
+.dark-pdf-viewer .rpv-sidebar__tab--selected {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Fallback styling for images */
+.fallback-active .fallback {
+  display: flex !important;
+}
+
+.fallback-active img {
+  display: none !important;
+}
+
 /* :root {
   --background: #ffffff;
   --foreground: #171717;
