@@ -15,7 +15,7 @@ export const projects: Project[] = [
     image: '/projects/portfolio.png',
     techStack: ['Next.js', 'TypeScript', 'TailwindCSS', 'Framer Motion'],
     githubUrl: 'https://github.com/pranav322/portfolio-v3',
-    liveUrl: 'https://dualportfolio.vercel.app',
+    liveUrl: 'https://pranavbuilds.tech',
   },
   {
     title: 'ElecTrade',
@@ -23,7 +23,7 @@ export const projects: Project[] = [
       'Energy trading platform with blockchain integration allowing users to trade electricity',
     techStack: ['React', 'Node.js', 'MongoDB', 'Blockchain', 'Web3'],
     githubUrl: 'https://github.com/Pranav322/ElecTrade',
-    liveUrl: 'https://notfoundproject.vercel.app',
+    liveUrl: 'https://github.com/Pranav322/ElecTrade',
     image: '/projects/ElecTrade.jpg',
   },
   {
@@ -31,7 +31,7 @@ export const projects: Project[] = [
     description: 'Platform for finding team members and projects with AI-powered matching',
     techStack: ['Next.js', 'Auth0', 'Prisma', 'PostgreSQL', 'Node.js'],
     githubUrl: 'https://github.com/Pranav322/TeamFinder',
-    liveUrl: 'https://',
+    liveUrl: 'https://teaamfinderr.vercel.app/',
     image: '/projects/TeamzFinder.png',
   },
   {
@@ -39,7 +39,7 @@ export const projects: Project[] = [
     description: 'Cross-platform mobile app for hiding sensitive information in photos',
     techStack: ['Flutter', 'Dart', 'Firebase', 'Android SDK', 'iOS SDK'],
     githubUrl: 'https://github.com/Pranav322/redact',
-    liveUrl: 'https://redact.demo',
+    liveUrl: 'https://github.com/Pranav322/redact',
     image: '/projects/redact.jpg',
   },
   {
@@ -48,7 +48,7 @@ export const projects: Project[] = [
       'Mobile application for testing technical knowledge in various programming domains',
     techStack: ['Flutter', 'Dart', 'Firebase', 'Node.js'],
     githubUrl: 'https://github.com/Pranav322/Quizapp',
-    liveUrl: 'https://quizapp.demo',
+    liveUrl: 'https://github.com/Pranav322/Quizapp',
     image: '/projects/quizapp.png',
   },
   {
@@ -57,6 +57,6 @@ export const projects: Project[] = [
     techStack: ['Flutter', 'Node.js', 'Firebase', 'WebSocket', 'Dart'],
     githubUrl: 'https://github.com/Pranav322/ChatApp',
     liveUrl: 'https://chat.demo',
-    image: '/projects/chat.png',
+    image: '/projects/chaatapp.png',
   },
 ];
