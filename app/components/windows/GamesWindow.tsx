@@ -66,7 +66,7 @@ export function GamesWindow({ onClose }: GamesWindowProps) {
         <div className="flex-1 overflow-hidden">
           {!selectedGame ? (
             <div className="p-6 overflow-auto custom-scrollbar mobile-hide-scrollbar h-full">
-              <h2 className="text-xl font-medium text-white/90 mb-6">Available Games</h2>
+              <h2 className="text-xl font-medium text-white/90 mb-6">Available Games <span className="text-white/60">(open games in full screen mode)</span></h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {/* Speed Racer Game */}
