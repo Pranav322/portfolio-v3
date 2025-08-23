@@ -21,6 +21,19 @@ const Terminalcomp = () => {
             'electrade.txt': { type: 'file', content: 'Electronics trading platform' }
           }
         },
+        'experience': {
+          type: 'directory',
+          contents: {
+            'gradguide-internship.txt': { 
+              type: 'file', 
+              content: 'GradGuide - LLM Developer Intern (Backend) (May 2025 - Aug 2025)\n\nBackend developer specializing in FastAPI and large language model (LLM) integration, with experience building scalable APIs, deploying AI systems, and delivering production-ready applications.\n\nKey Responsibilities:\n• Developed a RAG-based chatbot API using FastAPI, enabling context-aware conversational responses\n• Built a recommendation engine that generated personalized outputs based on user profile details\n• Handled deployment and storage on Google Cloud Platform (GCP) for scalable hosting and data management\n• Designed and implemented backend services for the company\'s internal CRM system\n• Integrated LLM capabilities into existing backend infrastructure\n\nTechnologies: Python, FastAPI, LLM Integration, RAG Systems, Google Cloud Platform (GCP), PostgreSQL, MongoDB, Docker, Git, Postman\n\nKey Achievements:\n• Successfully deployed RAG-based chatbot API with context-aware responses\n• Built and optimized recommendation engine for personalized user experiences\n• Implemented scalable backend services on GCP with proper data management\n• Contributed to internal CRM system architecture and development' 
+            },
+            'summary.txt': { 
+              type: 'file', 
+              content: 'EXPERIENCE SUMMARY\n\nTotal Experience: 3 months\nCurrent Role: LLM Developer Intern\nCompanies Worked: 1\nProjects Completed: 2+ (RAG Chatbot API, Recommendation Engine)\n\nCore Technologies:\n• Languages: Python, JavaScript\n• Backend: FastAPI, Flask\n• AI/ML: LLM Integration, RAG Systems\n• Cloud: Google Cloud Platform (GCP)\n• Databases: PostgreSQL, MongoDB\n• Tools: Git, Docker, Postman, VS Code\n\nSpecialization: Backend development with focus on AI/ML integration and scalable API development.' 
+            }
+          }
+        },
         'skills.txt': { type: 'file', content: 'React, Node.js, Express, MongoDB, Python, Django, Flutter' },
         'contact.txt': { type: 'file', content: 'Email: duckieduckk@duck.com\nPhone: nahi bataunga\nAddress: nahi bataunga' }
       }
@@ -337,6 +350,32 @@ const Terminalcomp = () => {
         output = args.join(' ');
         break;
 
+      case 'experience':
+        output = (
+          <div className="space-y-3">
+            <div className="text-yellow-400 font-bold">PROFESSIONAL EXPERIENCE</div>
+            <div className="space-y-4">
+              <div className="border-l-2 border-green-400 pl-3">
+                <div className="text-green-400 font-semibold">GradGuide - LLM Developer Intern (Backend)</div>
+                <div className="text-blue-400 text-sm">May 2025 - Aug 2025 | Remote</div>
+                <div className="text-gray-300 mt-1 text-sm">
+                  Backend developer specializing in FastAPI and large language model (LLM) integration.
+                </div>
+                <div className="text-cyan-400 text-sm mt-1">
+                  Tech: Python, FastAPI, LLM Integration, RAG Systems, GCP, PostgreSQL, MongoDB
+                </div>
+              </div>
+            </div>
+            <div className="text-gray-400 text-sm mt-3">
+              💡 Tip: Navigate to ~/experience/ directory to explore detailed files
+            </div>
+            <div className="text-gray-400 text-sm mt-2">
+              📝 Currently pursuing B.E. in Computer Science at Chandigarh University (2022-2026)
+            </div>
+          </div>
+        );
+        break;
+
       case 'help':
         output = (
           <div className="space-y-1">
@@ -348,6 +387,7 @@ const Terminalcomp = () => {
             <div>mkdir - create directory</div>
             <div>touch - create file</div>
             <div>rm - remove file</div>
+            <div>experience - show professional experience</div>
             <div>whoami - display current user</div>
             <div>date - display current date</div>
             <div>uname - system information</div>

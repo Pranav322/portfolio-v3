@@ -11,6 +11,7 @@ import { motion, AnimatePresence, useDragControls } from 'framer-motion';
 import { WindowWrapper } from '../ui/WindowWrapper';
 import { skills } from '../helpers/Skills';
 import { projects } from '../helpers/Projects';
+import { experiences } from '../helpers/Experience';
 interface AboutWindowProps {
   onClose: () => void;
 }
@@ -151,6 +152,121 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
                     </motion.div>
                   ))}
                 </div>
+              </motion.section>
+
+              {/* Professional Experience Section */}
+              <motion.section
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.15 }}
+                className="mb-8"
+              >
+                <h2 className="text-xl font-semibold mb-6 text-blue-400">Professional Experience</h2>
+                <div className="space-y-6">
+                  {experiences.map((exp, index) => (
+                    <motion.div
+                      key={exp.id}
+                      initial={{ opacity: 0, x: -30 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.2 + index * 0.1 }}
+                      className="relative pl-8 pb-6 border-l-2 border-gradient last:pb-0"
+                      style={{
+                        borderLeftColor: index === 0 ? '#10b981' : index === 1 ? '#3b82f6' : index === 2 ? '#8b5cf6' : '#f59e0b'
+                      }}
+                    >
+                      {/* Timeline dot */}
+                      <div 
+                        className="absolute -left-2 top-1 w-4 h-4 rounded-full border-2 border-gray-900"
+                        style={{
+                          backgroundColor: index === 0 ? '#10b981' : index === 1 ? '#3b82f6' : index === 2 ? '#8b5cf6' : '#f59e0b'
+                        }}
+                      />
+                      
+                      <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        className="bg-white/5 p-4 rounded-lg border border-white/10 hover:border-white/20 transition-all duration-300"
+                      >
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
+                          <h3 className="text-lg font-semibold text-white/90">{exp.role}</h3>
+                          <span className={`text-xs px-2 py-1 rounded-full ${
+                            exp.type === 'Full-time' ? 'bg-green-500/20 text-green-400' :
+                            exp.type === 'Internship' ? 'bg-purple-500/20 text-purple-400' :
+                            exp.type === 'Freelance' ? 'bg-yellow-500/20 text-yellow-400' :
+                            'bg-blue-500/20 text-blue-400'
+                          }`}>
+                            {exp.type}
+                          </span>
+                        </div>
+                        
+                        <div className="text-blue-400 font-medium mb-1">{exp.company}</div>
+                        <div className="text-sm text-white/60 mb-3">
+                          {exp.duration} • {exp.location}
+                        </div>
+                        
+                        <p className="text-white/70 text-sm leading-relaxed mb-4">
+                          {exp.description}
+                        </p>
+                        
+                        {/* Key Achievements */}
+                        {exp.achievements.length > 0 && (
+                          <div className="mb-4">
+                            <h4 className="text-sm font-medium text-green-400 mb-2">Key Achievements:</h4>
+                            <ul className="text-xs text-white/60 space-y-1 list-disc list-inside">
+                              {exp.achievements.slice(0, 2).map((achievement, achievementIndex) => (
+                                <li key={achievementIndex}>{achievement}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        
+                        {/* Technologies */}
+                        <div className="flex flex-wrap gap-1.5">
+                          {exp.technologies.slice(0, 6).map(tech => (
+                            <span
+                              key={tech}
+                              className="px-2 py-1 bg-white/10 rounded-full text-xs text-cyan-400 hover:bg-white/15 transition-colors"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                          {exp.technologies.length > 6 && (
+                            <span className="px-2 py-1 bg-white/5 rounded-full text-xs text-white/50">
+                              +{exp.technologies.length - 6} more
+                            </span>
+                          )}
+                        </div>
+                      </motion.div>
+                    </motion.div>
+                  ))}
+                </div>
+                
+                {/* Experience Summary */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                  className="mt-6 p-4 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-lg border border-blue-500/20"
+                >
+                  <h4 className="text-blue-400 font-medium mb-3">Experience Summary</h4>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
+                    <div className="text-center">
+                      <div className="text-xl font-bold text-green-400">1+</div>
+                      <div className="text-white/60">Years</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-xl font-bold text-blue-400">{experiences.length}</div>
+                      <div className="text-white/60">Companies</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-xl font-bold text-purple-400">20+</div>
+                      <div className="text-white/60">Projects</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-xl font-bold text-cyan-400">10+</div>
+                      <div className="text-white/60">Technologies</div>
+                    </div>
+                  </div>
+                </motion.div>
               </motion.section>
 
               {/* Featured Projects Section */}

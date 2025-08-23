@@ -42,6 +42,7 @@ import {
   IconBrandSpotify,
   IconInfoCircle,
   IconFileText,
+  IconBriefcase,
 } from '@tabler/icons-react';
 import AboutWindow from '../windows/AboutWindow';
 import dynamic from 'next/dynamic';
@@ -55,6 +56,7 @@ import { motion } from 'framer-motion';
 import { SettingsWindow } from '../windows/SettingsWindow';
 import { SpotifyWindow } from '../windows/SpotifyWindow';
 import { PdfWindow } from '../windows/PdfWindow';
+import ExperienceWindow from '../windows/ExperienceWindow';
 import { useTheme } from '../../contexts/ThemeContext';
 
 export function DesktopIcons({
@@ -75,6 +77,7 @@ export function DesktopIcons({
   const [showMusic, setShowMusic] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showSpotify, setShowSpotify] = useState(false);
+  const [showExperience, setShowExperience] = useState(false);
   const [clickHelpIcon, setClickHelpIcon] = useState<string | null>(null);
   const clickHelpRef = useRef<HTMLDivElement>(null);
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -97,6 +100,8 @@ export function DesktopIcons({
           setShowSettings(true);
         } else if (iconName === 'Spotify') {
           setShowSpotify(true);
+        } else if (iconName === 'Experience') {
+          setShowExperience(true);
         }
       }
       return;
@@ -120,6 +125,8 @@ export function DesktopIcons({
           setShowSettings(true);
         } else if (iconName === 'Spotify') {
           setShowSpotify(true);
+        } else if (iconName === 'Experience') {
+          setShowExperience(true);
         }
       }
       setSelectedIcon(null);
@@ -186,6 +193,11 @@ export function DesktopIcons({
       icon: <IconBrandSpotify size={28} />,
       color: currentTheme.colors.iconSpotify,
       action: () => setShowSpotify(true),
+    },
+    {
+      name: 'Experience',
+      icon: <IconBriefcase size={32} />,
+      color: currentTheme.colors.iconGreen,
     },
   ];
 
@@ -394,6 +406,7 @@ export function DesktopIcons({
       )}
       {showSpotify && <SpotifyWindow onClose={() => setShowSpotify(false)} />}
       {showPdf && <PdfWindow filePath="/backend_dev.pdf" onClose={() => setShowPdf(false)} />}
+      {showExperience && <ExperienceWindow onClose={() => setShowExperience(false)} />}
     </>
   );
 }
