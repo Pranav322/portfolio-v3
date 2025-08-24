@@ -43,6 +43,7 @@ import {
   IconInfoCircle,
   IconFileText,
   IconBriefcase,
+  IconMessageCircle,
 } from '@tabler/icons-react';
 import AboutWindow from '../windows/AboutWindow';
 import dynamic from 'next/dynamic';
@@ -57,6 +58,7 @@ import { SettingsWindow } from '../windows/SettingsWindow';
 import { SpotifyWindow } from '../windows/SpotifyWindow';
 import { PdfWindow } from '../windows/PdfWindow';
 import ExperienceWindow from '../windows/ExperienceWindow';
+import { PranavChatWindow } from '../windows/PranavChatWindow';
 import { useTheme } from '../../contexts/ThemeContext';
 
 export function DesktopIcons({
@@ -78,6 +80,7 @@ export function DesktopIcons({
   const [showSettings, setShowSettings] = useState(false);
   const [showSpotify, setShowSpotify] = useState(false);
   const [showExperience, setShowExperience] = useState(false);
+  const [showPranavChat, setShowPranavChat] = useState(false);
   const [clickHelpIcon, setClickHelpIcon] = useState<string | null>(null);
   const clickHelpRef = useRef<HTMLDivElement>(null);
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -102,6 +105,8 @@ export function DesktopIcons({
           setShowSpotify(true);
         } else if (iconName === 'Experience') {
           setShowExperience(true);
+        } else if (iconName === 'Pranav AI') {
+          setShowPranavChat(true);
         }
       }
       return;
@@ -127,6 +132,8 @@ export function DesktopIcons({
           setShowSpotify(true);
         } else if (iconName === 'Experience') {
           setShowExperience(true);
+        } else if (iconName === 'Pranav AI') {
+          setShowPranavChat(true);
         }
       }
       setSelectedIcon(null);
@@ -199,34 +206,63 @@ export function DesktopIcons({
       icon: <IconBriefcase size={32} />,
       color: currentTheme.colors.iconGreen,
     },
+    {
+      name: 'Pranav AI',
+      icon: <IconMessageCircle size={32} />,
+      color: currentTheme.colors.iconBlue,
+    },
   ];
 
-  // Calculate optimal grid layout for desktop to avoid scrollbars
-  const getDesktopLayoutClasses = () => {
-    const availableHeight = windowSize.height - 120; // Account for margins and padding
-    const iconHeight = 90; // Approximate height per icon including gap
-    const maxIconsPerColumn = Math.floor(availableHeight / iconHeight);
+  // Calculate optimal layout for desktop with natural column flow
+  const getDesktopLayoutInfo = () => {
+    const availableHeight = windowSize.height - 180; // Account for margins, padding, and bottom dock
+    const availableWidth = windowSize.width - 100; // Account for left margin and some right padding
+    const iconHeight = 100; // More accurate height per icon including gap and text
+    const iconWidth = 88; // Width per icon including gap
     const totalIcons = icons.length;
 
-    // If we can fit all icons in one column, use single column
-    if (totalIcons <= maxIconsPerColumn) {
-      return 'grid grid-cols-1 gap-3';
+    // Calculate maximum icons per column that can fit vertically
+    const maxIconsPerColumn = Math.max(1, Math.floor(availableHeight / iconHeight));
+    
+    // Calculate minimum columns needed to fit all icons
+    const minColumnsNeeded = Math.ceil(totalIcons / maxIconsPerColumn);
+    
+    // Calculate maximum columns that can fit horizontally
+    const maxColumnsByWidth = Math.floor(availableWidth / iconWidth);
+    
+    // Use the minimum of what we need and what fits horizontally
+    const optimalColumns = Math.max(1, Math.min(minColumnsNeeded, maxColumnsByWidth, 4)); // Max 4 columns for readability
+    
+    return {
+      maxIconsPerColumn,
+      optimalColumns,
+      needsScroll: totalIcons > maxIconsPerColumn * optimalColumns
+    };
+  };
+
+  // Organize icons into columns for desktop
+  const organizeIconsIntoColumns = () => {
+    if (deviceType !== 'desktop') return [icons]; // For mobile/tablet, return as single array
+    
+    const layoutInfo = getDesktopLayoutInfo();
+    const { maxIconsPerColumn, optimalColumns } = layoutInfo;
+    
+    const columns: typeof icons[][] = [];
+    
+    for (let i = 0; i < optimalColumns; i++) {
+      columns.push([]);
     }
-
-    // Calculate how many columns we need
-    const neededColumns = Math.ceil(totalIcons / maxIconsPerColumn);
-    const columnsToUse = Math.min(neededColumns, 4); // Max 4 columns
-
-    // Use appropriate grid classes
-    if (columnsToUse === 2) {
-      return 'grid grid-cols-2 gap-3';
-    } else if (columnsToUse === 3) {
-      return 'grid grid-cols-3 gap-3';
-    } else if (columnsToUse >= 4) {
-      return 'grid grid-cols-4 gap-3';
+    
+    // Fill columns naturally - fill first column completely, then move to next
+    let currentColumn = 0;
+    for (let i = 0; i < icons.length; i++) {
+      if (columns[currentColumn].length >= maxIconsPerColumn && currentColumn < optimalColumns - 1) {
+        currentColumn++;
+      }
+      columns[currentColumn].push(icons[i]);
     }
-
-    return 'grid grid-cols-1 gap-3';
+    
+    return columns.filter(column => column.length > 0); // Remove empty columns
   };
 
   // Get layout classes based on device type
@@ -238,7 +274,7 @@ export function DesktopIcons({
         return 'flex flex-wrap gap-4 max-w-[calc(100vw-2rem)]';
       case 'desktop':
       default:
-        return getDesktopLayoutClasses();
+        return 'flex gap-4 max-h-[calc(100vh-200px)]';
     }
   };
 
@@ -292,69 +328,131 @@ export function DesktopIcons({
               : 'left-2 top-4'
         }`}
       >
-        <div className={getLayoutClasses()}>
-          {icons.map(icon => (
-            <div
-              key={icon.name}
-              className={`group flex flex-col items-center gap-1 cursor-pointer touch-target tap-feedback ${getIconContainerClasses()} ${selectedIcon === icon.name ? 'bg-white/20 rounded-lg p-2' : 'p-2'}`}
-              onClick={() => handleIconClick(icon.name, icon.action)}
-              ref={clickHelpRef}
-            >
-              <div
-                className={`p-2 sm:p-3 rounded-lg backdrop-blur-md transition-all`}
-                style={{ 
-                  backgroundColor: currentTheme.colors.glass
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.backgroundColor = currentTheme.colors.hover;
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.backgroundColor = currentTheme.colors.glass;
-                }}
-              >
-                {icon.name === 'GitHub' && (
-                  <button
-                    onClick={e => {
-                      e.stopPropagation();
-                      setShowGitHub(true);
-                    }}
-                    className="flex flex-col items-center group focus:outline-none"
+        {deviceType === 'desktop' ? (
+          <div className={getLayoutClasses()}>
+            {organizeIconsIntoColumns().map((column, columnIndex) => (
+              <div key={columnIndex} className="flex flex-col gap-3">
+                {column.map(icon => (
+                  <div
+                    key={icon.name}
+                    className={`group flex flex-col items-center gap-1 cursor-pointer touch-target tap-feedback ${getIconContainerClasses()} ${selectedIcon === icon.name ? 'bg-white/20 rounded-lg p-2' : 'p-2'}`}
+                    onClick={() => handleIconClick(icon.name, icon.action)}
+                    ref={clickHelpRef}
                   >
-                    <IconBrandGithub
-                      className={`${
-                        deviceType === 'mobile'
-                          ? 'w-8 h-8'
-                          : deviceType === 'tablet'
-                            ? 'w-10 h-10'
-                            : 'w-12 h-12'
-                      } text-white group-hover:text-purple-400 transition-colors`}
-                    />
-                    {deviceType === 'desktop' && (
-                      <span className="text-white text-sm mt-1 group-hover:text-purple-400 transition-colors">
-                        GitHub
-                      </span>
-                    )}
-                  </button>
-                )}
-                {icon.name !== 'GitHub' && (
-                  <div className="flex flex-col items-center">
-                    <div 
-                      className={getIconSizeClasses()}
-                      style={{ color: icon.color }}
+                    <div
+                      className={`p-2 sm:p-3 rounded-lg backdrop-blur-md transition-all`}
+                      style={{ 
+                        backgroundColor: currentTheme.colors.glass
+                      }}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.backgroundColor = currentTheme.colors.hover;
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.backgroundColor = currentTheme.colors.glass;
+                      }}
                     >
-                      {icon.icon}
+                      {icon.name === 'GitHub' && (
+                        <button
+                          onClick={e => {
+                            e.stopPropagation();
+                            setShowGitHub(true);
+                          }}
+                          className="flex flex-col items-center group focus:outline-none"
+                        >
+                          <IconBrandGithub
+                            className="w-12 h-12 text-white group-hover:text-purple-400 transition-colors"
+                          />
+                          <span className="text-white text-sm mt-1 group-hover:text-purple-400 transition-colors">
+                            GitHub
+                          </span>
+                        </button>
+                      )}
+                      {icon.name !== 'GitHub' && (
+                        <div className="flex flex-col items-center">
+                          <div 
+                            className={getIconSizeClasses()}
+                            style={{ color: icon.color }}
+                          >
+                            {icon.icon}
+                          </div>
+                        </div>
+                      )}
                     </div>
+                    <span
+                      className={`${getTextSizeClasses()} text-white/80 text-center px-1 sm:px-2 py-1 rounded backdrop-blur-sm bg-black/20 w-full`}
+                    >
+                      {icon.name}
+                    </span>
                   </div>
-                )}
+                ))}
               </div>
-              <span
-                className={`${getTextSizeClasses()} text-white/80 text-center px-1 sm:px-2 py-1 rounded backdrop-blur-sm bg-black/20 w-full`}
+            ))}
+          </div>
+        ) : (
+          <div className={getLayoutClasses()}>
+            {icons.map(icon => (
+              <div
+                key={icon.name}
+                className={`group flex flex-col items-center gap-1 cursor-pointer touch-target tap-feedback ${getIconContainerClasses()} ${selectedIcon === icon.name ? 'bg-white/20 rounded-lg p-2' : 'p-2'}`}
+                onClick={() => handleIconClick(icon.name, icon.action)}
+                ref={clickHelpRef}
               >
-                {icon.name}
-              </span>
-            </div>
-          ))}
-        </div>
+                <div
+                  className={`p-2 sm:p-3 rounded-lg backdrop-blur-md transition-all`}
+                  style={{ 
+                    backgroundColor: currentTheme.colors.glass
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.backgroundColor = currentTheme.colors.hover;
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.backgroundColor = currentTheme.colors.glass;
+                  }}
+                >
+                  {icon.name === 'GitHub' && (
+                    <button
+                      onClick={e => {
+                        e.stopPropagation();
+                        setShowGitHub(true);
+                      }}
+                      className="flex flex-col items-center group focus:outline-none"
+                    >
+                      <IconBrandGithub
+                        className={`${
+                          deviceType === 'mobile'
+                            ? 'w-8 h-8'
+                            : deviceType === 'tablet'
+                              ? 'w-10 h-10'
+                              : 'w-12 h-12'
+                        } text-white group-hover:text-purple-400 transition-colors`}
+                      />
+                      {deviceType === 'desktop' && (
+                        <span className="text-white text-sm mt-1 group-hover:text-purple-400 transition-colors">
+                          GitHub
+                        </span>
+                      )}
+                    </button>
+                  )}
+                  {icon.name !== 'GitHub' && (
+                    <div className="flex flex-col items-center">
+                      <div 
+                        className={getIconSizeClasses()}
+                        style={{ color: icon.color }}
+                      >
+                        {icon.icon}
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <span
+                  className={`${getTextSizeClasses()} text-white/80 text-center px-1 sm:px-2 py-1 rounded backdrop-blur-sm bg-black/20 w-full`}
+                >
+                  {icon.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <AnimatePresence>
@@ -407,6 +505,7 @@ export function DesktopIcons({
       {showSpotify && <SpotifyWindow onClose={() => setShowSpotify(false)} />}
       {showPdf && <PdfWindow filePath="/backend_dev.pdf" onClose={() => setShowPdf(false)} />}
       {showExperience && <ExperienceWindow onClose={() => setShowExperience(false)} />}
+      {showPranavChat && <PranavChatWindow onClose={() => setShowPranavChat(false)} />}
     </>
   );
 }
