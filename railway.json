@@ -1,10 +1,12 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
-    "builder": "NIXPACKS",
-    "rootDir": "backend"
+    "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "uvicorn main:app --host 0.0.0.0 --port $PORT"
+    "startCommand": "hypercorn main:app --bind \"[::]:$PORT\"",
+    "variables": {
+      "ROOT_DIRECTORY": "/app/pranav"
+    }
   }
 }
