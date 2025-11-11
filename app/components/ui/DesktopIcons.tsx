@@ -360,9 +360,9 @@ export function DesktopIcons({
                           className="flex flex-col items-center group focus:outline-none"
                         >
                           <IconBrandGithub
-                            className="w-12 h-12 text-white group-hover:text-purple-400 transition-colors"
+                            className="w-12 h-12 text-white group-hover:text-cyan-400 transition-colors"
                           />
-                          <span className="text-white text-sm mt-1 group-hover:text-purple-400 transition-colors">
+                          <span className="text-white text-sm mt-1 group-hover:text-cyan-400 transition-colors">
                             GitHub
                           </span>
                         </button>
@@ -424,10 +424,10 @@ export function DesktopIcons({
                             : deviceType === 'tablet'
                               ? 'w-10 h-10'
                               : 'w-12 h-12'
-                        } text-white group-hover:text-purple-400 transition-colors`}
+                        } text-white group-hover:text-cyan-400 transition-colors`}
                       />
                       {deviceType === 'desktop' && (
-                        <span className="text-white text-sm mt-1 group-hover:text-purple-400 transition-colors">
+                        <span className="text-white text-sm mt-1 group-hover:text-cyan-400 transition-colors">
                           GitHub
                         </span>
                       )}

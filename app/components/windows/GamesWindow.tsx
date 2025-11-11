@@ -33,8 +33,8 @@ export function GamesWindow({ onClose }: GamesWindowProps) {
           onPointerDown={e => !isMaximized && dragControls.start(e)}
         >
           <div className="flex items-center gap-3">
-            <div className="bg-purple-500/20 p-1.5 rounded-full">
-              <IconDeviceGamepad2 size={16} className="text-purple-400" />
+            <div className="bg-cyan-500/20 p-1.5 rounded-full">
+              <IconDeviceGamepad2 size={16} className="text-cyan-400" />
             </div>
             <span className="text-white/90 text-sm font-medium">Games</span>
           </div>
@@ -74,11 +74,11 @@ export function GamesWindow({ onClose }: GamesWindowProps) {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setSelectedGame('racing')}
-                  className="bg-white/5 rounded-lg p-6 cursor-pointer border border-white/10 hover:border-purple-400/50 transition-all duration-300 group"
+                  className="bg-white/5 rounded-lg p-6 cursor-pointer border border-white/10 hover:border-cyan-400/50 transition-all duration-300 group"
                 >
                   <div className="text-center space-y-4">
-                    <div className="bg-purple-500/20 p-4 rounded-full w-16 h-16 mx-auto flex items-center justify-center group-hover:bg-purple-500/30 transition-colors">
-                      <IconDeviceGamepad2 size={32} className="text-purple-400" />
+                    <div className="bg-cyan-500/20 p-4 rounded-full w-16 h-16 mx-auto flex items-center justify-center group-hover:bg-cyan-500/30 transition-colors">
+                      <IconDeviceGamepad2 size={32} className="text-cyan-400" />
                     </div>
                     <div>
                       <h3 className="text-white/90 font-medium text-lg mb-2">Speed Racer</h3>
@@ -86,14 +86,14 @@ export function GamesWindow({ onClose }: GamesWindowProps) {
                         High-speed racing action! Avoid cars, collect coins, and set new records.
                       </p>
                       <div className="flex flex-wrap gap-2 justify-center">
-                        <span className="px-2 py-1 bg-purple-500/20 rounded text-xs text-purple-300">HTML5</span>
+                        <span className="px-2 py-1 bg-cyan-500/20 rounded text-xs text-cyan-300">HTML5</span>
                         <span className="px-2 py-1 bg-blue-500/20 rounded text-xs text-blue-300">Canvas</span>
                         <span className="px-2 py-1 bg-green-500/20 rounded text-xs text-green-300">Racing</span>
                       </div>
                     </div>
                     <motion.button
                       whileHover={{ scale: 1.05 }}
-                      className="flex items-center gap-2 mx-auto px-4 py-2 bg-purple-500/20 rounded-lg text-purple-300 hover:bg-purple-500/30 transition-colors"
+                      className="flex items-center gap-2 mx-auto px-4 py-2 bg-cyan-500/20 rounded-lg text-cyan-300 hover:bg-cyan-500/30 transition-colors"
                     >
                       <IconPlayerPlay size={16} />
                       Play Game

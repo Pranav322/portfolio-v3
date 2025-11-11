@@ -233,7 +233,7 @@ class RacingGame {
             width: 50,
             height: 80,
             speed: Math.random() * 2 + 1,
-            color: ['#ef4444', '#f59e0b', '#8b5cf6'][Math.floor(Math.random() * 3)]
+            color: ['#ef4444', '#f59e0b', '#06b6d4'][Math.floor(Math.random() * 3)]
         });
     }
     
@@ -328,7 +328,7 @@ class RacingGame {
     }
     
     createPowerUpParticles(x, y, type) {
-        const color = type === 'nitro' ? '#ef4444' : '#8b5cf6';
+        const color = type === 'nitro' ? '#ef4444' : '#06b6d4';
         for (let i = 0; i < 12; i++) {
             this.particles.push({
                 x: x,
@@ -486,7 +486,7 @@ class RacingGame {
             this.ctx.fillText('🔥', 0, 5);
         } else if (type === 'magnet') {
             // Magnet icon
-            this.ctx.fillStyle = '#8b5cf6';
+            this.ctx.fillStyle = '#06b6d4';
             this.ctx.fillRect(-width/2, -height/2, width, height);
             
             this.ctx.fillStyle = '#7c3aed';
@@ -523,10 +523,10 @@ class RacingGame {
         
         if (this.magnetActive) {
             const progress = this.magnetTimer / 360;
-            this.ctx.fillStyle = 'rgba(139, 92, 246, 0.8)';
+            this.ctx.fillStyle = 'rgba(6, 182, 212, 0.8)';
             this.ctx.fillRect(statusX, statusY, 100, 20);
             
-            this.ctx.fillStyle = '#8b5cf6';
+            this.ctx.fillStyle = '#06b6d4';
             this.ctx.fillRect(statusX, statusY, 100 * progress, 20);
             
             this.ctx.fillStyle = '#ffffff';

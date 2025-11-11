@@ -49,7 +49,7 @@ const themes: Theme[] = [
       iconYellow: 'rgb(251, 191, 36)', // yellow-400
       iconGreen: 'rgb(74, 222, 128)', // green-400
       iconRed: 'rgb(248, 113, 113)', // red-400
-      iconPurple: 'rgb(196, 181, 253)', // purple-400
+      iconPurple: 'rgb(34, 211, 238)', // cyan-400
       iconSpotify: '#1DB954',
       
       textPrimary: 'rgba(255, 255, 255, 0.9)',
@@ -76,7 +76,7 @@ const themes: Theme[] = [
       iconYellow: 'rgb(245, 158, 11)', // amber-500
       iconGreen: 'rgb(34, 197, 94)', // green-500
       iconRed: 'rgb(239, 68, 68)', // red-500
-      iconPurple: 'rgb(168, 85, 247)', // purple-500
+      iconPurple: 'rgb(6, 182, 212)', // cyan-500
       iconSpotify: '#1ED760',
       
       textPrimary: 'rgba(255, 255, 255, 0.95)',
@@ -103,7 +103,7 @@ const themes: Theme[] = [
       iconYellow: 'rgb(251, 191, 36)', // yellow-400
       iconGreen: 'rgb(52, 211, 153)', // emerald-400
       iconRed: 'rgb(248, 113, 113)', // red-400
-      iconPurple: 'rgb(139, 92, 246)', // violet-500
+      iconPurple: 'rgb(20, 184, 166)', // teal-500
       iconSpotify: '#1DB954',
       
       textPrimary: 'rgba(255, 255, 255, 0.95)',
@@ -130,7 +130,7 @@ const themes: Theme[] = [
       iconYellow: 'rgb(251, 191, 36)', // yellow-400
       iconGreen: 'rgb(74, 222, 128)', // green-400
       iconRed: 'rgb(248, 113, 113)', // red-400
-      iconPurple: 'rgb(196, 181, 253)', // purple-400
+      iconPurple: 'rgb(34, 211, 238)', // cyan-400
       iconSpotify: '#1DB954',
       
       textPrimary: 'rgba(255, 255, 255, 0.95)',
@@ -157,7 +157,7 @@ const themes: Theme[] = [
       iconYellow: 'rgb(251, 191, 36)', // yellow-400
       iconGreen: 'rgb(74, 222, 128)', // green-400
       iconRed: 'rgb(248, 113, 113)', // red-400
-      iconPurple: 'rgb(196, 181, 253)', // purple-400
+      iconPurple: 'rgb(34, 211, 238)', // cyan-400
       iconSpotify: '#1DB954',
       
       textPrimary: 'rgba(255, 255, 255, 0.95)',

@@ -33,7 +33,7 @@ export default function ExperienceWindow({ onClose }: ExperienceWindowProps) {
       case 'Full-time':
         return 'bg-green-500/20 text-green-400 border-green-500/30';
       case 'Internship':
-        return 'bg-purple-500/20 text-purple-400 border-purple-500/30';
+        return 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30';
       case 'Freelance':
         return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
       case 'Part-time':
@@ -44,7 +44,7 @@ export default function ExperienceWindow({ onClose }: ExperienceWindowProps) {
   };
 
   const getExperienceColor = (index: number) => {
-    const colors = ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444'];
+    const colors = ['#10b981', '#3b82f6', '#06b6d4', '#f59e0b', '#ef4444'];
     return colors[index % colors.length];
   };
 
@@ -112,7 +112,7 @@ export default function ExperienceWindow({ onClose }: ExperienceWindowProps) {
                     <div className="text-xs text-white/60">Companies</div>
                   </div>
                   <div className="text-center p-2 bg-white/5 rounded-lg">
-                    <div className="text-lg font-bold text-purple-400">{experienceSummary.projectsCompleted}</div>
+                    <div className="text-lg font-bold text-cyan-400">{experienceSummary.projectsCompleted}</div>
                     <div className="text-xs text-white/60">Projects</div>
                   </div>
                   <div className="text-center p-2 bg-white/5 rounded-lg">

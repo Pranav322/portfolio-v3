@@ -171,14 +171,14 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
                       transition={{ delay: 0.2 + index * 0.1 }}
                       className="relative pl-8 pb-6 border-l-2 border-gradient last:pb-0"
                       style={{
-                        borderLeftColor: index === 0 ? '#10b981' : index === 1 ? '#3b82f6' : index === 2 ? '#8b5cf6' : '#f59e0b'
+                        borderLeftColor: index === 0 ? '#10b981' : index === 1 ? '#3b82f6' : index === 2 ? '#06b6d4' : '#f59e0b'
                       }}
                     >
                       {/* Timeline dot */}
                       <div 
                         className="absolute -left-2 top-1 w-4 h-4 rounded-full border-2 border-gray-900"
                         style={{
-                          backgroundColor: index === 0 ? '#10b981' : index === 1 ? '#3b82f6' : index === 2 ? '#8b5cf6' : '#f59e0b'
+                          backgroundColor: index === 0 ? '#10b981' : index === 1 ? '#3b82f6' : index === 2 ? '#06b6d4' : '#f59e0b'
                         }}
                       />
                       
@@ -190,7 +190,7 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
                           <h3 className="text-lg font-semibold text-white/90">{exp.role}</h3>
                           <span className={`text-xs px-2 py-1 rounded-full ${
                             exp.type === 'Full-time' ? 'bg-green-500/20 text-green-400' :
-                            exp.type === 'Internship' ? 'bg-purple-500/20 text-purple-400' :
+                            exp.type === 'Internship' ? 'bg-cyan-500/20 text-cyan-400' :
                             exp.type === 'Freelance' ? 'bg-yellow-500/20 text-yellow-400' :
                             'bg-blue-500/20 text-blue-400'
                           }`}>
@@ -258,7 +258,7 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
                       <div className="text-white/60">Companies</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-xl font-bold text-purple-400">20+</div>
+                      <div className="text-xl font-bold text-cyan-400">20+</div>
                       <div className="text-white/60">Projects</div>
                     </div>
                     <div className="text-center">
