@@ -18,7 +18,7 @@ interface PranavChatWindowProps {
 export function PranavChatWindow({ onClose }: PranavChatWindowProps) {
   const [isMaximized, setIsMaximized] = useState(false);
   const dragControls = useDragControls();
-  const chatUrl = 'https://chatwithmee.up.railway.app/chat';
+  const chatUrl = 'http://162.215.175.94:8000/chat';
   const [isMinimized, setIsMinimized] = useState(false);
   const [key, setKey] = useState(0); // For forcing iframe refresh
 
