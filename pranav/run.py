@@ -52,7 +52,7 @@ def start_server():
             host="0.0.0.0",
             port=8000,
             reload=True,
-            reload_dirs=["./"],
+            reload_includes=["*.py"],
             log_level="info"
         )
     except ImportError:

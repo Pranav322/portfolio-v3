@@ -16,24 +16,27 @@ import uuid
 import PyPDF2
 import io
 from typing import List, Optional
-from openai import OpenAI
+import google.generativeai as genai
 from pydantic import BaseModel
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 import json
 import logging
+from sentence_transformers import SentenceTransformer
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Configuration
 DATABASE_URL = os.getenv("DATABASE_URL")
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
-# Initialize OpenAI client
-try:
-    openai_client = OpenAI(api_key=OPENAI_API_KEY)
-except TypeError as e:
-    import inspect
-    print("DEBUG: OpenAI init signature:", inspect.signature(OpenAI.__init__))
-    raise
+# Initialize Gemini for chat
+genai.configure(api_key=GEMINI_API_KEY)
+
+# Initialize local embedding model (no API calls, runs locally)
+embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
 
 # Database setup
 engine = create_engine(DATABASE_URL)
@@ -138,14 +141,15 @@ def chunk_text(text: str, chunk_size: int = 1000, overlap: int = 200) -> List[st
     return chunks
 
 async def get_embedding(text: str) -> List[float]:
-    """Get embedding for text using OpenAI API"""
+    """Get embedding for text using local sentence-transformers model"""
     try:
-        response = await asyncio.to_thread(
-            openai_client.embeddings.create,
-            model="text-embedding-ada-002",
-            input=text
+        # Use local model (no API calls, no quotas)
+        embedding = await asyncio.to_thread(
+            embedding_model.encode,
+            text,
+            convert_to_numpy=True
         )
-        return response.data[0].embedding
+        return embedding.tolist()
     except Exception as e:
         logging.error(f"Error getting embedding: {str(e)}")
         return []
@@ -173,32 +177,36 @@ async def find_similar_chunks(query: str, db: Session, top_k: int = 5) -> List[t
     return similarities[:top_k]
 
 async def generate_response(query: str, context: str, chat_history: List = None) -> str:
-    """Generate response using OpenAI GPT"""
+    """Generate response using Gemini"""
     try:
-        system_message = """You are a helpful AI assistant that answers questions based on the provided context about a specific person. 
+        system_instruction = """You are a helpful AI assistant that answers questions based on the provided context about a specific person. 
         Use the context to provide accurate and helpful responses. If the context doesn't contain relevant information, 
         politely say so and ask for more specific questions. Always be conversational and helpful and never answer out of context question."""
         
-        messages = [
-            {"role": "system", "content": system_message},
-            {"role": "user", "content": f"Context: {context}\n\nQuestion: {query}"}
-        ]
+        # Build the prompt with context and history
+        prompt = f"{system_instruction}\n\nContext: {context}\n\n"
         
         # Add chat history if provided
         if chat_history:
+            prompt += "Previous conversation:\n"
             for chat in chat_history[-5:]:  # Last 5 messages for context
-                messages.insert(-1, {"role": "user", "content": chat.user_message})
-                messages.insert(-1, {"role": "assistant", "content": chat.bot_response})
+                prompt += f"User: {chat.user_message}\n"
+                prompt += f"Assistant: {chat.bot_response}\n"
+            prompt += "\n"
         
+        prompt += f"Current question: {query}\n\nAnswer:"
+        
+        model = genai.GenerativeModel('gemini-2.5-flash')
         response = await asyncio.to_thread(
-            openai_client.chat.completions.create,
-            model="gpt-3.5-turbo",
-            messages=messages,
-            max_tokens=500,
-            temperature=0.7
+            model.generate_content,
+            prompt,
+            generation_config=genai.types.GenerationConfig(
+                max_output_tokens=500,
+                temperature=0.7,
+            )
         )
         
-        return response.choices[0].message.content
+        return response.text
     except Exception as e:
         logging.error(f"Error generating response: {str(e)}")
         return "I apologize, but I'm having trouble generating a response right now. Please try again."
@@ -240,7 +248,7 @@ async def home():
             </div>
             <div class="feature">
                 <h3>🚀 Features</h3>
-                <p>• PDF document processing • Vector embeddings • Semantic search • OpenAI integration</p>
+                <p>• PDF document processing • Vector embeddings • Semantic search • Google Gemini integration</p>
             </div>
         </div>
     </body>

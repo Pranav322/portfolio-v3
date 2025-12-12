@@ -1,6 +1,6 @@
 # RAG Chatbot System
 
-A comprehensive Retrieval-Augmented Generation (RAG) chatbot system built with FastAPI, PostgreSQL, and OpenAI. Upload PDF documents about yourself and let users query information through an intelligent chatbot interface.
+A comprehensive Retrieval-Augmented Generation (RAG) chatbot system built with FastAPI, PostgreSQL, and Google Gemini. Upload PDF documents about yourself and let users query information through an intelligent chatbot interface.
 
 ## 🚀 Features
 
@@ -16,7 +16,7 @@ A comprehensive Retrieval-Augmented Generation (RAG) chatbot system built with F
 
 - **Backend**: FastAPI, Python 3.11+
 - **Database**: PostgreSQL (Neon)
-- **AI/ML**: OpenAI GPT-3.5-turbo, text-embedding-ada-002
+- **AI/ML**: Google Gemini 1.5 Flash, embedding-001
 - **Frontend**: HTML, CSS, JavaScript (Vanilla)
 - **Vector Search**: Cosine similarity with scikit-learn
 - **PDF Processing**: PyPDF2
@@ -25,7 +25,7 @@ A comprehensive Retrieval-Augmented Generation (RAG) chatbot system built with F
 
 - Python 3.11 or higher
 - PostgreSQL database (configured)
-- OpenAI API key
+- Google Gemini API key
 - pip (Python package manager)
 
 ## 🔧 Installation
@@ -33,6 +33,7 @@ A comprehensive Retrieval-Augmented Generation (RAG) chatbot system built with F
 ### Option 1: Direct Installation
 
 1. **Clone or create the project structure**:
+
 ```bash
 mkdir rag-chatbot
 cd rag-chatbot
@@ -45,17 +46,20 @@ cd rag-chatbot
    - `.env.example` - Environment template
 
 3. **Install dependencies**:
+
 ```bash
 pip install -r requirements.txt
 ```
 
 4. **Configure environment** (optional):
+
 ```bash
 cp .env.example .env
 # Edit .env with your credentials if you want to use environment variables
 ```
 
 5. **Run the application**:
+
 ```bash
 python run.py
 ```
@@ -63,11 +67,13 @@ python run.py
 ### Option 2: Docker Installation
 
 1. **Using Docker Compose** (recommended):
+
 ```bash
 docker-compose up --build
 ```
 
 2. **Using Docker directly**:
+
 ```bash
 docker build -t rag-chatbot .
 docker run -p 8000:8000 rag-chatbot
@@ -133,7 +139,7 @@ Create a `.env` file or set these environment variables:
 
 ```bash
 DATABASE_URL=your_postgresql_connection_string
-OPENAI_API_KEY=your_openai_api_key
+GEMINI_API_KEY=your_gemini_api_key
 HOST=0.0.0.0
 PORT=8000
 ```
@@ -143,9 +149,9 @@ PORT=8000
 Edit `main.py` to customize:
 
 - **Chunk size**: Modify `CHUNK_SIZE` (default: 1000)
-- **Embedding model**: Change `EMBEDDING_MODEL`
-- **Chat model**: Update `CHAT_MODEL` (default: gpt-3.5-turbo)
-- **Response length**: Adjust `max_tokens` parameter
+- **Embedding model**: Change model in `get_embedding` function (default: models/embedding-001)
+- **Chat model**: Update model in `generate_response` function (default: gemini-1.5-flash)
+- **Response length**: Adjust `max_output_tokens` parameter
 
 ## 🗄️ Database Schema
 
@@ -159,9 +165,9 @@ The system uses three main tables:
 
 ### Common Issues
 
-1. **OpenAI API Errors**:
+1. **Gemini API Errors**:
    - Verify your API key is valid
-   - Check your OpenAI account has credits
+   - Check your Google Cloud project has Gemini API enabled
    - Ensure proper internet connectivity
 
 2. **Database Connection Issues**:
@@ -183,6 +189,7 @@ The system uses three main tables:
 ### Debug Mode
 
 Run with debug logging:
+
 ```bash
 python main.py --log-level debug
 ```
@@ -212,6 +219,7 @@ none
 ## 🆘 Support
 
 For issues and questions:
+
 1. Check the troubleshooting section
 2. Review the API documentation at `/docs`
 3. Create an issue in the repository
