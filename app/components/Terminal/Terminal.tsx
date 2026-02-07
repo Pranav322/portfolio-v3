@@ -1,5 +1,6 @@
 import React, { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { TerminalSquare } from 'lucide-react';
+import { safeEvaluate } from '@/lib/math';
 
 const Terminalcomp = () => {
   const [input, setInput] = useState('');
@@ -411,14 +412,14 @@ const Terminalcomp = () => {
 
       default:
         // Handle math expressions
-        if (/^\d+[+\-*/]\d+$/.test(fullCommand)) {
-          try {
-            output = eval(fullCommand);
-          } catch (error) {
+        try {
+          output = safeEvaluate(fullCommand);
+        } catch (error) {
+          if (error instanceof Error && error.message === 'Invalid expression format') {
+            output = `bash: ${command}: command not found`;
+          } else {
             output = 'bash: syntax error in expression';
           }
-        } else {
-          output = `bash: ${command}: command not found`;
         }
         break;
     }
