@@ -99,9 +99,9 @@ const Terminalcomp = () => {
     return `${currentDirectory}/${path}`;
   };
 
-  const handleInputChange = e => setInput(e.target.value);
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => setInput(e.target.value);
 
-  const handleKeyPress = e => {
+  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       processCommand(e);
     } else if (e.key === 'ArrowUp') {
@@ -144,7 +144,7 @@ const Terminalcomp = () => {
     }
   };
 
-  const processCommand = async e => {
+  const processCommand = async (e: KeyboardEvent<HTMLInputElement>) => {
     e.preventDefault();
 
     if (isAskingName) {
