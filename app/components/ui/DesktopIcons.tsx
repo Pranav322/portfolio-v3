@@ -43,6 +43,7 @@ import {
   IconInfoCircle,
   IconFileText,
   IconBriefcase,
+  IconMessageCircle,
 } from '@tabler/icons-react';
 import AboutWindow from '../windows/AboutWindow';
 import dynamic from 'next/dynamic';
@@ -57,6 +58,7 @@ import { SettingsWindow } from '../windows/SettingsWindow';
 import { SpotifyWindow } from '../windows/SpotifyWindow';
 import { PdfWindow } from '../windows/PdfWindow';
 import ExperienceWindow from '../windows/ExperienceWindow';
+import { PranavChatWindow } from '../windows/PranavChatWindow';
 import { useTheme } from '../../contexts/ThemeContext';
 
 export function DesktopIcons({
@@ -78,6 +80,7 @@ export function DesktopIcons({
   const [showSettings, setShowSettings] = useState(false);
   const [showSpotify, setShowSpotify] = useState(false);
   const [showExperience, setShowExperience] = useState(false);
+  const [showPranavChat, setShowPranavChat] = useState(false);
   const [clickHelpIcon, setClickHelpIcon] = useState<string | null>(null);
   const clickHelpRef = useRef<HTMLDivElement>(null);
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -102,6 +105,8 @@ export function DesktopIcons({
           setShowSpotify(true);
         } else if (iconName === 'Experience') {
           setShowExperience(true);
+        } else if (iconName === 'Pranav AI') {
+          setShowPranavChat(true);
         }
       }
       return;
@@ -127,6 +132,8 @@ export function DesktopIcons({
           setShowSpotify(true);
         } else if (iconName === 'Experience') {
           setShowExperience(true);
+        } else if (iconName === 'Pranav AI') {
+          setShowPranavChat(true);
         }
       }
       setSelectedIcon(null);
@@ -198,6 +205,11 @@ export function DesktopIcons({
       icon: <IconBrandSpotify size={28} />,
       color: currentTheme.colors.iconSpotify,
       action: () => setShowSpotify(true),
+    },
+    {
+      name: 'Pranav AI',
+      icon: <IconMessageCircle size={32} />,
+      color: currentTheme.colors.iconPurple,
     },
   ];
 
@@ -479,6 +491,7 @@ export function DesktopIcons({
       {showSpotify && <SpotifyWindow onClose={() => setShowSpotify(false)} />}
       {showPdf && <PdfWindow filePath="/backend_dev.pdf" onClose={() => setShowPdf(false)} />}
       {showExperience && <ExperienceWindow onClose={() => setShowExperience(false)} />}
+      {showPranavChat && <PranavChatWindow onClose={() => setShowPranavChat(false)} />}
     </>
   );
 }
