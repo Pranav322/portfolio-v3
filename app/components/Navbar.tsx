@@ -11,7 +11,6 @@ import {
   IconDeviceGamepad2,
 } from '@tabler/icons-react';
 import Image from 'next/image';
-import { BrowserWindow } from './windows/BrowserWindow';
 import { SettingsWindow } from './windows/SettingsWindow';
 import { GamesWindow } from './windows/GamesWindow';
 
@@ -28,7 +27,6 @@ function FloatingDockDemo({
   onItemClick,
   onWallpaperChange,
 }: FloatingDockDemoProps) {
-  const [githubUrl, setGithubUrl] = useState<string | null>(null);
   const [showSettings, setShowSettings] = useState(false);
   const [showGames, setShowGames] = useState(false);
 
@@ -57,7 +55,7 @@ function FloatingDockDemo({
           className="h-full w-full text-neutral-500 dark:text-neutral-300"
         />
       ),
-      label: 'Games',
+      href: '#',
       action: () => setShowGames(true),
     },
     {
@@ -68,8 +66,7 @@ function FloatingDockDemo({
     {
       title: 'GitHub',
       icon: <IconBrandGithub className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
-      href: 'github',
-      action: () => onItemClick?.('github'),
+      href: 'https://github.com/pranav322',
     },
   ];
 
@@ -80,7 +77,7 @@ function FloatingDockDemo({
         desktopClassName={desktopClassName}
         mobileClassName={mobileClassName}
       />
-      {githubUrl && <BrowserWindow initialUrl={githubUrl} onClose={() => setGithubUrl(null)} />}
+
       {showSettings && (
         <SettingsWindow
           onClose={() => setShowSettings(false)}
