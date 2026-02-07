@@ -34,7 +34,6 @@ import {
   IconFolder,
   IconUser,
   IconTools,
-  IconBrandGithub,
   IconMail,
   IconBook,
   IconBrowser,
@@ -91,7 +90,6 @@ export function DesktopIcons({
   const [showAbout, setShowAbout] = useState(false);
   const [showBooks, setShowBooks] = useState(false);
   const [showProjects, setShowProjects] = useState(false);
-  const [showGitHub, setShowGitHub] = useState(false);
   const [showBrowser, setShowBrowser] = useState(false);
   const [showSkills, setShowSkills] = useState(false);
   const [showPdf, setShowPdf] = useState(false);
@@ -373,27 +371,11 @@ export function DesktopIcons({
                         e.currentTarget.style.backgroundColor = currentTheme.colors.glass;
                       }}
                     >
-                      {icon.name === 'GitHub' && (
-                        <button
-                          onClick={e => {
-                            e.stopPropagation();
-                            setShowGitHub(true);
-                          }}
-                          className="flex flex-col items-center group focus:outline-none"
-                        >
-                          <IconBrandGithub className="w-12 h-12 text-white group-hover:text-cyan-400 transition-colors" />
-                          <span className="text-white text-sm mt-1 group-hover:text-cyan-400 transition-colors">
-                            GitHub
-                          </span>
-                        </button>
-                      )}
-                      {icon.name !== 'GitHub' && (
-                        <div className="flex flex-col items-center">
-                          <div className={getIconSizeClasses()} style={{ color: icon.color }}>
-                            {icon.icon}
-                          </div>
+                      <div className="flex flex-col items-center">
+                        <div className={getIconSizeClasses()} style={{ color: icon.color }}>
+                          {icon.icon}
                         </div>
-                      )}
+                      </div>
                     </div>
                     <span
                       className={`${getTextSizeClasses()} text-white/80 text-center px-1 sm:px-2 py-1 rounded backdrop-blur-sm bg-black/20 w-full`}
@@ -426,28 +408,11 @@ export function DesktopIcons({
                     e.currentTarget.style.backgroundColor = currentTheme.colors.glass;
                   }}
                 >
-                  {icon.name === 'GitHub' && (
-                    <button
-                      onClick={e => {
-                        e.stopPropagation();
-                        setShowGitHub(true);
-                      }}
-                      className="flex flex-col items-center group focus:outline-none"
-                    >
-                      <IconBrandGithub
-                        className={`${
-                          deviceType === 'mobile' ? 'w-8 h-8' : 'w-10 h-10'
-                        } text-white group-hover:text-cyan-400 transition-colors`}
-                      />
-                    </button>
-                  )}
-                  {icon.name !== 'GitHub' && (
-                    <div className="flex flex-col items-center">
-                      <div className={getIconSizeClasses()} style={{ color: icon.color }}>
-                        {icon.icon}
-                      </div>
+                  <div className="flex flex-col items-center">
+                    <div className={getIconSizeClasses()} style={{ color: icon.color }}>
+                      {icon.icon}
                     </div>
-                  )}
+                  </div>
                 </div>
                 <span
                   className={`${getTextSizeClasses()} text-white/80 text-center px-1 sm:px-2 py-1 rounded backdrop-blur-sm bg-black/20 w-full`}
