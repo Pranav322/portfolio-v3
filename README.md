@@ -28,7 +28,6 @@ WIP)
 - Hover for magnified effect
 
 1. **Window Management**
-
    - Drag title bars to move
    - Click corners to resize
    - Use window controls:

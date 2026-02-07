@@ -1,109 +1,109 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Speed Racer - HTML5 Racing Game</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #1a1b1e, #2b2c2f);
-            font-family: 'Courier New', monospace;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
-        }
-        
-        .game-container {
-            text-align: center;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
-        }
-        
-        canvas {
-            border: 2px solid #3b82f6;
-            border-radius: 8px;
-            background: #000;
-        }
-        
-        .game-ui {
-            color: #fff;
-            margin-bottom: 15px;
-        }
-        
-        .score {
-            font-size: 24px;
-            color: #10b981;
-            text-shadow: 0 0 10px #10b981;
-        }
-        
-        .speed {
-            font-size: 18px;
-            color: #f59e0b;
-            margin: 10px 0;
-        }
-        
-        .controls {
-            font-size: 14px;
-            color: #9ca3af;
-            margin-top: 15px;
-        }
-        
-        .game-over {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.9);
-            color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            border: 2px solid #ef4444;
-            text-align: center;
-            display: none;
-        }
-        
-        .restart-btn {
-            background: #3b82f6;
-            color: #fff;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: background 0.3s;
-        }
-        
-        .restart-btn:hover {
-            background: #2563eb;
-        }
+      body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #1a1b1e, #2b2c2f);
+        font-family: 'Courier New', monospace;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        overflow: hidden;
+      }
+
+      .game-container {
+        text-align: center;
+        background: rgba(0, 0, 0, 0.8);
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+      }
+
+      canvas {
+        border: 2px solid #3b82f6;
+        border-radius: 8px;
+        background: #000;
+      }
+
+      .game-ui {
+        color: #fff;
+        margin-bottom: 15px;
+      }
+
+      .score {
+        font-size: 24px;
+        color: #10b981;
+        text-shadow: 0 0 10px #10b981;
+      }
+
+      .speed {
+        font-size: 18px;
+        color: #f59e0b;
+        margin: 10px 0;
+      }
+
+      .controls {
+        font-size: 14px;
+        color: #9ca3af;
+        margin-top: 15px;
+      }
+
+      .game-over {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.9);
+        color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        border: 2px solid #ef4444;
+        text-align: center;
+        display: none;
+      }
+
+      .restart-btn {
+        background: #3b82f6;
+        color: #fff;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 15px;
+        transition: background 0.3s;
+      }
+
+      .restart-btn:hover {
+        background: #2563eb;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="game-container">
-        <div class="game-ui">
-            <div class="score">Score: <span id="score">0</span></div>
-            <div class="speed">Speed: <span id="speed">0</span> km/h</div>
-        </div>
-        <canvas id="gameCanvas" width="800" height="600"></canvas>
-        <div class="controls">
-            Use Arrow Keys or WASD to control your car<br>
-            Avoid other cars and collect coins!
-        </div>
-        
-        <div class="game-over" id="gameOver">
-            <h2>Game Over!</h2>
-            <p>Final Score: <span id="finalScore">0</span></p>
-            <button class="restart-btn" onclick="restartGame()">Play Again</button>
-        </div>
+      <div class="game-ui">
+        <div class="score">Score: <span id="score">0</span></div>
+        <div class="speed">Speed: <span id="speed">0</span> km/h</div>
+      </div>
+      <canvas id="gameCanvas" width="800" height="600"></canvas>
+      <div class="controls">
+        Use Arrow Keys or WASD to control your car<br />
+        Avoid other cars and collect coins!
+      </div>
+
+      <div class="game-over" id="gameOver">
+        <h2>Game Over!</h2>
+        <p>Final Score: <span id="finalScore">0</span></p>
+        <button class="restart-btn" onclick="restartGame()">Play Again</button>
+      </div>
     </div>
-    
+
     <script src="game.js"></script>
-</body>
+  </body>
 </html>
