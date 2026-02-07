@@ -75,7 +75,7 @@ export function SpotifyWindow({ onClose }: SpotifyWindowProps) {
             <div className="space-y-4">
               <h2 className="text-white/90 text-lg font-medium flex items-center gap-2">
                 <IconBrandSpotify size={20} className="text-[#1DB954]" />
-                Pranav's Tracks
+                Pranav&apos;s Tracks
               </h2>
               <TopTracks />
             </div>

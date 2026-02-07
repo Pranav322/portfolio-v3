@@ -11,9 +11,17 @@ import {
   IconDeviceGamepad2,
 } from '@tabler/icons-react';
 import Image from 'next/image';
-import { BrowserWindow } from './windows/BrowserWindow';
-import { SettingsWindow } from './windows/SettingsWindow';
-import { GamesWindow } from './windows/GamesWindow';
+import dynamic from 'next/dynamic';
+
+const BrowserWindow = dynamic(() => import('./windows/BrowserWindow').then(mod => mod.BrowserWindow), {
+  ssr: false,
+});
+const SettingsWindow = dynamic(() => import('./windows/SettingsWindow').then(mod => mod.SettingsWindow), {
+  ssr: false,
+});
+const GamesWindow = dynamic(() => import('./windows/GamesWindow').then(mod => mod.GamesWindow), {
+  ssr: false,
+});
 
 interface FloatingDockDemoProps {
   desktopClassName: string;
