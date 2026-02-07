@@ -56,17 +56,39 @@ def extract_text_from_pdf(file_content: bytes) -> str:
     return text
 
 
+def extract_text_from_plain(file_content: bytes) -> str:
+    """Extract text from plain text or markdown file."""
+    return file_content.decode("utf-8")
+
+
+# Configuration for file type handlers
+# List of dicts to preserve order of precedence (PDF check before Text check)
+FILE_HANDLERS = [
+    {
+        "mime_types": {"application/pdf"},
+        "extensions": {".pdf"},
+        "handler": extract_text_from_pdf,
+    },
+    {
+        "mime_types": {"text/plain", "text/markdown"},
+        "extensions": {".txt", ".md"},
+        "handler": extract_text_from_plain,
+    },
+]
+
+
 def extract_text_from_file(file_content: bytes, content_type: str, filename: str) -> str:
     """Extract text from uploaded file based on type."""
-    if content_type == "application/pdf" or filename.endswith(".pdf"):
-        return extract_text_from_pdf(file_content)
-    elif content_type in ["text/plain", "text/markdown"] or filename.endswith((".txt", ".md")):
-        return file_content.decode("utf-8")
-    else:
-        raise HTTPException(
-            status_code=400,
-            detail=f"Unsupported file type: {content_type}. Supported: PDF, TXT, MD"
-        )
+    for handler_config in FILE_HANDLERS:
+        if content_type in handler_config["mime_types"] or any(
+            filename.endswith(ext) for ext in handler_config["extensions"]
+        ):
+            return handler_config["handler"](file_content)
+
+    raise HTTPException(
+        status_code=400,
+        detail=f"Unsupported file type: {content_type}. Supported: PDF, TXT, MD",
+    )
 
 
 @router.post("/documents", response_model=UploadResponse)
