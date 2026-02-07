@@ -172,6 +172,11 @@ export function DesktopIcons({
       color: currentTheme.colors.iconGreen,
     },
     {
+      name: 'Experience',
+      icon: <IconBriefcase size={32} />,
+      color: currentTheme.colors.iconGreen,
+    },
+    {
       name: 'Books',
       icon: <IconBook size={32} />,
       color: currentTheme.colors.iconYellow,
@@ -202,11 +207,6 @@ export function DesktopIcons({
       action: () => setShowSpotify(true),
     },
     {
-      name: 'Experience',
-      icon: <IconBriefcase size={32} />,
-      color: currentTheme.colors.iconGreen,
-    },
-    {
       name: 'Pranav AI',
       icon: <IconMessageCircle size={32} />,
       color: currentTheme.colors.iconBlue,
@@ -223,45 +223,48 @@ export function DesktopIcons({
 
     // Calculate maximum icons per column that can fit vertically
     const maxIconsPerColumn = Math.max(1, Math.floor(availableHeight / iconHeight));
-    
+
     // Calculate minimum columns needed to fit all icons
     const minColumnsNeeded = Math.ceil(totalIcons / maxIconsPerColumn);
-    
+
     // Calculate maximum columns that can fit horizontally
     const maxColumnsByWidth = Math.floor(availableWidth / iconWidth);
-    
+
     // Use the minimum of what we need and what fits horizontally
     const optimalColumns = Math.max(1, Math.min(minColumnsNeeded, maxColumnsByWidth, 4)); // Max 4 columns for readability
-    
+
     return {
       maxIconsPerColumn,
       optimalColumns,
-      needsScroll: totalIcons > maxIconsPerColumn * optimalColumns
+      needsScroll: totalIcons > maxIconsPerColumn * optimalColumns,
     };
   };
 
   // Organize icons into columns for desktop
   const organizeIconsIntoColumns = () => {
     if (deviceType !== 'desktop') return [icons]; // For mobile/tablet, return as single array
-    
+
     const layoutInfo = getDesktopLayoutInfo();
     const { maxIconsPerColumn, optimalColumns } = layoutInfo;
-    
-    const columns: typeof icons[][] = [];
-    
+
+    const columns: (typeof icons)[] = [];
+
     for (let i = 0; i < optimalColumns; i++) {
       columns.push([]);
     }
-    
+
     // Fill columns naturally - fill first column completely, then move to next
     let currentColumn = 0;
     for (let i = 0; i < icons.length; i++) {
-      if (columns[currentColumn].length >= maxIconsPerColumn && currentColumn < optimalColumns - 1) {
+      if (
+        columns[currentColumn].length >= maxIconsPerColumn &&
+        currentColumn < optimalColumns - 1
+      ) {
         currentColumn++;
       }
       columns[currentColumn].push(icons[i]);
     }
-    
+
     return columns.filter(column => column.length > 0); // Remove empty columns
   };
 
@@ -341,8 +344,8 @@ export function DesktopIcons({
                   >
                     <div
                       className={`p-2 sm:p-3 rounded-lg backdrop-blur-md transition-all`}
-                      style={{ 
-                        backgroundColor: currentTheme.colors.glass
+                      style={{
+                        backgroundColor: currentTheme.colors.glass,
                       }}
                       onMouseEnter={e => {
                         e.currentTarget.style.backgroundColor = currentTheme.colors.hover;
@@ -359,9 +362,7 @@ export function DesktopIcons({
                           }}
                           className="flex flex-col items-center group focus:outline-none"
                         >
-                          <IconBrandGithub
-                            className="w-12 h-12 text-white group-hover:text-cyan-400 transition-colors"
-                          />
+                          <IconBrandGithub className="w-12 h-12 text-white group-hover:text-cyan-400 transition-colors" />
                           <span className="text-white text-sm mt-1 group-hover:text-cyan-400 transition-colors">
                             GitHub
                           </span>
@@ -369,10 +370,7 @@ export function DesktopIcons({
                       )}
                       {icon.name !== 'GitHub' && (
                         <div className="flex flex-col items-center">
-                          <div 
-                            className={getIconSizeClasses()}
-                            style={{ color: icon.color }}
-                          >
+                          <div className={getIconSizeClasses()} style={{ color: icon.color }}>
                             {icon.icon}
                           </div>
                         </div>
@@ -399,8 +397,8 @@ export function DesktopIcons({
               >
                 <div
                   className={`p-2 sm:p-3 rounded-lg backdrop-blur-md transition-all`}
-                  style={{ 
-                    backgroundColor: currentTheme.colors.glass
+                  style={{
+                    backgroundColor: currentTheme.colors.glass,
                   }}
                   onMouseEnter={e => {
                     e.currentTarget.style.backgroundColor = currentTheme.colors.hover;
@@ -435,10 +433,7 @@ export function DesktopIcons({
                   )}
                   {icon.name !== 'GitHub' && (
                     <div className="flex flex-col items-center">
-                      <div 
-                        className={getIconSizeClasses()}
-                        style={{ color: icon.color }}
-                      >
+                      <div className={getIconSizeClasses()} style={{ color: icon.color }}>
                         {icon.icon}
                       </div>
                     </div>
