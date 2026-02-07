@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import { motion, useDragControls } from 'framer-motion';
-import { IconDeviceGamepad2, IconX, IconMinus, IconSquare, IconPlayerPlay, IconArrowLeft } from '@tabler/icons-react';
+import {
+  IconDeviceGamepad2,
+  IconX,
+  IconMinus,
+  IconSquare,
+  IconPlayerPlay,
+  IconArrowLeft,
+} from '@tabler/icons-react';
 import { WindowWrapper } from '../ui/WindowWrapper';
 
 interface GamesWindowProps {
@@ -66,14 +73,20 @@ export function GamesWindow({ onClose }: GamesWindowProps) {
         <div className="flex-1 overflow-hidden">
           {!selectedGame ? (
             <div className="p-6 overflow-auto custom-scrollbar mobile-hide-scrollbar h-full">
-              <h2 className="text-xl font-medium text-white/90 mb-6">Available Games <span className="text-white/60">(open games in full screen mode)</span></h2>
-              
+              <h2 className="text-xl font-medium text-white/90 mb-6">
+                Available Games{' '}
+                <span className="text-white/60">(open games in full screen mode)</span>
+              </h2>
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {/* Speed Racer Game */}
                 <motion.div
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => setSelectedGame('racing')}
+                  onClick={() => {
+                    setSelectedGame('racing');
+                    setIsMaximized(true);
+                  }}
                   className="bg-white/5 rounded-lg p-6 cursor-pointer border border-white/10 hover:border-cyan-400/50 transition-all duration-300 group"
                 >
                   <div className="text-center space-y-4">
@@ -86,9 +99,15 @@ export function GamesWindow({ onClose }: GamesWindowProps) {
                         High-speed racing action! Avoid cars, collect coins, and set new records.
                       </p>
                       <div className="flex flex-wrap gap-2 justify-center">
-                        <span className="px-2 py-1 bg-cyan-500/20 rounded text-xs text-cyan-300">HTML5</span>
-                        <span className="px-2 py-1 bg-blue-500/20 rounded text-xs text-blue-300">Canvas</span>
-                        <span className="px-2 py-1 bg-green-500/20 rounded text-xs text-green-300">Racing</span>
+                        <span className="px-2 py-1 bg-cyan-500/20 rounded text-xs text-cyan-300">
+                          HTML5
+                        </span>
+                        <span className="px-2 py-1 bg-blue-500/20 rounded text-xs text-blue-300">
+                          Canvas
+                        </span>
+                        <span className="px-2 py-1 bg-green-500/20 rounded text-xs text-green-300">
+                          Racing
+                        </span>
                       </div>
                     </div>
                     <motion.button
@@ -100,7 +119,7 @@ export function GamesWindow({ onClose }: GamesWindowProps) {
                     </motion.button>
                   </div>
                 </motion.div>
-                
+
                 {/* Pac-Man Game
                 <motion.div
                   whileHover={{ scale: 1.02 }}
@@ -132,7 +151,7 @@ export function GamesWindow({ onClose }: GamesWindowProps) {
                     </motion.button>
                   </div>
                 </motion.div> */}
-                
+
                 {/* Placeholder for future games */}
                 <div className="bg-white/5 rounded-lg p-6 border border-white/10 opacity-50">
                   <div className="text-center space-y-4">
@@ -141,9 +160,7 @@ export function GamesWindow({ onClose }: GamesWindowProps) {
                     </div>
                     <div>
                       <h3 className="text-white/60 font-medium text-lg mb-2">More Games</h3>
-                      <p className="text-white/40 text-sm">
-                        Coming soon...
-                      </p>
+                      <p className="text-white/40 text-sm">Coming soon...</p>
                     </div>
                   </div>
                 </div>
@@ -161,11 +178,15 @@ export function GamesWindow({ onClose }: GamesWindowProps) {
                   Back to Games
                 </motion.button>
                 <h3 className="text-white/90 font-medium">
-                  {selectedGame === 'racing' ? 'Speed Racer' : selectedGame === 'pacman' ? 'Pac-Man Classic' : 'Game'}
+                  {selectedGame === 'racing'
+                    ? 'Speed Racer'
+                    : selectedGame === 'pacman'
+                      ? 'Pac-Man Classic'
+                      : 'Game'}
                 </h3>
                 <div></div>
               </div>
-              
+
               <div className="flex-1">
                 {selectedGame === 'racing' && (
                   <iframe
