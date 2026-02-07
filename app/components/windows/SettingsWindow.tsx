@@ -68,16 +68,24 @@ const presetWallpapers: PresetWallpaper[] = [
     name: 'anime',
     url: '/wallpapers/matrix5.png',
     thumbnail: '/wallpapers/matrix5.png',
-  }
+  },
   // Add more preset wallpapers here
 ];
 
-const WallpaperCard = memo(function WallpaperCard({ wp, selected, onSelect }: { wp: PresetWallpaper; selected: boolean; onSelect: (wp: PresetWallpaper) => void }) {
+const WallpaperCard = memo(function WallpaperCard({
+  wp,
+  selected,
+  onSelect,
+}: {
+  wp: PresetWallpaper;
+  selected: boolean;
+  onSelect: (wp: PresetWallpaper) => void;
+}) {
   return (
     <div
       onClick={() => onSelect(wp)}
-      className={`relative rounded-lg overflow-hidden cursor-pointer border-2 transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] ${
-        selected ? 'border-blue-500' : 'border-transparent'
+      className={`relative rounded-lg overflow-hidden cursor-pointer border-2 hover:opacity-90 ${
+        selected ? 'border-blue-500' : 'border-transparent hover:border-white/30'
       }`}
     >
       <Image
@@ -106,47 +114,53 @@ export function SettingsWindow({ onClose, onWallpaperChange }: SettingsWindowPro
   const [selectedWallpaper, setSelectedWallpaper] = useState<string | null>(null);
   const { currentTheme, setTheme, themes } = useTheme();
 
-  const handleFileUpload = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const result = reader.result as string;
-        setSelectedWallpaper(result);
-        onWallpaperChange?.(result);
-      };
-      reader.readAsDataURL(file);
-    }
-  }, [onWallpaperChange]);
+  const handleFileUpload = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const result = reader.result as string;
+          setSelectedWallpaper(result);
+          onWallpaperChange?.(result);
+        };
+        reader.readAsDataURL(file);
+      }
+    },
+    [onWallpaperChange]
+  );
 
-  const handlePresetSelect = useCallback((wallpaper: (typeof presetWallpapers)[0]) => {
-    setSelectedWallpaper(wallpaper.url);
-    onWallpaperChange?.(wallpaper.url);
-  }, [onWallpaperChange]);
+  const handlePresetSelect = useCallback(
+    (wallpaper: (typeof presetWallpapers)[0]) => {
+      setSelectedWallpaper(wallpaper.url);
+      onWallpaperChange?.(wallpaper.url);
+    },
+    [onWallpaperChange]
+  );
 
   const handleMinimize = useCallback(() => {
     setIsMinimized(true);
   }, []);
 
-  const handleThemeSelect = useCallback((themeId: string) => {
-    setTheme(themeId);
-  }, [setTheme]);
+  const handleThemeSelect = useCallback(
+    (themeId: string) => {
+      setTheme(themeId);
+    },
+    [setTheme]
+  );
 
   const renderContent = () => {
     switch (activeTab) {
       case 'wallpaper':
         return (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="p-6"
-          >
+          <div className="p-6">
+            {/* Wallpaper content - no animations for instant feel */}
             <h2 className="text-xl font-semibold mb-6 text-blue-400">Wallpaper Settings</h2>
 
             {/* Custom Upload Section */}
             <div className="mb-8">
               <h3 className="text-white/90 font-medium mb-4">Upload Custom Wallpaper</h3>
-              <label className="flex items-center gap-3 p-4 border border-dashed border-white/20 rounded-lg cursor-pointer hover:bg-white/5 transition-colors hover:scale-[1.005] active:scale-[0.995]">
+              <label className="flex items-center gap-3 p-4 border border-dashed border-white/20 rounded-lg cursor-pointer hover:bg-white/5">
                 <IconUpload className="text-white/60" />
                 <span className="text-white/60">Choose a file or drag it here</span>
                 <input
@@ -172,23 +186,20 @@ export function SettingsWindow({ onClose, onWallpaperChange }: SettingsWindowPro
                 ))}
               </div>
             </div>
-          </motion.div>
+          </div>
         );
       case 'theme':
         return (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="p-6"
-          >
+          <div className="p-6">
+            {/* Theme content - no animations for instant feel */}
             <h2 className="text-xl font-semibold mb-6 text-blue-400">Theme Settings</h2>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {themes.map(theme => (
                 <div
                   key={theme.id}
                   onClick={() => handleThemeSelect(theme.id)}
-                  className={`relative p-4 rounded-lg border-2 cursor-pointer transition-all duration-150 hover:scale-[1.01] active:scale-[0.99] ${
+                  className={`relative p-4 rounded-lg border-2 cursor-pointer ${
                     currentTheme.id === theme.id
                       ? 'border-blue-500 bg-blue-500/10'
                       : 'border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10'
@@ -197,58 +208,58 @@ export function SettingsWindow({ onClose, onWallpaperChange }: SettingsWindowPro
                   {/* Theme Preview */}
                   <div className="flex items-center gap-3 mb-3">
                     <div className="flex gap-1">
-                      <div 
-                        className="w-4 h-4 rounded-full" 
+                      <div
+                        className="w-4 h-4 rounded-full"
                         style={{ backgroundColor: theme.colors.primary }}
                       />
-                      <div 
-                        className="w-4 h-4 rounded-full" 
+                      <div
+                        className="w-4 h-4 rounded-full"
                         style={{ backgroundColor: theme.colors.accent }}
                       />
-                      <div 
-                        className="w-4 h-4 rounded-full" 
+                      <div
+                        className="w-4 h-4 rounded-full"
                         style={{ backgroundColor: theme.colors.iconGreen }}
                       />
                     </div>
-                    
+
                     {currentTheme.id === theme.id && (
                       <div className="ml-auto">
                         <IconCheck size={20} className="text-blue-400" />
                       </div>
                     )}
                   </div>
-                  
+
                   {/* Theme Info */}
                   <div>
                     <h3 className="text-white/90 font-medium mb-1">{theme.name}</h3>
                     <p className="text-white/60 text-sm">{theme.description}</p>
                   </div>
-                  
+
                   {/* Mini Icon Preview */}
                   <div className="flex gap-2 mt-3">
-                    <div 
+                    <div
                       className="w-6 h-6 rounded flex items-center justify-center"
-                      style={{ 
+                      style={{
                         backgroundColor: theme.colors.glass,
-                        color: theme.colors.iconBlue 
+                        color: theme.colors.iconBlue,
                       }}
                     >
                       <div className="w-3 h-3 bg-current rounded-sm opacity-70" />
                     </div>
-                    <div 
+                    <div
                       className="w-6 h-6 rounded flex items-center justify-center"
-                      style={{ 
+                      style={{
                         backgroundColor: theme.colors.glass,
-                        color: theme.colors.iconYellow 
+                        color: theme.colors.iconYellow,
                       }}
                     >
                       <div className="w-3 h-3 bg-current rounded-sm opacity-70" />
                     </div>
-                    <div 
+                    <div
                       className="w-6 h-6 rounded flex items-center justify-center"
-                      style={{ 
+                      style={{
                         backgroundColor: theme.colors.glass,
-                        color: theme.colors.iconGreen 
+                        color: theme.colors.iconGreen,
                       }}
                     >
                       <div className="w-3 h-3 bg-current rounded-sm opacity-70" />
@@ -257,12 +268,12 @@ export function SettingsWindow({ onClose, onWallpaperChange }: SettingsWindowPro
                 </div>
               ))}
             </div>
-            
+
             <div className="mt-6 p-4 bg-white/5 rounded-lg border border-white/10">
               <h3 className="text-white/90 font-medium mb-2">Current Theme: {currentTheme.name}</h3>
               <p className="text-white/60 text-sm">{currentTheme.description}</p>
             </div>
-          </motion.div>
+          </div>
         );
       default:
         return (
