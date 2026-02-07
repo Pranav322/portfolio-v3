@@ -417,18 +417,9 @@ export function DesktopIcons({
                     >
                       <IconBrandGithub
                         className={`${
-                          deviceType === 'mobile'
-                            ? 'w-8 h-8'
-                            : deviceType === 'tablet'
-                              ? 'w-10 h-10'
-                              : 'w-12 h-12'
+                          deviceType === 'mobile' ? 'w-8 h-8' : 'w-10 h-10'
                         } text-white group-hover:text-cyan-400 transition-colors`}
                       />
-                      {deviceType === 'desktop' && (
-                        <span className="text-white text-sm mt-1 group-hover:text-cyan-400 transition-colors">
-                          GitHub
-                        </span>
-                      )}
                     </button>
                   )}
                   {icon.name !== 'GitHub' && (
