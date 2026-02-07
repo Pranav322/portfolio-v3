@@ -23,11 +23,9 @@ const SettingsWindow = dynamic(
   { ssr: false }
 );
 
-const GamesWindow = dynamic(
-  () => import('./windows/GamesWindow').then(mod => mod.GamesWindow),
-  { ssr: false }
-);
-
+const GamesWindow = dynamic(() => import('./windows/GamesWindow').then(mod => mod.GamesWindow), {
+  ssr: false,
+});
 
 interface FloatingDockDemoProps {
   desktopClassName: string;
