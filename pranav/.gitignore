@@ -1,18 +1,14 @@
-# Byte-compiled / optimized / DLL files
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
-
-# C extensions
 *.so
-
-# Virtual environments
-.venv/
-venv/
-ENV/
-env/
-
-# Distribution / packaging
+.Python
 build/
 develop-eggs/
 dist/
@@ -24,40 +20,36 @@ lib64/
 parts/
 sdist/
 var/
+wheels/
 *.egg-info/
 .installed.cfg
 *.egg
 
-# Unit test / coverage reports
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
+# Virtual Environment
+.venv/
+venv/
+ENV/
 
-# Jupyter Notebook checkpoints
-.ipynb_checkpoints
-
-# IDEs / editors
-.vscode/
+# IDE
 .idea/
+.vscode/
 *.swp
 *.swo
 
-# OS files
-.DS_Store
-Thumbs.db
+# Database
+*.db
+*.sqlite3
 
 # Logs
 *.log
 
-# Local config
-.env
-*.env
+# OS
+.DS_Store
+Thumbs.db
 
-# Railway / Docker / misc
-*.pid
+# uv
+uv.lock
+
+# Model cache
+.cache/
+*.pyc

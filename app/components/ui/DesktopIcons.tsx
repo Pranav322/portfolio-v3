@@ -181,6 +181,14 @@ export function DesktopIcons({
       color: currentTheme.colors.iconBlue,
     },
     {
+      name: 'Resume',
+      icon: <IconFileText size={32} />,
+      color: currentTheme.colors.iconRed,
+      action: () => {
+        setShowPdf(true);
+      },
+    },
+    {
       name: 'Projects',
       icon: <IconFolder size={32} />,
       color: currentTheme.colors.iconYellow,
@@ -207,14 +215,6 @@ export function DesktopIcons({
       action: () => setShowBrowser(true),
     },
     {
-      name: 'Resume',
-      icon: <IconFileText size={32} />,
-      color: currentTheme.colors.iconRed,
-      action: () => {
-        setShowPdf(true);
-      },
-    },
-    {
       name: 'Settings',
       icon: <IconSettings size={32} />,
       color: currentTheme.colors.iconPurple,
@@ -228,7 +228,7 @@ export function DesktopIcons({
     {
       name: 'Pranav AI',
       icon: <IconMessageCircle size={32} />,
-      color: currentTheme.colors.iconBlue,
+      color: currentTheme.colors.iconPurple,
     },
   ];
 

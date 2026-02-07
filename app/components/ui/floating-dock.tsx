@@ -73,7 +73,11 @@ const FloatingDockMobile = ({ items, className }: { items: DockItem[]; className
               >
                 <div
                   onClick={() => {
-                    item.action?.();
+                    if (item.href && item.href.startsWith('http')) {
+                      window.location.href = item.href;
+                    } else {
+                      item.action?.();
+                    }
                     setOpen(false);
                   }}
                   className="h-6 w-6 cursor-pointer flex items-center justify-center"
@@ -179,7 +183,15 @@ function IconContainer({
   const [hovered, setHovered] = useState(false);
 
   return (
-    <div onClick={() => action?.()}>
+    <div
+      onClick={() => {
+        if (href && href.startsWith('http')) {
+          window.location.href = href;
+        } else {
+          action?.();
+        }
+      }}
+    >
       <motion.div
         ref={ref}
         style={{ width, height }}
