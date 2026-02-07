@@ -66,7 +66,14 @@ export function PdfWindow({ onClose, filePath }: PdfWindowProps) {
             <iframe src={filePath} className="w-full h-full border-none" />
             <div className="p-4 text-sm text-gray-800">
               Your browser cannot display PDFs inline. You can
-              <a href={filePath} className="text-blue-600 underline ml-1" target="_blank" rel="noreferrer">download the file</a>
+              <a
+                href={filePath}
+                className="text-blue-600 underline ml-1"
+                target="_blank"
+                rel="noreferrer"
+              >
+                download the file
+              </a>
               instead.
             </div>
           </object>

@@ -12,7 +12,7 @@ export interface Theme {
     accent: string;
     background: string;
     surface: string;
-    
+
     // Icon colors
     iconBlue: string;
     iconYellow: string;
@@ -20,12 +20,12 @@ export interface Theme {
     iconRed: string;
     iconPurple: string;
     iconSpotify: string;
-    
+
     // Text colors
     textPrimary: string;
     textSecondary: string;
     textMuted: string;
-    
+
     // Border and hover colors
     border: string;
     hover: string;
@@ -44,18 +44,18 @@ const themes: Theme[] = [
       accent: 'rgb(96, 165, 250)', // blue-400
       background: 'rgba(0, 0, 0, 0.95)',
       surface: 'rgba(255, 255, 255, 0.05)',
-      
+
       iconBlue: 'rgb(96, 165, 250)', // blue-400
       iconYellow: 'rgb(251, 191, 36)', // yellow-400
       iconGreen: 'rgb(74, 222, 128)', // green-400
       iconRed: 'rgb(248, 113, 113)', // red-400
       iconPurple: 'rgb(34, 211, 238)', // cyan-400
       iconSpotify: '#1DB954',
-      
+
       textPrimary: 'rgba(255, 255, 255, 0.9)',
       textSecondary: 'rgba(255, 255, 255, 0.8)',
       textMuted: 'rgba(255, 255, 255, 0.6)',
-      
+
       border: 'rgba(255, 255, 255, 0.1)',
       hover: 'rgba(255, 255, 255, 0.1)',
       glass: 'rgba(0, 0, 0, 0.2)',
@@ -71,18 +71,18 @@ const themes: Theme[] = [
       accent: 'rgb(244, 114, 182)', // pink-400
       background: 'rgba(15, 23, 42, 0.95)',
       surface: 'rgba(236, 72, 153, 0.1)',
-      
+
       iconBlue: 'rgb(14, 165, 233)', // sky-500
       iconYellow: 'rgb(245, 158, 11)', // amber-500
       iconGreen: 'rgb(34, 197, 94)', // green-500
       iconRed: 'rgb(239, 68, 68)', // red-500
       iconPurple: 'rgb(6, 182, 212)', // cyan-500
       iconSpotify: '#1ED760',
-      
+
       textPrimary: 'rgba(255, 255, 255, 0.95)',
       textSecondary: 'rgba(244, 114, 182, 0.9)',
       textMuted: 'rgba(255, 255, 255, 0.7)',
-      
+
       border: 'rgba(236, 72, 153, 0.2)',
       hover: 'rgba(236, 72, 153, 0.15)',
       glass: 'rgba(15, 23, 42, 0.3)',
@@ -98,18 +98,18 @@ const themes: Theme[] = [
       accent: 'rgb(34, 211, 238)', // cyan-400
       background: 'rgba(3, 7, 18, 0.95)',
       surface: 'rgba(6, 182, 212, 0.1)',
-      
+
       iconBlue: 'rgb(34, 211, 238)', // cyan-400
       iconYellow: 'rgb(251, 191, 36)', // yellow-400
       iconGreen: 'rgb(52, 211, 153)', // emerald-400
       iconRed: 'rgb(248, 113, 113)', // red-400
       iconPurple: 'rgb(20, 184, 166)', // teal-500
       iconSpotify: '#1DB954',
-      
+
       textPrimary: 'rgba(255, 255, 255, 0.95)',
       textSecondary: 'rgba(34, 211, 238, 0.9)',
       textMuted: 'rgba(255, 255, 255, 0.65)',
-      
+
       border: 'rgba(6, 182, 212, 0.15)',
       hover: 'rgba(6, 182, 212, 0.1)',
       glass: 'rgba(3, 7, 18, 0.4)',
@@ -125,18 +125,18 @@ const themes: Theme[] = [
       accent: 'rgb(74, 222, 128)', // green-400
       background: 'rgba(20, 83, 45, 0.95)',
       surface: 'rgba(34, 197, 94, 0.1)',
-      
+
       iconBlue: 'rgb(96, 165, 250)', // blue-400
       iconYellow: 'rgb(251, 191, 36)', // yellow-400
       iconGreen: 'rgb(74, 222, 128)', // green-400
       iconRed: 'rgb(248, 113, 113)', // red-400
       iconPurple: 'rgb(34, 211, 238)', // cyan-400
       iconSpotify: '#1DB954',
-      
+
       textPrimary: 'rgba(255, 255, 255, 0.95)',
       textSecondary: 'rgba(74, 222, 128, 0.9)',
       textMuted: 'rgba(255, 255, 255, 0.65)',
-      
+
       border: 'rgba(34, 197, 94, 0.2)',
       hover: 'rgba(34, 197, 94, 0.15)',
       glass: 'rgba(20, 83, 45, 0.3)',
@@ -152,18 +152,18 @@ const themes: Theme[] = [
       accent: 'rgb(251, 146, 60)', // orange-400
       background: 'rgba(124, 45, 18, 0.95)',
       surface: 'rgba(249, 115, 22, 0.1)',
-      
+
       iconBlue: 'rgb(96, 165, 250)', // blue-400
       iconYellow: 'rgb(251, 191, 36)', // yellow-400
       iconGreen: 'rgb(74, 222, 128)', // green-400
       iconRed: 'rgb(248, 113, 113)', // red-400
       iconPurple: 'rgb(34, 211, 238)', // cyan-400
       iconSpotify: '#1DB954',
-      
+
       textPrimary: 'rgba(255, 255, 255, 0.95)',
       textSecondary: 'rgba(251, 146, 60, 0.9)',
       textMuted: 'rgba(255, 255, 255, 0.7)',
-      
+
       border: 'rgba(249, 115, 22, 0.2)',
       hover: 'rgba(249, 115, 22, 0.15)',
       glass: 'rgba(124, 45, 18, 0.3)',
@@ -198,7 +198,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const timeoutId = setTimeout(() => {
       const root = document.documentElement;
       const { colors } = currentTheme;
-      
+
       // Batch DOM updates
       requestAnimationFrame(() => {
         Object.entries(colors).forEach(([key, value]) => {
@@ -210,25 +210,27 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     return () => clearTimeout(timeoutId);
   }, [currentTheme]);
 
-  const setTheme = useCallback((themeId: string) => {
-    const theme = themes.find(t => t.id === themeId);
-    if (theme && theme.id !== currentTheme.id) {
-      setCurrentTheme(theme);
-      localStorage.setItem('portfolio-theme', themeId);
-    }
-  }, [currentTheme.id]);
-
-  const contextValue = useMemo(() => ({
-    currentTheme,
-    setTheme,
-    themes
-  }), [currentTheme, setTheme]);
-
-  return (
-    <ThemeContext.Provider value={contextValue}>
-      {children}
-    </ThemeContext.Provider>
+  const setTheme = useCallback(
+    (themeId: string) => {
+      const theme = themes.find(t => t.id === themeId);
+      if (theme && theme.id !== currentTheme.id) {
+        setCurrentTheme(theme);
+        localStorage.setItem('portfolio-theme', themeId);
+      }
+    },
+    [currentTheme.id]
   );
+
+  const contextValue = useMemo(
+    () => ({
+      currentTheme,
+      setTheme,
+      themes,
+    }),
+    [currentTheme, setTheme]
+  );
+
+  return <ThemeContext.Provider value={contextValue}>{children}</ThemeContext.Provider>;
 }
 
 export function useTheme() {

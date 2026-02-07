@@ -1,5 +1,6 @@
 import React, { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { TerminalSquare } from 'lucide-react';
+import { safeEvaluate } from '@/lib/math';
 
 const Terminalcomp = () => {
   const [input, setInput] = useState('');
@@ -11,33 +12,45 @@ const Terminalcomp = () => {
     '~': {
       type: 'directory',
       contents: {
-        'about.txt': { type: 'file', content: 'I am Pranav, currently pursuing B.E in computer science from chandigarh university.' },
-        'projects': {
+        'about.txt': {
+          type: 'file',
+          content:
+            'I am Pranav, currently pursuing B.E in computer science from chandigarh university.',
+        },
+        projects: {
           type: 'directory',
           contents: {
             'teamfinder.txt': { type: 'file', content: 'Team collaboration platform' },
             'spotify-bot.txt': { type: 'file', content: 'Telegram bot for Spotify integration' },
             'quizapp.txt': { type: 'file', content: 'Interactive quiz application' },
-            'electrade.txt': { type: 'file', content: 'Electronics trading platform' }
-          }
+            'electrade.txt': { type: 'file', content: 'Electronics trading platform' },
+          },
         },
-        'experience': {
+        experience: {
           type: 'directory',
           contents: {
-            'gradguide-internship.txt': { 
-              type: 'file', 
-              content: 'GradGuide - LLM Developer Intern (Backend) (May 2025 - Aug 2025)\n\nBackend developer specializing in FastAPI and large language model (LLM) integration, with experience building scalable APIs, deploying AI systems, and delivering production-ready applications.\n\nKey Responsibilities:\n• Developed a RAG-based chatbot API using FastAPI, enabling context-aware conversational responses\n• Built a recommendation engine that generated personalized outputs based on user profile details\n• Handled deployment and storage on Google Cloud Platform (GCP) for scalable hosting and data management\n• Designed and implemented backend services for the company\'s internal CRM system\n• Integrated LLM capabilities into existing backend infrastructure\n\nTechnologies: Python, FastAPI, LLM Integration, RAG Systems, Google Cloud Platform (GCP), PostgreSQL, MongoDB, Docker, Git, Postman\n\nKey Achievements:\n• Successfully deployed RAG-based chatbot API with context-aware responses\n• Built and optimized recommendation engine for personalized user experiences\n• Implemented scalable backend services on GCP with proper data management\n• Contributed to internal CRM system architecture and development' 
+            'gradguide-internship.txt': {
+              type: 'file',
+              content:
+                "GradGuide - LLM Developer Intern (Backend) (May 2025 - Aug 2025)\n\nBackend developer specializing in FastAPI and large language model (LLM) integration, with experience building scalable APIs, deploying AI systems, and delivering production-ready applications.\n\nKey Responsibilities:\n• Developed a RAG-based chatbot API using FastAPI, enabling context-aware conversational responses\n• Built a recommendation engine that generated personalized outputs based on user profile details\n• Handled deployment and storage on Google Cloud Platform (GCP) for scalable hosting and data management\n• Designed and implemented backend services for the company's internal CRM system\n• Integrated LLM capabilities into existing backend infrastructure\n\nTechnologies: Python, FastAPI, LLM Integration, RAG Systems, Google Cloud Platform (GCP), PostgreSQL, MongoDB, Docker, Git, Postman\n\nKey Achievements:\n• Successfully deployed RAG-based chatbot API with context-aware responses\n• Built and optimized recommendation engine for personalized user experiences\n• Implemented scalable backend services on GCP with proper data management\n• Contributed to internal CRM system architecture and development",
             },
-            'summary.txt': { 
-              type: 'file', 
-              content: 'EXPERIENCE SUMMARY\n\nTotal Experience: 3 months\nCurrent Role: LLM Developer Intern\nCompanies Worked: 1\nProjects Completed: 2+ (RAG Chatbot API, Recommendation Engine)\n\nCore Technologies:\n• Languages: Python, JavaScript\n• Backend: FastAPI, Flask\n• AI/ML: LLM Integration, RAG Systems\n• Cloud: Google Cloud Platform (GCP)\n• Databases: PostgreSQL, MongoDB\n• Tools: Git, Docker, Postman, VS Code\n\nSpecialization: Backend development with focus on AI/ML integration and scalable API development.' 
-            }
-          }
+            'summary.txt': {
+              type: 'file',
+              content:
+                'EXPERIENCE SUMMARY\n\nTotal Experience: 3 months\nCurrent Role: LLM Developer Intern\nCompanies Worked: 1\nProjects Completed: 2+ (RAG Chatbot API, Recommendation Engine)\n\nCore Technologies:\n• Languages: Python, JavaScript\n• Backend: FastAPI, Flask\n• AI/ML: LLM Integration, RAG Systems\n• Cloud: Google Cloud Platform (GCP)\n• Databases: PostgreSQL, MongoDB\n• Tools: Git, Docker, Postman, VS Code\n\nSpecialization: Backend development with focus on AI/ML integration and scalable API development.',
+            },
+          },
         },
-        'skills.txt': { type: 'file', content: 'React, Node.js, Express, MongoDB, Python, Django, Flutter' },
-        'contact.txt': { type: 'file', content: 'Email: duckieduckk@duck.com\nPhone: nahi bataunga\nAddress: nahi bataunga' }
-      }
-    }
+        'skills.txt': {
+          type: 'file',
+          content: 'React, Node.js, Express, MongoDB, Python, Django, Flutter',
+        },
+        'contact.txt': {
+          type: 'file',
+          content: 'Email: duckieduckk@duck.com\nPhone: nahi bataunga\nAddress: nahi bataunga',
+        },
+      },
+    },
   });
   const terminalRef = useRef(null);
   const [userName, setUserName] = useState('');
@@ -85,7 +98,7 @@ const Terminalcomp = () => {
     return current;
   };
 
-  const resolvePath = (path) => {
+  const resolvePath = path => {
     if (path.startsWith('~')) {
       return path;
     }
@@ -130,12 +143,10 @@ const Terminalcomp = () => {
     const parts = input.trim().split(' ');
     const lastPart = parts[parts.length - 1];
     const currentPath = getCurrentPath();
-    
+
     if (currentPath.contents) {
-      const matches = Object.keys(currentPath.contents).filter(name => 
-        name.startsWith(lastPart)
-      );
-      
+      const matches = Object.keys(currentPath.contents).filter(name => name.startsWith(lastPart));
+
       if (matches.length === 1) {
         parts[parts.length - 1] = matches[0];
         setInput(parts.join(' '));
@@ -211,16 +222,20 @@ const Terminalcomp = () => {
             const parts = newPath.split('/').filter(Boolean);
             let current = fileSystem['~'];
             let valid = true;
-            
+
             for (const part of parts.slice(1)) {
-              if (current.contents && current.contents[part] && current.contents[part].type === 'directory') {
+              if (
+                current.contents &&
+                current.contents[part] &&
+                current.contents[part].type === 'directory'
+              ) {
                 current = current.contents[part];
               } else {
                 valid = false;
                 break;
               }
             }
-            
+
             if (valid && (newPath === '~' || current.type === 'directory')) {
               setCurrentDirectory(newPath);
               output = '';
@@ -323,7 +338,8 @@ const Terminalcomp = () => {
         const flag = args[0];
         switch (flag) {
           case '-a':
-            output = 'Linux portfolio 5.4.0-42-generic #46-Ubuntu SMP Fri Jul 10 00:24:02 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux';
+            output =
+              'Linux portfolio 5.4.0-42-generic #46-Ubuntu SMP Fri Jul 10 00:24:02 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux';
             break;
           case '-s':
             output = 'Linux';
@@ -355,10 +371,13 @@ const Terminalcomp = () => {
             <div className="text-yellow-400 font-bold">PROFESSIONAL EXPERIENCE</div>
             <div className="space-y-4">
               <div className="border-l-2 border-green-400 pl-3">
-                <div className="text-green-400 font-semibold">GradGuide - LLM Developer Intern (Backend)</div>
+                <div className="text-green-400 font-semibold">
+                  GradGuide - LLM Developer Intern (Backend)
+                </div>
                 <div className="text-blue-400 text-sm">May 2025 - Aug 2025 | Remote</div>
                 <div className="text-gray-300 mt-1 text-sm">
-                  Backend developer specializing in FastAPI and large language model (LLM) integration.
+                  Backend developer specializing in FastAPI and large language model (LLM)
+                  integration.
                 </div>
                 <div className="text-cyan-400 text-sm mt-1">
                   Tech: Python, FastAPI, LLM Integration, RAG Systems, GCP, PostgreSQL, MongoDB
@@ -412,7 +431,7 @@ const Terminalcomp = () => {
         // Handle math expressions
         if (/^\d+[+\-*/]\d+$/.test(fullCommand)) {
           try {
-            output = eval(fullCommand);
+            output = safeEvaluate(fullCommand);
           } catch (error) {
             output = 'bash: syntax error in expression';
           }

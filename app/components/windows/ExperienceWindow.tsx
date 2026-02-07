@@ -104,19 +104,27 @@ export default function ExperienceWindow({ onClose }: ExperienceWindowProps) {
                 <h3 className="text-lg font-semibold text-white/90 mb-3">Career Overview</h3>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="text-center p-2 bg-white/5 rounded-lg">
-                    <div className="text-lg font-bold text-green-400">{experienceSummary.totalYears}</div>
+                    <div className="text-lg font-bold text-green-400">
+                      {experienceSummary.totalYears}
+                    </div>
                     <div className="text-xs text-white/60">Experience</div>
                   </div>
                   <div className="text-center p-2 bg-white/5 rounded-lg">
-                    <div className="text-lg font-bold text-blue-400">{experienceSummary.companiesWorked}</div>
+                    <div className="text-lg font-bold text-blue-400">
+                      {experienceSummary.companiesWorked}
+                    </div>
                     <div className="text-xs text-white/60">Companies</div>
                   </div>
                   <div className="text-center p-2 bg-white/5 rounded-lg">
-                    <div className="text-lg font-bold text-cyan-400">{experienceSummary.projectsCompleted}</div>
+                    <div className="text-lg font-bold text-cyan-400">
+                      {experienceSummary.projectsCompleted}
+                    </div>
                     <div className="text-xs text-white/60">Projects</div>
                   </div>
                   <div className="text-center p-2 bg-white/5 rounded-lg">
-                    <div className="text-lg font-bold text-cyan-400">{experienceSummary.languages.length}+</div>
+                    <div className="text-lg font-bold text-cyan-400">
+                      {experienceSummary.languages.length}+
+                    </div>
                     <div className="text-xs text-white/60">Languages</div>
                   </div>
                 </div>
@@ -146,7 +154,9 @@ export default function ExperienceWindow({ onClose }: ExperienceWindowProps) {
                           <h5 className="text-sm font-medium text-white/90 truncate">{exp.role}</h5>
                           <p className="text-xs text-blue-400 truncate">{exp.company}</p>
                           <p className="text-xs text-white/60">{exp.duration}</p>
-                          <span className={`inline-block text-xs px-2 py-0.5 rounded-full border mt-1 ${getTypeColor(exp.type)}`}>
+                          <span
+                            className={`inline-block text-xs px-2 py-0.5 rounded-full border mt-1 ${getTypeColor(exp.type)}`}
+                          >
                             {exp.type}
                           </span>
                         </div>
@@ -170,17 +180,21 @@ export default function ExperienceWindow({ onClose }: ExperienceWindowProps) {
                 <div className="mb-6">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
-                      <h2 className="text-2xl font-bold text-white/90 mb-2">{selectedExperience.role}</h2>
+                      <h2 className="text-2xl font-bold text-white/90 mb-2">
+                        {selectedExperience.role}
+                      </h2>
                       <div className="flex items-center gap-2 text-blue-400 mb-2">
                         <IconBuilding size={16} />
                         <span className="font-medium">{selectedExperience.company}</span>
                       </div>
                     </div>
-                    <span className={`px-3 py-1 rounded-full text-sm border ${getTypeColor(selectedExperience.type)}`}>
+                    <span
+                      className={`px-3 py-1 rounded-full text-sm border ${getTypeColor(selectedExperience.type)}`}
+                    >
                       {selectedExperience.type}
                     </span>
                   </div>
-                  
+
                   <div className="flex flex-wrap gap-4 text-sm text-white/70 mb-4">
                     <div className="flex items-center gap-2">
                       <IconCalendar size={16} />
@@ -191,7 +205,7 @@ export default function ExperienceWindow({ onClose }: ExperienceWindowProps) {
                       <span>{selectedExperience.location}</span>
                     </div>
                   </div>
-                  
+
                   <p className="text-white/80 leading-relaxed">{selectedExperience.description}</p>
                 </div>
 

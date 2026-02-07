@@ -24,25 +24,34 @@ export const experiences: Experience[] = [
     endDate: '2025-08-31',
     location: 'Remote',
     type: 'Internship',
-    description: 'Backend developer specializing in FastAPI and large language model (LLM) integration, with experience building scalable APIs, deploying AI systems, and delivering production-ready applications.',
+    description:
+      'Backend developer specializing in FastAPI and large language model (LLM) integration, with experience building scalable APIs, deploying AI systems, and delivering production-ready applications.',
     responsibilities: [
       'Developed a RAG-based chatbot API using FastAPI, enabling context-aware conversational responses',
       'Built a recommendation engine that generated personalized outputs based on user profile details',
       'Handled deployment and storage on Google Cloud Platform (GCP) for scalable hosting and data management',
-      'Designed and implemented backend services for the company\'s internal CRM system',
-      'Integrated LLM capabilities into existing backend infrastructure'
+      "Designed and implemented backend services for the company's internal CRM system",
+      'Integrated LLM capabilities into existing backend infrastructure',
     ],
     technologies: [
-      'Python', 'FastAPI', 'LLM Integration', 'RAG Systems', 'Google Cloud Platform (GCP)', 
-      'PostgreSQL', 'MongoDB', 'Docker', 'Git', 'Postman'
+      'Python',
+      'FastAPI',
+      'LLM Integration',
+      'RAG Systems',
+      'Google Cloud Platform (GCP)',
+      'PostgreSQL',
+      'MongoDB',
+      'Docker',
+      'Git',
+      'Postman',
     ],
     achievements: [
       'Successfully deployed RAG-based chatbot API with context-aware responses',
       'Built and optimized recommendation engine for personalized user experiences',
       'Implemented scalable backend services on GCP with proper data management',
-      'Contributed to internal CRM system architecture and development'
-    ]
-  }
+      'Contributed to internal CRM system architecture and development',
+    ],
+  },
 ];
 
 // Experience summary for quick access
@@ -55,7 +64,7 @@ export const experienceSummary = {
   languages: ['Python', 'JavaScript'],
   frameworks: ['FastAPI', 'Flask', 'Next.js'],
   databases: ['PostgreSQL', 'MongoDB'],
-  tools: ['Git', 'Docker', 'GCP', 'Postman', 'VS Code']
+  tools: ['Git', 'Docker', 'GCP', 'Postman', 'VS Code'],
 };
 
 // Get experience by company or role

@@ -53,30 +53,48 @@ const AboutWindow = dynamic(() => import('../windows/AboutWindow'), {
 const BooksWindow = dynamic(() => import('../windows/BooksWindow').then(mod => mod.BooksWindow), {
   ssr: false,
 });
-const ProjectsWindow = dynamic(() => import('../windows/ProjectsWindow').then(mod => mod.ProjectsWindow), {
-  ssr: false,
-});
-const BrowserWindow = dynamic(() => import('../windows/BrowserWindow').then(mod => mod.BrowserWindow), {
-  ssr: false,
-});
-const SkillsWindow = dynamic(() => import('../windows/SkillsWindow').then(mod => mod.SkillsWindow), {
-  ssr: false,
-});
-const SettingsWindow = dynamic(() => import('../windows/SettingsWindow').then(mod => mod.SettingsWindow), {
-  ssr: false,
-});
-const SpotifyWindow = dynamic(() => import('../windows/SpotifyWindow').then(mod => mod.SpotifyWindow), {
-  ssr: false,
-});
+const ProjectsWindow = dynamic(
+  () => import('../windows/ProjectsWindow').then(mod => mod.ProjectsWindow),
+  {
+    ssr: false,
+  }
+);
+const BrowserWindow = dynamic(
+  () => import('../windows/BrowserWindow').then(mod => mod.BrowserWindow),
+  {
+    ssr: false,
+  }
+);
+const SkillsWindow = dynamic(
+  () => import('../windows/SkillsWindow').then(mod => mod.SkillsWindow),
+  {
+    ssr: false,
+  }
+);
+const SettingsWindow = dynamic(
+  () => import('../windows/SettingsWindow').then(mod => mod.SettingsWindow),
+  {
+    ssr: false,
+  }
+);
+const SpotifyWindow = dynamic(
+  () => import('../windows/SpotifyWindow').then(mod => mod.SpotifyWindow),
+  {
+    ssr: false,
+  }
+);
 const PdfWindow = dynamic(() => import('../windows/PdfWindow').then(mod => mod.PdfWindow), {
   ssr: false,
 });
 const ExperienceWindow = dynamic(() => import('../windows/ExperienceWindow'), {
   ssr: false,
 });
-const PranavChatWindow = dynamic(() => import('../windows/PranavChatWindow').then(mod => mod.PranavChatWindow), {
-  ssr: false,
-});
+const PranavChatWindow = dynamic(
+  () => import('../windows/PranavChatWindow').then(mod => mod.PranavChatWindow),
+  {
+    ssr: false,
+  }
+);
 import { useTheme } from '../../contexts/ThemeContext';
 
 export function DesktopIcons({
