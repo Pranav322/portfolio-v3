@@ -98,7 +98,7 @@ export function ProjectsWindow({ onClose }: ProjectsWindowProps) {
                     {project.techStack.map(tech => (
                       <span
                         key={tech}
-                        className="px-2 py-0.5 bg-white/10 rounded-full text-xs text-white/70"
+                        className="px-2 py-0.5 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-cyan-500/20 border border-white/20 rounded-full text-xs text-white/90 backdrop-blur-sm shadow-sm"
                       >
                         {tech}
                       </span>

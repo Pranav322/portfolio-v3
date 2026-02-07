@@ -18,13 +18,13 @@ export const projects: Project[] = [
     liveUrl: 'https://pranavbuilds.tech',
   },
   {
-    title: 'ElecTrade',
-    description:
-      'Energy trading platform with blockchain integration allowing users to trade electricity',
-    techStack: ['React', 'Node.js', 'MongoDB', 'Blockchain', 'Web3'],
-    githubUrl: 'https://github.com/Pranav322/ElecTrade',
-    liveUrl: 'https://github.com/Pranav322/ElecTrade',
-    image: '/projects/ElecTrade.jpg',
+    title: 'TheApix - Streaming platform',
+    description: 'Rent on demand streaming platform',
+    techStack: ['Flutter', 'Dart', 'Firebase', 'Node.js', 'MongoDB', 'FFmpeg', 'Razorpay'],
+    githubUrl: 'https://github.com/Pranav322/TheApix-backend',
+    liveUrl:
+      'https://play.google.com/store/apps/details?id=com.nomo.thea_pix_application&pcampaignid=web_share',
+    image: '/projects/TheApix.png',
   },
   {
     title: 'TeamFinder',
@@ -33,6 +33,32 @@ export const projects: Project[] = [
     githubUrl: 'https://github.com/Pranav322/TeamFinder',
     liveUrl: 'https://teaamfinderr.vercel.app/',
     image: '/projects/TeamzFinder.png',
+  },
+  {
+    title: 'YouTube Technical Note-Taker',
+    description:
+      'An AI-powered tool that converts YouTube videos into structured Markdown notes, preserving technical content like code blocks and formulas through Map-Reduce processing.',
+    techStack: [
+      'FastAPI',
+      'Next.js',
+      'Azure OpenAI (GPT-4)',
+      'PostgreSQL',
+      'Python',
+      'TypeScript',
+      'Docker Compose',
+    ],
+    githubUrl: 'https://github.com/Pranav322/youtube-notes',
+    liveUrl: 'https://notes.pranavbuilds.tech',
+    image: '/projects/youtube-notes.png',
+  },
+  {
+    title: 'ElecTrade',
+    description:
+      'Energy trading platform with blockchain integration allowing users to trade electricity',
+    techStack: ['React', 'Node.js', 'MongoDB', 'Blockchain', 'Web3'],
+    githubUrl: 'https://github.com/Pranav322/ElecTrade',
+    liveUrl: 'https://github.com/Pranav322/ElecTrade',
+    image: '/projects/ElecTrade.jpg',
   },
   {
     title: 'Redact - Privacy App',
