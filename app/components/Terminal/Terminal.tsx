@@ -40,7 +40,6 @@ const Terminalcomp = () => {
     }
   });
   const terminalRef = useRef(null);
-  const [hasName, setHasName] = useState(null);
   const [userName, setUserName] = useState('');
   const [isAskingName, setIsAskingName] = useState(false);
   const [visitedBefore, setVisitedBefore] = useState(false);
@@ -494,7 +493,7 @@ const Terminalcomp = () => {
             </div>
           ))}
 
-          {isAskingName && !hasName && (
+          {isAskingName && (
             <div className="mb-2 sm:mb-4 text-xs sm:text-sm text-yellow-400">
               Please enter your name to continue:
             </div>
