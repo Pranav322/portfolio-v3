@@ -51,51 +51,71 @@ const FloatingDockMobile = ({ items, className }: { items: DockItem[]; className
             layoutId="nav"
             className="absolute bottom-full mb-2 right-0 flex flex-col gap-2 min-w-max"
           >
-            {items.map((item, idx) => (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 10, scale: 0.8 }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                  scale: 1,
-                }}
-                exit={{
-                  opacity: 0,
-                  y: 10,
-                  scale: 0.8,
-                  transition: {
-                    delay: idx * 0.05,
-                  },
-                }}
-                transition={{ delay: (items.length - 1 - idx) * 0.05 }}
-                className="flex items-center gap-2 bg-gray-50 dark:bg-neutral-900 rounded-full px-3 py-2"
-              >
-                <div
-                  onClick={() => {
-                    if (item.href && item.href.startsWith('http')) {
-                      window.location.href = item.href;
-                    } else {
-                      item.action?.();
-                    }
-                    setOpen(false);
+            {items.map((item, idx) => {
+              const isExternal = item.href && item.href.startsWith('http');
+              const isLink = isExternal || (item.href && item.href !== '#');
+              const Content = <div className="h-4 w-4">{item.icon}</div>;
+              const containerClass =
+                'h-6 w-6 cursor-pointer flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 rounded-full';
+
+              return (
+                <motion.div
+                  key={item.title}
+                  initial={{ opacity: 0, y: 10, scale: 0.8 }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
                   }}
-                  className="h-6 w-6 cursor-pointer flex items-center justify-center"
+                  exit={{
+                    opacity: 0,
+                    y: 10,
+                    scale: 0.8,
+                    transition: {
+                      delay: idx * 0.05,
+                    },
+                  }}
+                  transition={{ delay: (items.length - 1 - idx) * 0.05 }}
+                  className="flex items-center gap-2 bg-gray-50 dark:bg-neutral-900 rounded-full px-3 py-2"
                 >
-                  <div className="h-4 w-4">{item.icon}</div>
-                </div>
-                <span className="text-xs text-neutral-700 dark:text-neutral-300 whitespace-nowrap">
-                  {item.title}
-                </span>
-              </motion.div>
-            ))}
+                  {isLink ? (
+                    <Link
+                      href={item.href}
+                      className={containerClass}
+                      target={isExternal ? '_blank' : undefined}
+                      rel={isExternal ? 'noopener noreferrer' : undefined}
+                      aria-label={item.title}
+                      onClick={() => setOpen(false)}
+                    >
+                      {Content}
+                    </Link>
+                  ) : (
+                    <button
+                      className={cn('bg-transparent border-none p-0', containerClass)}
+                      onClick={() => {
+                        item.action?.();
+                        setOpen(false);
+                      }}
+                      aria-label={item.title}
+                      type="button"
+                    >
+                      {Content}
+                    </button>
+                  )}
+                  <span className="text-xs text-neutral-700 dark:text-neutral-300 whitespace-nowrap">
+                    {item.title}
+                  </span>
+                </motion.div>
+              );
+            })}
           </motion.div>
         )}
       </AnimatePresence>
       <motion.button
         onClick={() => setOpen(!open)}
         whileTap={{ scale: 0.95 }}
-        className="h-12 w-12 rounded-full bg-gray-50 dark:bg-neutral-800 flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow"
+        className="h-12 w-12 rounded-full bg-gray-50 dark:bg-neutral-800 flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400"
+        aria-label="Toggle menu"
       >
         <motion.div animate={{ rotate: open ? 45 : 0 }} transition={{ duration: 0.2 }}>
           <IconLayoutNavbarCollapse className="h-5 w-5 text-neutral-500 dark:text-neutral-400" />
@@ -182,42 +202,63 @@ function IconContainer({
 
   const [hovered, setHovered] = useState(false);
 
-  return (
-    <div
-      onClick={() => {
-        if (href && href.startsWith('http')) {
-          window.location.href = href;
-        } else {
-          action?.();
-        }
-      }}
+  const isExternal = href && href.startsWith('http');
+  const isLink = isExternal || (href && href !== '#');
+
+  const content = (
+    <motion.div
+      ref={ref}
+      style={{ width, height }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className="aspect-square rounded-full bg-gray-200 dark:bg-neutral-800 flex items-center justify-center relative"
     >
+      <AnimatePresence>
+        {hovered && (
+          <motion.div
+            initial={{ opacity: 0, y: 10, x: '-50%' }}
+            animate={{ opacity: 1, y: 0, x: '-50%' }}
+            exit={{ opacity: 0, y: 2, x: '-50%' }}
+            className="px-2 py-0.5 whitespace-pre rounded-md bg-gray-100 border dark:bg-neutral-800 dark:border-neutral-900 dark:text-white border-gray-200 text-neutral-700 absolute left-1/2 -translate-x-1/2 -top-8 w-fit text-xs"
+          >
+            {title}
+          </motion.div>
+        )}
+      </AnimatePresence>
       <motion.div
-        ref={ref}
-        style={{ width, height }}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        className="aspect-square rounded-full bg-gray-200 dark:bg-neutral-800 flex items-center justify-center relative"
+        style={{ width: widthIcon, height: heightIcon }}
+        className="flex items-center justify-center"
       >
-        <AnimatePresence>
-          {hovered && (
-            <motion.div
-              initial={{ opacity: 0, y: 10, x: '-50%' }}
-              animate={{ opacity: 1, y: 0, x: '-50%' }}
-              exit={{ opacity: 0, y: 2, x: '-50%' }}
-              className="px-2 py-0.5 whitespace-pre rounded-md bg-gray-100 border dark:bg-neutral-800 dark:border-neutral-900 dark:text-white border-gray-200 text-neutral-700 absolute left-1/2 -translate-x-1/2 -top-8 w-fit text-xs"
-            >
-              {title}
-            </motion.div>
-          )}
-        </AnimatePresence>
-        <motion.div
-          style={{ width: widthIcon, height: heightIcon }}
-          className="flex items-center justify-center"
-        >
-          {icon}
-        </motion.div>
+        {icon}
       </motion.div>
-    </div>
+    </motion.div>
+  );
+
+  const containerClass =
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 rounded-full';
+
+  if (isLink) {
+    return (
+      <Link
+        href={href}
+        className={containerClass}
+        target={isExternal ? '_blank' : undefined}
+        rel={isExternal ? 'noopener noreferrer' : undefined}
+        aria-label={title}
+      >
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <button
+      onClick={action}
+      className={cn('bg-transparent border-none p-0 cursor-pointer', containerClass)}
+      type="button"
+      aria-label={title}
+    >
+      {content}
+    </button>
   );
 }
