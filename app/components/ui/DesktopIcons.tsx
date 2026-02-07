@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { AnimatePresence } from 'framer-motion';
 
 // Hook to detect device types
@@ -54,30 +54,48 @@ const AboutWindow = dynamic(() => import('../windows/AboutWindow'), {
 const BooksWindow = dynamic(() => import('../windows/BooksWindow').then(mod => mod.BooksWindow), {
   ssr: false,
 });
-const ProjectsWindow = dynamic(() => import('../windows/ProjectsWindow').then(mod => mod.ProjectsWindow), {
-  ssr: false,
-});
-const BrowserWindow = dynamic(() => import('../windows/BrowserWindow').then(mod => mod.BrowserWindow), {
-  ssr: false,
-});
-const SkillsWindow = dynamic(() => import('../windows/SkillsWindow').then(mod => mod.SkillsWindow), {
-  ssr: false,
-});
-const SettingsWindow = dynamic(() => import('../windows/SettingsWindow').then(mod => mod.SettingsWindow), {
-  ssr: false,
-});
-const SpotifyWindow = dynamic(() => import('../windows/SpotifyWindow').then(mod => mod.SpotifyWindow), {
-  ssr: false,
-});
+const ProjectsWindow = dynamic(
+  () => import('../windows/ProjectsWindow').then(mod => mod.ProjectsWindow),
+  {
+    ssr: false,
+  }
+);
+const BrowserWindow = dynamic(
+  () => import('../windows/BrowserWindow').then(mod => mod.BrowserWindow),
+  {
+    ssr: false,
+  }
+);
+const SkillsWindow = dynamic(
+  () => import('../windows/SkillsWindow').then(mod => mod.SkillsWindow),
+  {
+    ssr: false,
+  }
+);
+const SettingsWindow = dynamic(
+  () => import('../windows/SettingsWindow').then(mod => mod.SettingsWindow),
+  {
+    ssr: false,
+  }
+);
+const SpotifyWindow = dynamic(
+  () => import('../windows/SpotifyWindow').then(mod => mod.SpotifyWindow),
+  {
+    ssr: false,
+  }
+);
 const PdfWindow = dynamic(() => import('../windows/PdfWindow').then(mod => mod.PdfWindow), {
   ssr: false,
 });
 const ExperienceWindow = dynamic(() => import('../windows/ExperienceWindow'), {
   ssr: false,
 });
-const PranavChatWindow = dynamic(() => import('../windows/PranavChatWindow').then(mod => mod.PranavChatWindow), {
-  ssr: false,
-});
+const PranavChatWindow = dynamic(
+  () => import('../windows/PranavChatWindow').then(mod => mod.PranavChatWindow),
+  {
+    ssr: false,
+  }
+);
 import { useTheme } from '../../contexts/ThemeContext';
 
 export function DesktopIcons({
@@ -174,66 +192,72 @@ export function DesktopIcons({
     }
   };
 
-  const icons = [
-    {
-      name: 'About Me',
-      icon: <IconUser size={32} />,
-      color: currentTheme.colors.iconBlue,
-    },
-    {
-      name: 'Resume',
-      icon: <IconFileText size={32} />,
-      color: currentTheme.colors.iconRed,
-      action: () => {
-        setShowPdf(true);
+  const icons = useMemo(
+    () => [
+      {
+        name: 'About Me',
+        icon: <IconUser size={32} />,
+        color: currentTheme.colors.iconBlue,
       },
-    },
-    {
-      name: 'Projects',
-      icon: <IconFolder size={32} />,
-      color: currentTheme.colors.iconYellow,
-    },
-    {
-      name: 'Skills',
-      icon: <IconTools size={32} />,
-      color: currentTheme.colors.iconGreen,
-    },
-    {
-      name: 'Experience',
-      icon: <IconBriefcase size={32} />,
-      color: currentTheme.colors.iconGreen,
-    },
-    {
-      name: 'Books',
-      icon: <IconBook size={32} />,
-      color: currentTheme.colors.iconYellow,
-    },
-    {
-      name: 'Browser',
-      icon: <IconBrowser size={32} />,
-      color: currentTheme.colors.iconBlue,
-      action: () => setShowBrowser(true),
-    },
-    {
-      name: 'Settings',
-      icon: <IconSettings size={32} />,
-      color: currentTheme.colors.iconPurple,
-    },
-    {
-      name: 'My Spotify',
-      icon: <IconBrandSpotify size={28} />,
-      color: currentTheme.colors.iconSpotify,
-      action: () => setShowSpotify(true),
-    },
-    {
-      name: 'Pranav AI',
-      icon: <IconMessageCircle size={32} />,
-      color: currentTheme.colors.iconPurple,
-    },
-  ];
+      {
+        name: 'Resume',
+        icon: <IconFileText size={32} />,
+        color: currentTheme.colors.iconRed,
+        action: () => {
+          setShowPdf(true);
+        },
+      },
+      {
+        name: 'Projects',
+        icon: <IconFolder size={32} />,
+        color: currentTheme.colors.iconYellow,
+      },
+      {
+        name: 'Skills',
+        icon: <IconTools size={32} />,
+        color: currentTheme.colors.iconGreen,
+      },
+      {
+        name: 'Experience',
+        icon: <IconBriefcase size={32} />,
+        color: currentTheme.colors.iconGreen,
+      },
+      {
+        name: 'Books',
+        icon: <IconBook size={32} />,
+        color: currentTheme.colors.iconYellow,
+      },
+      {
+        name: 'Browser',
+        icon: <IconBrowser size={32} />,
+        color: currentTheme.colors.iconBlue,
+        action: () => setShowBrowser(true),
+      },
+      {
+        name: 'Settings',
+        icon: <IconSettings size={32} />,
+        color: currentTheme.colors.iconPurple,
+      },
+      {
+        name: 'My Spotify',
+        icon: <IconBrandSpotify size={28} />,
+        color: currentTheme.colors.iconSpotify,
+        action: () => setShowSpotify(true),
+      },
+      {
+        name: 'Pranav AI',
+        icon: <IconMessageCircle size={32} />,
+        color: currentTheme.colors.iconPurple,
+      },
+    ],
+    [currentTheme]
+  );
 
-  // Calculate optimal layout for desktop with natural column flow
-  const getDesktopLayoutInfo = () => {
+  // Organize icons into columns for desktop - memoized to prevent recalculation on every render
+  const organizedColumns = useMemo(() => {
+    if (deviceType !== 'desktop') return [icons]; // For mobile/tablet, return as single array
+
+    // Calculate optimal layout for desktop with natural column flow
     const availableHeight = windowSize.height - 180; // Account for margins, padding, and bottom dock
     const availableWidth = windowSize.width - 100; // Account for left margin and some right padding
     const iconHeight = 100; // More accurate height per icon including gap and text
@@ -251,20 +275,6 @@ export function DesktopIcons({
 
     // Use the minimum of what we need and what fits horizontally
     const optimalColumns = Math.max(1, Math.min(minColumnsNeeded, maxColumnsByWidth, 4)); // Max 4 columns for readability
-
-    return {
-      maxIconsPerColumn,
-      optimalColumns,
-      needsScroll: totalIcons > maxIconsPerColumn * optimalColumns,
-    };
-  };
-
-  // Organize icons into columns for desktop
-  const organizeIconsIntoColumns = () => {
-    if (deviceType !== 'desktop') return [icons]; // For mobile/tablet, return as single array
-
-    const layoutInfo = getDesktopLayoutInfo();
-    const { maxIconsPerColumn, optimalColumns } = layoutInfo;
 
     const columns: (typeof icons)[] = [];
 
@@ -285,7 +295,7 @@ export function DesktopIcons({
     }
 
     return columns.filter(column => column.length > 0); // Remove empty columns
-  };
+  }, [deviceType, windowSize, icons]);
 
   // Get layout classes based on device type
   const getLayoutClasses = () => {
@@ -352,7 +362,7 @@ export function DesktopIcons({
       >
         {deviceType === 'desktop' ? (
           <div className={getLayoutClasses()}>
-            {organizeIconsIntoColumns().map((column, columnIndex) => (
+            {organizedColumns.map((column, columnIndex) => (
               <div key={columnIndex} className="flex flex-col gap-3">
                 {column.map(icon => (
                   <div
