@@ -29,13 +29,11 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
   const dragControls = useDragControls();
   const [selectedBook, setSelectedBook] = useState<string | null>(null);
   const defaultLayoutPluginInstance = defaultLayoutPlugin({
-    sidebarTabs: (defaultTabs) => defaultTabs,
+    sidebarTabs: defaultTabs => defaultTabs,
     toolbarPlugin: {
       moreActionsPopover: {
-        render: (props) => (
-          <div style={{ backgroundColor: '#2b2c2f', color: '#ffffff' }}>
-            {props.children}
-          </div>
+        render: props => (
+          <div style={{ backgroundColor: '#2b2c2f', color: '#ffffff' }}>{props.children}</div>
         ),
       },
     },
@@ -109,7 +107,7 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
       path: '/books/godisnotgreat.pdf',
       author: 'Ziauddin Sardar',
       coverImage: '/books/covers/godisnotgreat-cover.jpeg',
-    }
+    },
   ];
 
   return (

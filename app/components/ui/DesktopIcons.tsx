@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { AnimatePresence } from 'framer-motion';
 
 // Hook to detect device types
@@ -34,7 +34,6 @@ import {
   IconFolder,
   IconUser,
   IconTools,
-  IconBrandGithub,
   IconMail,
   IconBook,
   IconBrowser,
@@ -54,30 +53,48 @@ const AboutWindow = dynamic(() => import('../windows/AboutWindow'), {
 const BooksWindow = dynamic(() => import('../windows/BooksWindow').then(mod => mod.BooksWindow), {
   ssr: false,
 });
-const ProjectsWindow = dynamic(() => import('../windows/ProjectsWindow').then(mod => mod.ProjectsWindow), {
-  ssr: false,
-});
-const BrowserWindow = dynamic(() => import('../windows/BrowserWindow').then(mod => mod.BrowserWindow), {
-  ssr: false,
-});
-const SkillsWindow = dynamic(() => import('../windows/SkillsWindow').then(mod => mod.SkillsWindow), {
-  ssr: false,
-});
-const SettingsWindow = dynamic(() => import('../windows/SettingsWindow').then(mod => mod.SettingsWindow), {
-  ssr: false,
-});
-const SpotifyWindow = dynamic(() => import('../windows/SpotifyWindow').then(mod => mod.SpotifyWindow), {
-  ssr: false,
-});
+const ProjectsWindow = dynamic(
+  () => import('../windows/ProjectsWindow').then(mod => mod.ProjectsWindow),
+  {
+    ssr: false,
+  }
+);
+const BrowserWindow = dynamic(
+  () => import('../windows/BrowserWindow').then(mod => mod.BrowserWindow),
+  {
+    ssr: false,
+  }
+);
+const SkillsWindow = dynamic(
+  () => import('../windows/SkillsWindow').then(mod => mod.SkillsWindow),
+  {
+    ssr: false,
+  }
+);
+const SettingsWindow = dynamic(
+  () => import('../windows/SettingsWindow').then(mod => mod.SettingsWindow),
+  {
+    ssr: false,
+  }
+);
+const SpotifyWindow = dynamic(
+  () => import('../windows/SpotifyWindow').then(mod => mod.SpotifyWindow),
+  {
+    ssr: false,
+  }
+);
 const PdfWindow = dynamic(() => import('../windows/PdfWindow').then(mod => mod.PdfWindow), {
   ssr: false,
 });
 const ExperienceWindow = dynamic(() => import('../windows/ExperienceWindow'), {
   ssr: false,
 });
-const PranavChatWindow = dynamic(() => import('../windows/PranavChatWindow').then(mod => mod.PranavChatWindow), {
-  ssr: false,
-});
+const PranavChatWindow = dynamic(
+  () => import('../windows/PranavChatWindow').then(mod => mod.PranavChatWindow),
+  {
+    ssr: false,
+  }
+);
 import { useTheme } from '../../contexts/ThemeContext';
 
 export function DesktopIcons({
@@ -91,7 +108,6 @@ export function DesktopIcons({
   const [showAbout, setShowAbout] = useState(false);
   const [showBooks, setShowBooks] = useState(false);
   const [showProjects, setShowProjects] = useState(false);
-  const [showGitHub, setShowGitHub] = useState(false);
   const [showBrowser, setShowBrowser] = useState(false);
   const [showSkills, setShowSkills] = useState(false);
   const [showPdf, setShowPdf] = useState(false);
@@ -174,66 +190,72 @@ export function DesktopIcons({
     }
   };
 
-  const icons = [
-    {
-      name: 'About Me',
-      icon: <IconUser size={32} />,
-      color: currentTheme.colors.iconBlue,
-    },
-    {
-      name: 'Resume',
-      icon: <IconFileText size={32} />,
-      color: currentTheme.colors.iconRed,
-      action: () => {
-        setShowPdf(true);
+  const icons = useMemo(
+    () => [
+      {
+        name: 'About Me',
+        icon: <IconUser size={32} />,
+        color: currentTheme.colors.iconBlue,
       },
-    },
-    {
-      name: 'Projects',
-      icon: <IconFolder size={32} />,
-      color: currentTheme.colors.iconYellow,
-    },
-    {
-      name: 'Skills',
-      icon: <IconTools size={32} />,
-      color: currentTheme.colors.iconGreen,
-    },
-    {
-      name: 'Experience',
-      icon: <IconBriefcase size={32} />,
-      color: currentTheme.colors.iconGreen,
-    },
-    {
-      name: 'Books',
-      icon: <IconBook size={32} />,
-      color: currentTheme.colors.iconYellow,
-    },
-    {
-      name: 'Browser',
-      icon: <IconBrowser size={32} />,
-      color: currentTheme.colors.iconBlue,
-      action: () => setShowBrowser(true),
-    },
-    {
-      name: 'Settings',
-      icon: <IconSettings size={32} />,
-      color: currentTheme.colors.iconPurple,
-    },
-    {
-      name: 'My Spotify',
-      icon: <IconBrandSpotify size={28} />,
-      color: currentTheme.colors.iconSpotify,
-      action: () => setShowSpotify(true),
-    },
-    {
-      name: 'Pranav AI',
-      icon: <IconMessageCircle size={32} />,
-      color: currentTheme.colors.iconPurple,
-    },
-  ];
+      {
+        name: 'Resume',
+        icon: <IconFileText size={32} />,
+        color: currentTheme.colors.iconRed,
+        action: () => {
+          setShowPdf(true);
+        },
+      },
+      {
+        name: 'Projects',
+        icon: <IconFolder size={32} />,
+        color: currentTheme.colors.iconYellow,
+      },
+      {
+        name: 'Skills',
+        icon: <IconTools size={32} />,
+        color: currentTheme.colors.iconGreen,
+      },
+      {
+        name: 'Experience',
+        icon: <IconBriefcase size={32} />,
+        color: currentTheme.colors.iconGreen,
+      },
+      {
+        name: 'Books',
+        icon: <IconBook size={32} />,
+        color: currentTheme.colors.iconYellow,
+      },
+      {
+        name: 'Browser',
+        icon: <IconBrowser size={32} />,
+        color: currentTheme.colors.iconBlue,
+        action: () => setShowBrowser(true),
+      },
+      {
+        name: 'Settings',
+        icon: <IconSettings size={32} />,
+        color: currentTheme.colors.iconPurple,
+      },
+      {
+        name: 'My Spotify',
+        icon: <IconBrandSpotify size={28} />,
+        color: currentTheme.colors.iconSpotify,
+        action: () => setShowSpotify(true),
+      },
+      {
+        name: 'Pranav AI',
+        icon: <IconMessageCircle size={32} />,
+        color: currentTheme.colors.iconPurple,
+      },
+    ],
+    [currentTheme]
+  );
 
-  // Calculate optimal layout for desktop with natural column flow
-  const getDesktopLayoutInfo = () => {
+  // Organize icons into columns for desktop - memoized to prevent recalculation on every render
+  const organizedColumns = useMemo(() => {
+    if (deviceType !== 'desktop') return [icons]; // For mobile/tablet, return as single array
+
+    // Calculate optimal layout for desktop with natural column flow
     const availableHeight = windowSize.height - 180; // Account for margins, padding, and bottom dock
     const availableWidth = windowSize.width - 100; // Account for left margin and some right padding
     const iconHeight = 100; // More accurate height per icon including gap and text
@@ -251,20 +273,6 @@ export function DesktopIcons({
 
     // Use the minimum of what we need and what fits horizontally
     const optimalColumns = Math.max(1, Math.min(minColumnsNeeded, maxColumnsByWidth, 4)); // Max 4 columns for readability
-
-    return {
-      maxIconsPerColumn,
-      optimalColumns,
-      needsScroll: totalIcons > maxIconsPerColumn * optimalColumns,
-    };
-  };
-
-  // Organize icons into columns for desktop
-  const organizeIconsIntoColumns = () => {
-    if (deviceType !== 'desktop') return [icons]; // For mobile/tablet, return as single array
-
-    const layoutInfo = getDesktopLayoutInfo();
-    const { maxIconsPerColumn, optimalColumns } = layoutInfo;
 
     const columns: (typeof icons)[] = [];
 
@@ -285,7 +293,7 @@ export function DesktopIcons({
     }
 
     return columns.filter(column => column.length > 0); // Remove empty columns
-  };
+  }, [deviceType, windowSize, icons]);
 
   // Get layout classes based on device type
   const getLayoutClasses = () => {
@@ -352,7 +360,7 @@ export function DesktopIcons({
       >
         {deviceType === 'desktop' ? (
           <div className={getLayoutClasses()}>
-            {organizeIconsIntoColumns().map((column, columnIndex) => (
+            {organizedColumns.map((column, columnIndex) => (
               <div key={columnIndex} className="flex flex-col gap-3">
                 {column.map(icon => (
                   <div
@@ -373,27 +381,11 @@ export function DesktopIcons({
                         e.currentTarget.style.backgroundColor = currentTheme.colors.glass;
                       }}
                     >
-                      {icon.name === 'GitHub' && (
-                        <button
-                          onClick={e => {
-                            e.stopPropagation();
-                            setShowGitHub(true);
-                          }}
-                          className="flex flex-col items-center group focus:outline-none"
-                        >
-                          <IconBrandGithub className="w-12 h-12 text-white group-hover:text-cyan-400 transition-colors" />
-                          <span className="text-white text-sm mt-1 group-hover:text-cyan-400 transition-colors">
-                            GitHub
-                          </span>
-                        </button>
-                      )}
-                      {icon.name !== 'GitHub' && (
-                        <div className="flex flex-col items-center">
-                          <div className={getIconSizeClasses()} style={{ color: icon.color }}>
-                            {icon.icon}
-                          </div>
+                      <div className="flex flex-col items-center">
+                        <div className={getIconSizeClasses()} style={{ color: icon.color }}>
+                          {icon.icon}
                         </div>
-                      )}
+                      </div>
                     </div>
                     <span
                       className={`${getTextSizeClasses()} text-white/80 text-center px-1 sm:px-2 py-1 rounded backdrop-blur-sm bg-black/20 w-full`}
@@ -426,28 +418,11 @@ export function DesktopIcons({
                     e.currentTarget.style.backgroundColor = currentTheme.colors.glass;
                   }}
                 >
-                  {icon.name === 'GitHub' && (
-                    <button
-                      onClick={e => {
-                        e.stopPropagation();
-                        setShowGitHub(true);
-                      }}
-                      className="flex flex-col items-center group focus:outline-none"
-                    >
-                      <IconBrandGithub
-                        className={`${
-                          deviceType === 'mobile' ? 'w-8 h-8' : 'w-10 h-10'
-                        } text-white group-hover:text-cyan-400 transition-colors`}
-                      />
-                    </button>
-                  )}
-                  {icon.name !== 'GitHub' && (
-                    <div className="flex flex-col items-center">
-                      <div className={getIconSizeClasses()} style={{ color: icon.color }}>
-                        {icon.icon}
-                      </div>
+                  <div className="flex flex-col items-center">
+                    <div className={getIconSizeClasses()} style={{ color: icon.color }}>
+                      {icon.icon}
                     </div>
-                  )}
+                  </div>
                 </div>
                 <span
                   className={`${getTextSizeClasses()} text-white/80 text-center px-1 sm:px-2 py-1 rounded backdrop-blur-sm bg-black/20 w-full`}

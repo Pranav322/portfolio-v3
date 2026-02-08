@@ -161,7 +161,9 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
                 transition={{ delay: 0.15 }}
                 className="mb-8"
               >
-                <h2 className="text-xl font-semibold mb-6 text-blue-400">Professional Experience</h2>
+                <h2 className="text-xl font-semibold mb-6 text-blue-400">
+                  Professional Experience
+                </h2>
                 <div className="space-y-6">
                   {experiences.map((exp, index) => (
                     <motion.div
@@ -171,46 +173,67 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
                       transition={{ delay: 0.2 + index * 0.1 }}
                       className="relative pl-8 pb-6 border-l-2 border-gradient last:pb-0"
                       style={{
-                        borderLeftColor: index === 0 ? '#10b981' : index === 1 ? '#3b82f6' : index === 2 ? '#06b6d4' : '#f59e0b'
+                        borderLeftColor:
+                          index === 0
+                            ? '#10b981'
+                            : index === 1
+                              ? '#3b82f6'
+                              : index === 2
+                                ? '#06b6d4'
+                                : '#f59e0b',
                       }}
                     >
                       {/* Timeline dot */}
-                      <div 
+                      <div
                         className="absolute -left-2 top-1 w-4 h-4 rounded-full border-2 border-gray-900"
                         style={{
-                          backgroundColor: index === 0 ? '#10b981' : index === 1 ? '#3b82f6' : index === 2 ? '#06b6d4' : '#f59e0b'
+                          backgroundColor:
+                            index === 0
+                              ? '#10b981'
+                              : index === 1
+                                ? '#3b82f6'
+                                : index === 2
+                                  ? '#06b6d4'
+                                  : '#f59e0b',
                         }}
                       />
-                      
+
                       <motion.div
                         whileHover={{ scale: 1.02 }}
                         className="bg-white/5 p-4 rounded-lg border border-white/10 hover:border-white/20 transition-all duration-300"
                       >
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
                           <h3 className="text-lg font-semibold text-white/90">{exp.role}</h3>
-                          <span className={`text-xs px-2 py-1 rounded-full ${
-                            exp.type === 'Full-time' ? 'bg-green-500/20 text-green-400' :
-                            exp.type === 'Internship' ? 'bg-cyan-500/20 text-cyan-400' :
-                            exp.type === 'Freelance' ? 'bg-yellow-500/20 text-yellow-400' :
-                            'bg-blue-500/20 text-blue-400'
-                          }`}>
+                          <span
+                            className={`text-xs px-2 py-1 rounded-full ${
+                              exp.type === 'Full-time'
+                                ? 'bg-green-500/20 text-green-400'
+                                : exp.type === 'Internship'
+                                  ? 'bg-cyan-500/20 text-cyan-400'
+                                  : exp.type === 'Freelance'
+                                    ? 'bg-yellow-500/20 text-yellow-400'
+                                    : 'bg-blue-500/20 text-blue-400'
+                            }`}
+                          >
                             {exp.type}
                           </span>
                         </div>
-                        
+
                         <div className="text-blue-400 font-medium mb-1">{exp.company}</div>
                         <div className="text-sm text-white/60 mb-3">
                           {exp.duration} • {exp.location}
                         </div>
-                        
+
                         <p className="text-white/70 text-sm leading-relaxed mb-4">
                           {exp.description}
                         </p>
-                        
+
                         {/* Key Achievements */}
                         {exp.achievements.length > 0 && (
                           <div className="mb-4">
-                            <h4 className="text-sm font-medium text-green-400 mb-2">Key Achievements:</h4>
+                            <h4 className="text-sm font-medium text-green-400 mb-2">
+                              Key Achievements:
+                            </h4>
                             <ul className="text-xs text-white/60 space-y-1 list-disc list-inside">
                               {exp.achievements.slice(0, 2).map((achievement, achievementIndex) => (
                                 <li key={achievementIndex}>{achievement}</li>
@@ -218,7 +241,7 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
                             </ul>
                           </div>
                         )}
-                        
+
                         {/* Technologies */}
                         <div className="flex flex-wrap gap-1.5">
                           {exp.technologies.slice(0, 6).map(tech => (
@@ -239,7 +262,7 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
                     </motion.div>
                   ))}
                 </div>
-                
+
                 {/* Experience Summary */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
