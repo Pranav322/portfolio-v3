@@ -2,10 +2,19 @@
 import { ToggleButton } from './components/ui/ButtonToggle';
 import { useState } from 'react';
 import FloatingDockDemo from './components/Navbar';
-import Terminalcomp from './components/Terminal/Terminal';
 import { DesktopIcons } from './components/ui/DesktopIcons';
-import { BrowserWindow } from './components/windows/BrowserWindow';
 import { Quote } from './components/ui/Quote';
+import dynamic from 'next/dynamic';
+
+const Terminalcomp = dynamic(() => import('./components/Terminal/Terminal'), {
+  ssr: false,
+  loading: () => <div className="text-white text-center">Loading Terminal...</div>,
+});
+
+const BrowserWindow = dynamic(
+  () => import('./components/windows/BrowserWindow').then(mod => mod.BrowserWindow),
+  { ssr: false }
+);
 
 export default function Home() {
   const [isCLI, setIsCLI] = useState(false);
