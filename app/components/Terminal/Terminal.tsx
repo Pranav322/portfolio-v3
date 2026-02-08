@@ -194,11 +194,19 @@ const Terminalcomp = () => {
       case 'ls':
         const currentPath = getCurrentPath();
         if (currentPath.contents) {
-          const items = Object.entries(currentPath.contents).map(([name, item]) => {
-            const color = item.type === 'directory' ? 'text-blue-400' : 'text-white';
-            return `<span class="${color}">${name}${item.type === 'directory' ? '/' : ''}</span>`;
-          });
-          output = <div dangerouslySetInnerHTML={{ __html: items.join('  ') }} />;
+          output = (
+            <div>
+              {Object.entries(currentPath.contents).map(([name, item], index, array) => (
+                <React.Fragment key={name}>
+                  <span className={item.type === 'directory' ? 'text-blue-400' : 'text-white'}>
+                    {name}
+                    {item.type === 'directory' ? '/' : ''}
+                  </span>
+                  {index < array.length - 1 && '  '}
+                </React.Fragment>
+              ))}
+            </div>
+          );
         } else {
           output = 'ls: cannot access: Not a directory';
         }
