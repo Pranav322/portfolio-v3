@@ -111,7 +111,6 @@ export function DesktopIcons({
   const [showBrowser, setShowBrowser] = useState(false);
   const [showSkills, setShowSkills] = useState(false);
   const [showPdf, setShowPdf] = useState(false);
-  const [showMusic, setShowMusic] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showSpotify, setShowSpotify] = useState(false);
   const [showExperience, setShowExperience] = useState(false);
@@ -474,12 +473,6 @@ export function DesktopIcons({
         <BrowserWindow
           initialUrl="https://iframee.vercel.app"
           onClose={() => setShowBrowser(false)}
-        />
-      )}
-      {showMusic && (
-        <BrowserWindow
-          initialUrl="https://soulifyy.vercel.app"
-          onClose={() => setShowMusic(false)}
         />
       )}
       {showSpotify && <SpotifyWindow onClose={() => setShowSpotify(false)} />}
