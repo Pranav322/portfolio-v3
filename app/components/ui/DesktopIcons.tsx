@@ -7,6 +7,8 @@ const useDeviceType = () => {
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+
     const checkDeviceType = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
@@ -22,9 +24,18 @@ const useDeviceType = () => {
       }
     };
 
+    const handleResize = () => {
+      clearTimeout(timeoutId);
+      // Debounce resize to prevent excessive state updates
+      timeoutId = setTimeout(checkDeviceType, 100);
+    };
+
     checkDeviceType();
-    window.addEventListener('resize', checkDeviceType);
-    return () => window.removeEventListener('resize', checkDeviceType);
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   return { deviceType, windowSize };
