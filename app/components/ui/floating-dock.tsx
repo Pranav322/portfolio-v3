@@ -201,6 +201,7 @@ function IconContainer({
   });
 
   const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
 
   const isExternal = href && href.startsWith('http');
   const isLink = isExternal || (href && href !== '#');
@@ -214,7 +215,7 @@ function IconContainer({
       className="aspect-square rounded-full bg-gray-200 dark:bg-neutral-800 flex items-center justify-center relative"
     >
       <AnimatePresence>
-        {hovered && (
+        {(hovered || focused) && (
           <motion.div
             initial={{ opacity: 0, y: 10, x: '-50%' }}
             animate={{ opacity: 1, y: 0, x: '-50%' }}
@@ -245,6 +246,8 @@ function IconContainer({
         target={isExternal ? '_blank' : undefined}
         rel={isExternal ? 'noopener noreferrer' : undefined}
         aria-label={title}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
       >
         {content}
       </Link>
@@ -257,6 +260,8 @@ function IconContainer({
       className={cn('bg-transparent border-none p-0 cursor-pointer', containerClass)}
       type="button"
       aria-label={title}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
     >
       {content}
     </button>
