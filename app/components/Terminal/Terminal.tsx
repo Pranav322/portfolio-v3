@@ -1,6 +1,16 @@
 import React, { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { TerminalSquare } from 'lucide-react';
 import { safeEvaluate } from '@/lib/math';
+import { getFormattedTime } from '@/lib/utils';
+
+const TerminalClock = () => {
+  const [time, setTime] = useState(getFormattedTime());
+  useEffect(() => {
+    const timer = setInterval(() => setTime(getFormattedTime()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+  return <div className="text-xs mb-2 sm:mb-4 opacity-70">Last login: {time}</div>;
+};
 
 const Terminalcomp = () => {
   const [input, setInput] = useState('');
@@ -56,25 +66,6 @@ const Terminalcomp = () => {
   const [userName, setUserName] = useState('');
   const [isAskingName, setIsAskingName] = useState(false);
   const [visitedBefore, setVisitedBefore] = useState(false);
-
-  const getFormattedTime = () => {
-    const now = new Date();
-    let hours = now.getHours();
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const seconds = now.getSeconds().toString().padStart(2, '0');
-    const amPm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12 || 12;
-    return `${hours}:${minutes}:${seconds}${amPm}`;
-  };
-
-  const [currentTime, setCurrentTime] = useState(getFormattedTime());
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCurrentTime(getFormattedTime());
-    }, 1000);
-    return () => clearInterval(intervalId);
-  }, []);
 
   useEffect(() => {
     const checkVisitor = async () => {
@@ -498,7 +489,7 @@ const Terminalcomp = () => {
           </span>
         </div>
         <div className="p-1 sm:p-2 text-green-100">
-          <div className="text-xs mb-2 sm:mb-4 opacity-70">Last login: {currentTime}</div>
+          <TerminalClock />
 
           {commands.map(command => (
             <div
