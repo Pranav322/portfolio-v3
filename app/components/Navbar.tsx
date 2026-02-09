@@ -13,11 +13,6 @@ import {
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 
-const BrowserWindow = dynamic(
-  () => import('./windows/BrowserWindow').then(mod => mod.BrowserWindow),
-  { ssr: false }
-);
-
 const SettingsWindow = dynamic(
   () => import('./windows/SettingsWindow').then(mod => mod.SettingsWindow),
   { ssr: false }
@@ -32,14 +27,12 @@ const GamesWindow = dynamic(
 interface FloatingDockDemoProps {
   desktopClassName: string;
   mobileClassName: string;
-  onItemClick?: (href: string) => void;
   onWallpaperChange: (wallpaper: string) => void;
 }
 
 function FloatingDockDemo({
   desktopClassName,
   mobileClassName,
-  onItemClick,
   onWallpaperChange,
 }: FloatingDockDemoProps) {
   const [showSettings, setShowSettings] = useState(false);
