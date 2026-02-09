@@ -18,14 +18,7 @@ const BrowserWindow = dynamic(
 
 export default function Home() {
   const [isCLI, setIsCLI] = useState(false);
-  const [browserUrl, setBrowserUrl] = useState<string | null>(null);
   const [wallpaper, setWallpaper] = useState<string | null>(null);
-
-  const handleDockItemClick = (href: string) => {
-    if (href === 'github') {
-      setBrowserUrl('https://github.com/Pranav322');
-    }
-  };
 
   const handleWallpaperChange = (newWallpaper: string) => {
     console.log('New wallpaper:', newWallpaper); // Debug log
@@ -83,14 +76,9 @@ export default function Home() {
             <FloatingDockDemo
               desktopClassName=""
               mobileClassName="fixed bottom-4 right-4 z-40"
-              onItemClick={handleDockItemClick}
               onWallpaperChange={handleWallpaperChange}
             />
           </div>
-        )}
-
-        {browserUrl && (
-          <BrowserWindow initialUrl={browserUrl} onClose={() => setBrowserUrl(null)} />
         )}
       </div>
     </div>
