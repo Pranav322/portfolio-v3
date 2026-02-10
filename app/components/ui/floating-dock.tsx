@@ -15,7 +15,7 @@ import {
   useTransform,
 } from 'framer-motion';
 import Link from 'next/link';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 interface DockItem {
   title: string;
@@ -165,10 +165,22 @@ function IconContainer({
   action?: () => void;
 }) {
   let ref = useRef<HTMLDivElement>(null);
+  let boundsRef = useRef({ x: 0, width: 0 });
+
+  useEffect(() => {
+    const updateBounds = () => {
+      if (ref.current) {
+        const rect = ref.current.getBoundingClientRect();
+        boundsRef.current = { x: rect.x, width: rect.width };
+      }
+    };
+    updateBounds();
+    window.addEventListener('resize', updateBounds);
+    return () => window.removeEventListener('resize', updateBounds);
+  }, []);
 
   let distance = useTransform(mouseX, val => {
-    let bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
-
+    let bounds = boundsRef.current;
     return val - bounds.x - bounds.width / 2;
   });
 
