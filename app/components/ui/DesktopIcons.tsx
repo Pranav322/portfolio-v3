@@ -58,54 +58,95 @@ import {
 import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
 
+// Loading skeleton for lazy-loaded windows
+const WindowLoadingSkeleton = () => (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
+    <div className="flex flex-col items-center gap-3 p-6 rounded-xl bg-gray-900/90 border border-white/10">
+      <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+      <span className="text-white/70 text-sm">Loading...</span>
+    </div>
+  </div>
+);
+
 const AboutWindow = dynamic(() => import('../windows/AboutWindow'), {
   ssr: false,
+  loading: () => <WindowLoadingSkeleton />,
 });
 const BooksWindow = dynamic(() => import('../windows/BooksWindow').then(mod => mod.BooksWindow), {
   ssr: false,
+  loading: () => <WindowLoadingSkeleton />,
 });
 const ProjectsWindow = dynamic(
   () => import('../windows/ProjectsWindow').then(mod => mod.ProjectsWindow),
   {
     ssr: false,
+    loading: () => <WindowLoadingSkeleton />,
   }
 );
 const BrowserWindow = dynamic(
   () => import('../windows/BrowserWindow').then(mod => mod.BrowserWindow),
   {
     ssr: false,
+    loading: () => <WindowLoadingSkeleton />,
   }
 );
 const SkillsWindow = dynamic(
   () => import('../windows/SkillsWindow').then(mod => mod.SkillsWindow),
   {
     ssr: false,
+    loading: () => <WindowLoadingSkeleton />,
   }
 );
 const SettingsWindow = dynamic(
   () => import('../windows/SettingsWindow').then(mod => mod.SettingsWindow),
   {
     ssr: false,
+    loading: () => <WindowLoadingSkeleton />,
   }
 );
 const SpotifyWindow = dynamic(
   () => import('../windows/SpotifyWindow').then(mod => mod.SpotifyWindow),
   {
     ssr: false,
+    loading: () => <WindowLoadingSkeleton />,
   }
 );
 const PdfWindow = dynamic(() => import('../windows/PdfWindow').then(mod => mod.PdfWindow), {
   ssr: false,
+  loading: () => <WindowLoadingSkeleton />,
 });
 const ExperienceWindow = dynamic(() => import('../windows/ExperienceWindow'), {
   ssr: false,
+  loading: () => <WindowLoadingSkeleton />,
 });
 const PranavChatWindow = dynamic(
   () => import('../windows/PranavChatWindow').then(mod => mod.PranavChatWindow),
   {
     ssr: false,
+    loading: () => <WindowLoadingSkeleton />,
   }
 );
+
+// Prefetch map: icon name -> import function
+const prefetchMap: Record<string, () => void> = {
+  'About Me': () => import('../windows/AboutWindow'),
+  Books: () => import('../windows/BooksWindow'),
+  Projects: () => import('../windows/ProjectsWindow'),
+  Skills: () => import('../windows/SkillsWindow'),
+  Settings: () => import('../windows/SettingsWindow'),
+  Browser: () => import('../windows/BrowserWindow'),
+  'My Spotify': () => import('../windows/SpotifyWindow'),
+  Resume: () => import('../windows/PdfWindow'),
+  Experience: () => import('../windows/ExperienceWindow'),
+  'Pranav AI': () => import('../windows/PranavChatWindow'),
+};
+
+const prefetchedSet = new Set<string>();
+const handlePrefetch = (iconName: string) => {
+  if (prefetchedSet.has(iconName)) return;
+  prefetchedSet.add(iconName);
+  prefetchMap[iconName]?.();
+};
 import { useTheme } from '../../contexts/ThemeContext';
 
 export function DesktopIcons({
@@ -196,7 +237,7 @@ export function DesktopIcons({
       clickTimeoutRef.current = setTimeout(() => {
         setSelectedIcon(null);
         setClickHelpIcon(null);
-      }, 500);
+      }, 650);
     }
   };
 
@@ -373,10 +414,13 @@ export function DesktopIcons({
             {organizedColumns.map((column, columnIndex) => (
               <div key={columnIndex} className="flex flex-col gap-3">
                 {column.map(icon => (
-                  <div
+                  <motion.div
                     key={icon.name}
                     className={`group flex flex-col items-center gap-1 cursor-pointer touch-target tap-feedback ${getIconContainerClasses()} ${selectedIcon === icon.name ? 'bg-white/20 rounded-lg p-2' : 'p-2'}`}
                     onClick={() => handleIconClick(icon.name, icon.action)}
+                    onMouseEnter={() => handlePrefetch(icon.name)}
+                    whileTap={{ scale: 0.92 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 17 }}
                     ref={clickHelpRef}
                   >
                     <div
@@ -402,7 +446,7 @@ export function DesktopIcons({
                     >
                       {icon.name}
                     </span>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             ))}
@@ -410,10 +454,13 @@ export function DesktopIcons({
         ) : (
           <div className={getLayoutClasses()}>
             {icons.map(icon => (
-              <div
+              <motion.div
                 key={icon.name}
                 className={`group flex flex-col items-center gap-1 cursor-pointer touch-target tap-feedback ${getIconContainerClasses()} ${selectedIcon === icon.name ? 'bg-white/20 rounded-lg p-2' : 'p-2'}`}
                 onClick={() => handleIconClick(icon.name, icon.action)}
+                onMouseEnter={() => handlePrefetch(icon.name)}
+                whileTap={{ scale: 0.92 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 17 }}
                 ref={clickHelpRef}
               >
                 <div
@@ -439,7 +486,7 @@ export function DesktopIcons({
                 >
                   {icon.name}
                 </span>
-              </div>
+              </motion.div>
             ))}
           </div>
         )}
