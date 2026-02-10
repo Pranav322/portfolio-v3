@@ -127,8 +127,8 @@ const PranavChatWindow = dynamic(
   }
 );
 
-// Prefetch map: icon name -> import function
-const prefetchMap: Record<string, () => void> = {
+// Prefetch map: icon name -> import function to warm webpack chunk cache
+const prefetchMap: Record<string, () => Promise<unknown>> = {
   'About Me': () => import('../windows/AboutWindow'),
   Books: () => import('../windows/BooksWindow'),
   Projects: () => import('../windows/ProjectsWindow'),
