@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { AnimatePresence } from 'framer-motion';
 
 // Hook to detect device types
@@ -168,12 +168,24 @@ export function DesktopIcons({
   const [showExperience, setShowExperience] = useState(false);
   const [showPranavChat, setShowPranavChat] = useState(false);
   const [clickHelpIcon, setClickHelpIcon] = useState<string | null>(null);
-  const clickHelpRef = useRef<HTMLDivElement>(null);
+  // Replaced ref with state to correctly track the clicked element for tooltip positioning
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleIconClick = (iconName: string, action?: () => void) => {
-    // On mobile/tablet, single tap opens the window
-    if (deviceType === 'mobile' || deviceType === 'tablet') {
+  const handleIconClick = (
+    iconName: string,
+    event: React.MouseEvent | React.KeyboardEvent,
+    action?: () => void
+  ) => {
+    // Store anchor for tooltip
+    setAnchorEl(event.currentTarget as HTMLElement);
+
+    // Detect keyboard activation (Enter/Space)
+    // React's synthetic onClick event for keyboard usually has detail === 0
+    const isKeyboard = event.detail === 0;
+
+    // On mobile/tablet or keyboard activation, open the window immediately
+    if (deviceType === 'mobile' || deviceType === 'tablet' || isKeyboard) {
       if (action) {
         action();
       } else {
@@ -195,10 +207,14 @@ export function DesktopIcons({
           setShowPranavChat(true);
         }
       }
+      // Reset selection state after opening
+      setSelectedIcon(null);
+      setClickHelpIcon(null);
+      setAnchorEl(null);
       return;
     }
 
-    // Desktop behavior - double click required
+    // Desktop mouse behavior - double click required
     if (selectedIcon === iconName) {
       // Double click detected
       if (action) {
@@ -224,6 +240,7 @@ export function DesktopIcons({
       }
       setSelectedIcon(null);
       setClickHelpIcon(null);
+      setAnchorEl(null);
       if (clickTimeoutRef.current) {
         clearTimeout(clickTimeoutRef.current);
       }
@@ -237,6 +254,7 @@ export function DesktopIcons({
       clickTimeoutRef.current = setTimeout(() => {
         setSelectedIcon(null);
         setClickHelpIcon(null);
+        setAnchorEl(null);
       }, 650);
     }
   };
@@ -414,14 +432,15 @@ export function DesktopIcons({
             {organizedColumns.map((column, columnIndex) => (
               <div key={columnIndex} className="flex flex-col gap-3">
                 {column.map(icon => (
-                  <motion.div
+                  <motion.button
                     key={icon.name}
-                    className={`group flex flex-col items-center gap-1 cursor-pointer touch-target tap-feedback ${getIconContainerClasses()} ${selectedIcon === icon.name ? 'bg-white/20 rounded-lg p-2' : 'p-2'}`}
-                    onClick={() => handleIconClick(icon.name, icon.action)}
+                    type="button"
+                    aria-label={icon.name}
+                    className={`group flex flex-col items-center gap-1 cursor-pointer touch-target tap-feedback bg-transparent border-none p-0 focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:rounded-lg focus-visible:outline-none ${getIconContainerClasses()} ${selectedIcon === icon.name ? 'bg-white/20 rounded-lg p-2' : 'p-2'}`}
+                    onClick={e => handleIconClick(icon.name, e, icon.action)}
                     onMouseEnter={() => handlePrefetch(icon.name)}
                     whileTap={{ scale: 0.92 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-                    ref={clickHelpRef}
                   >
                     <div
                       className={`p-2 sm:p-3 rounded-lg backdrop-blur-md transition-all`}
@@ -446,7 +465,7 @@ export function DesktopIcons({
                     >
                       {icon.name}
                     </span>
-                  </motion.div>
+                  </motion.button>
                 ))}
               </div>
             ))}
@@ -454,14 +473,15 @@ export function DesktopIcons({
         ) : (
           <div className={getLayoutClasses()}>
             {icons.map(icon => (
-              <motion.div
+              <motion.button
                 key={icon.name}
-                className={`group flex flex-col items-center gap-1 cursor-pointer touch-target tap-feedback ${getIconContainerClasses()} ${selectedIcon === icon.name ? 'bg-white/20 rounded-lg p-2' : 'p-2'}`}
-                onClick={() => handleIconClick(icon.name, icon.action)}
+                type="button"
+                aria-label={icon.name}
+                className={`group flex flex-col items-center gap-1 cursor-pointer touch-target tap-feedback bg-transparent border-none p-0 focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:rounded-lg focus-visible:outline-none ${getIconContainerClasses()} ${selectedIcon === icon.name ? 'bg-white/20 rounded-lg p-2' : 'p-2'}`}
+                onClick={e => handleIconClick(icon.name, e, icon.action)}
                 onMouseEnter={() => handlePrefetch(icon.name)}
                 whileTap={{ scale: 0.92 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-                ref={clickHelpRef}
               >
                 <div
                   className={`p-2 sm:p-3 rounded-lg backdrop-blur-md transition-all`}
@@ -486,22 +506,22 @@ export function DesktopIcons({
                 >
                   {icon.name}
                 </span>
-              </motion.div>
+              </motion.button>
             ))}
           </div>
         )}
       </div>
 
       <AnimatePresence>
-        {clickHelpIcon && deviceType === 'desktop' && (
+        {clickHelpIcon && deviceType === 'desktop' && anchorEl && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-lg text-white/90 text-base rounded-lg border border-white/20 shadow-lg"
+            className="fixed flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-lg text-white/90 text-base rounded-lg border border-white/20 shadow-lg z-50"
             style={{
-              left: `clamp(1rem, ${(clickHelpRef.current?.getBoundingClientRect().left || 0) + 120}px, calc(100vw - 300px))`,
-              top: Math.max(20, (clickHelpRef.current?.getBoundingClientRect().top || 0) - 50),
+              left: `clamp(1rem, ${(anchorEl.getBoundingClientRect().left || 0) + 10}px, calc(100vw - 300px))`,
+              top: Math.max(20, (anchorEl.getBoundingClientRect().top || 0) - 50),
             }}
           >
             <IconInfoCircle className="animate-pulse" size={20} />
