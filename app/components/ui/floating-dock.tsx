@@ -15,7 +15,7 @@ import {
   useTransform,
 } from 'framer-motion';
 import Link from 'next/link';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, memo } from 'react';
 
 interface DockItem {
   title: string;
@@ -41,7 +41,7 @@ export const FloatingDock = ({
   );
 };
 
-const FloatingDockMobile = ({ items, className }: { items: DockItem[]; className?: string }) => {
+const FloatingDockMobile = memo(function FloatingDockMobile({ items, className }: { items: DockItem[]; className?: string }) {
   const [open, setOpen] = useState(false);
   return (
     <div className={cn('relative block md:hidden', className)}>
@@ -123,9 +123,9 @@ const FloatingDockMobile = ({ items, className }: { items: DockItem[]; className
       </motion.button>
     </div>
   );
-};
+});
 
-const FloatingDockDesktop = ({ items, className }: { items: DockItem[]; className?: string }) => {
+const FloatingDockDesktop = memo(function FloatingDockDesktop({ items, className }: { items: DockItem[]; className?: string }) {
   let mouseX = useMotionValue(Infinity);
   return (
     <motion.div
@@ -149,7 +149,7 @@ const FloatingDockDesktop = ({ items, className }: { items: DockItem[]; classNam
       ))}
     </motion.div>
   );
-};
+});
 
 function IconContainer({
   mouseX,
