@@ -168,62 +168,78 @@ export function DesktopIcons({
   const [showExperience, setShowExperience] = useState(false);
   const [showPranavChat, setShowPranavChat] = useState(false);
   const [clickHelpIcon, setClickHelpIcon] = useState<string | null>(null);
-  const clickHelpRef = useRef<HTMLDivElement>(null);
+  const [clickHelpPosition, setClickHelpPosition] = useState<{ top: number; left: number } | null>(
+    null
+  );
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleIconClick = (iconName: string, action?: () => void) => {
+  const openWindow = (iconName: string, action?: () => void) => {
+    if (action) {
+      action();
+      return;
+    }
+    switch (iconName) {
+      case 'About Me':
+        setShowAbout(true);
+        break;
+      case 'Books':
+        setShowBooks(true);
+        break;
+      case 'Projects':
+        setShowProjects(true);
+        break;
+      case 'Skills':
+        setShowSkills(true);
+        break;
+      case 'Settings':
+        setShowSettings(true);
+        break;
+      case 'Spotify':
+        setShowSpotify(true);
+        break;
+      case 'Experience':
+        setShowExperience(true);
+        break;
+      case 'Pranav AI':
+        setShowPranavChat(true);
+        break;
+    }
+  };
+
+  const handleIconClick = (
+    iconName: string,
+    action?: () => void,
+    event?: React.MouseEvent | React.KeyboardEvent
+  ) => {
+    // Check for keyboard activation (Enter key on button usually has detail=0 in React onClick)
+    // Or explicit keyboard event type
+    const isKeyboard =
+      event && (event.type === 'keydown' || (event as React.MouseEvent).detail === 0);
+
+    if (isKeyboard) {
+      openWindow(iconName, action);
+      return;
+    }
+
+    // Capture position for tooltip
+    if (event && event.currentTarget) {
+      const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+      setClickHelpPosition({ top: rect.top, left: rect.left });
+    }
+
     // On mobile/tablet, single tap opens the window
     if (deviceType === 'mobile' || deviceType === 'tablet') {
-      if (action) {
-        action();
-      } else {
-        if (iconName === 'About Me') {
-          setShowAbout(true);
-        } else if (iconName === 'Books') {
-          setShowBooks(true);
-        } else if (iconName === 'Projects') {
-          setShowProjects(true);
-        } else if (iconName === 'Skills') {
-          setShowSkills(true);
-        } else if (iconName === 'Settings') {
-          setShowSettings(true);
-        } else if (iconName === 'Spotify') {
-          setShowSpotify(true);
-        } else if (iconName === 'Experience') {
-          setShowExperience(true);
-        } else if (iconName === 'Pranav AI') {
-          setShowPranavChat(true);
-        }
-      }
+      openWindow(iconName, action);
       return;
     }
 
     // Desktop behavior - double click required
     if (selectedIcon === iconName) {
       // Double click detected
-      if (action) {
-        action();
-      } else {
-        if (iconName === 'About Me') {
-          setShowAbout(true);
-        } else if (iconName === 'Books') {
-          setShowBooks(true);
-        } else if (iconName === 'Projects') {
-          setShowProjects(true);
-        } else if (iconName === 'Skills') {
-          setShowSkills(true);
-        } else if (iconName === 'Settings') {
-          setShowSettings(true);
-        } else if (iconName === 'Spotify') {
-          setShowSpotify(true);
-        } else if (iconName === 'Experience') {
-          setShowExperience(true);
-        } else if (iconName === 'Pranav AI') {
-          setShowPranavChat(true);
-        }
-      }
+      openWindow(iconName, action);
       setSelectedIcon(null);
       setClickHelpIcon(null);
+      setClickHelpPosition(null);
       if (clickTimeoutRef.current) {
         clearTimeout(clickTimeoutRef.current);
       }
@@ -237,6 +253,7 @@ export function DesktopIcons({
       clickTimeoutRef.current = setTimeout(() => {
         setSelectedIcon(null);
         setClickHelpIcon(null);
+        setClickHelpPosition(null);
       }, 650);
     }
   };
@@ -414,14 +431,15 @@ export function DesktopIcons({
             {organizedColumns.map((column, columnIndex) => (
               <div key={columnIndex} className="flex flex-col gap-3">
                 {column.map(icon => (
-                  <motion.div
+                  <motion.button
                     key={icon.name}
-                    className={`group flex flex-col items-center gap-1 cursor-pointer touch-target tap-feedback ${getIconContainerClasses()} ${selectedIcon === icon.name ? 'bg-white/20 rounded-lg p-2' : 'p-2'}`}
-                    onClick={() => handleIconClick(icon.name, icon.action)}
+                    className={`group flex flex-col items-center gap-1 cursor-pointer touch-target tap-feedback bg-transparent border-none outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-lg ${getIconContainerClasses()} ${selectedIcon === icon.name ? 'bg-white/20 p-2' : 'p-2'}`}
+                    onClick={e => handleIconClick(icon.name, icon.action, e)}
                     onMouseEnter={() => handlePrefetch(icon.name)}
                     whileTap={{ scale: 0.92 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-                    ref={clickHelpRef}
+                    type="button"
+                    aria-label={icon.name}
                   >
                     <div
                       className={`p-2 sm:p-3 rounded-lg backdrop-blur-md transition-all`}
@@ -442,11 +460,11 @@ export function DesktopIcons({
                       </div>
                     </div>
                     <span
-                      className={`${getTextSizeClasses()} text-white/80 text-center px-1 sm:px-2 py-1 rounded backdrop-blur-sm bg-black/20 w-full`}
+                      className={`${getTextSizeClasses()} text-white/80 text-center px-1 sm:px-2 py-1 rounded backdrop-blur-sm bg-black/20 w-full pointer-events-none`}
                     >
                       {icon.name}
                     </span>
-                  </motion.div>
+                  </motion.button>
                 ))}
               </div>
             ))}
@@ -454,14 +472,15 @@ export function DesktopIcons({
         ) : (
           <div className={getLayoutClasses()}>
             {icons.map(icon => (
-              <motion.div
+              <motion.button
                 key={icon.name}
-                className={`group flex flex-col items-center gap-1 cursor-pointer touch-target tap-feedback ${getIconContainerClasses()} ${selectedIcon === icon.name ? 'bg-white/20 rounded-lg p-2' : 'p-2'}`}
-                onClick={() => handleIconClick(icon.name, icon.action)}
+                className={`group flex flex-col items-center gap-1 cursor-pointer touch-target tap-feedback bg-transparent border-none outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-lg ${getIconContainerClasses()} ${selectedIcon === icon.name ? 'bg-white/20 p-2' : 'p-2'}`}
+                onClick={e => handleIconClick(icon.name, icon.action, e)}
                 onMouseEnter={() => handlePrefetch(icon.name)}
                 whileTap={{ scale: 0.92 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-                ref={clickHelpRef}
+                type="button"
+                aria-label={icon.name}
               >
                 <div
                   className={`p-2 sm:p-3 rounded-lg backdrop-blur-md transition-all`}
@@ -482,11 +501,11 @@ export function DesktopIcons({
                   </div>
                 </div>
                 <span
-                  className={`${getTextSizeClasses()} text-white/80 text-center px-1 sm:px-2 py-1 rounded backdrop-blur-sm bg-black/20 w-full`}
+                  className={`${getTextSizeClasses()} text-white/80 text-center px-1 sm:px-2 py-1 rounded backdrop-blur-sm bg-black/20 w-full pointer-events-none`}
                 >
                   {icon.name}
                 </span>
-              </motion.div>
+              </motion.button>
             ))}
           </div>
         )}
@@ -500,8 +519,8 @@ export function DesktopIcons({
             exit={{ opacity: 0, y: -20 }}
             className="fixed flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-lg text-white/90 text-base rounded-lg border border-white/20 shadow-lg"
             style={{
-              left: `clamp(1rem, ${(clickHelpRef.current?.getBoundingClientRect().left || 0) + 120}px, calc(100vw - 300px))`,
-              top: Math.max(20, (clickHelpRef.current?.getBoundingClientRect().top || 0) - 50),
+              left: `clamp(1rem, ${(clickHelpPosition?.left || 0) + 120}px, calc(100vw - 300px))`,
+              top: Math.max(20, (clickHelpPosition?.top || 0) - 50),
             }}
           >
             <IconInfoCircle className="animate-pulse" size={20} />
