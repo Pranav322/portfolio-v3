@@ -171,41 +171,57 @@ export function DesktopIcons({
   const clickHelpRef = useRef<HTMLDivElement>(null);
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const openApp = (iconName: string, action?: () => void) => {
-    if (action) {
-      action();
-    } else {
-      if (iconName === 'About Me') {
-        setShowAbout(true);
-      } else if (iconName === 'Books') {
-        setShowBooks(true);
-      } else if (iconName === 'Projects') {
-        setShowProjects(true);
-      } else if (iconName === 'Skills') {
-        setShowSkills(true);
-      } else if (iconName === 'Settings') {
-        setShowSettings(true);
-      } else if (iconName === 'Spotify') {
-        setShowSpotify(true);
-      } else if (iconName === 'Experience') {
-        setShowExperience(true);
-      } else if (iconName === 'Pranav AI') {
-        setShowPranavChat(true);
-      }
-    }
-  };
-
   const handleIconClick = (iconName: string, action?: () => void) => {
     // On mobile/tablet, single tap opens the window
     if (deviceType === 'mobile' || deviceType === 'tablet') {
-      openApp(iconName, action);
+      if (action) {
+        action();
+      } else {
+        if (iconName === 'About Me') {
+          setShowAbout(true);
+        } else if (iconName === 'Books') {
+          setShowBooks(true);
+        } else if (iconName === 'Projects') {
+          setShowProjects(true);
+        } else if (iconName === 'Skills') {
+          setShowSkills(true);
+        } else if (iconName === 'Settings') {
+          setShowSettings(true);
+        } else if (iconName === 'Spotify') {
+          setShowSpotify(true);
+        } else if (iconName === 'Experience') {
+          setShowExperience(true);
+        } else if (iconName === 'Pranav AI') {
+          setShowPranavChat(true);
+        }
+      }
       return;
     }
 
     // Desktop behavior - double click required
     if (selectedIcon === iconName) {
       // Double click detected
-      openApp(iconName, action);
+      if (action) {
+        action();
+      } else {
+        if (iconName === 'About Me') {
+          setShowAbout(true);
+        } else if (iconName === 'Books') {
+          setShowBooks(true);
+        } else if (iconName === 'Projects') {
+          setShowProjects(true);
+        } else if (iconName === 'Skills') {
+          setShowSkills(true);
+        } else if (iconName === 'Settings') {
+          setShowSettings(true);
+        } else if (iconName === 'Spotify') {
+          setShowSpotify(true);
+        } else if (iconName === 'Experience') {
+          setShowExperience(true);
+        } else if (iconName === 'Pranav AI') {
+          setShowPranavChat(true);
+        }
+      }
       setSelectedIcon(null);
       setClickHelpIcon(null);
       if (clickTimeoutRef.current) {
@@ -398,20 +414,11 @@ export function DesktopIcons({
             {organizedColumns.map((column, columnIndex) => (
               <div key={columnIndex} className="flex flex-col gap-3">
                 {column.map(icon => (
-                  <motion.button
-                    type="button"
-                    aria-label={icon.name}
+                  <motion.div
                     key={icon.name}
-                    className={`group flex flex-col items-center gap-1 cursor-pointer touch-target tap-feedback focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-lg ${getIconContainerClasses()} ${selectedIcon === icon.name ? 'bg-white/20 p-2' : 'p-2'}`}
+                    className={`group flex flex-col items-center gap-1 cursor-pointer touch-target tap-feedback ${getIconContainerClasses()} ${selectedIcon === icon.name ? 'bg-white/20 rounded-lg p-2' : 'p-2'}`}
                     onClick={() => handleIconClick(icon.name, icon.action)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        openApp(icon.name, icon.action);
-                      }
-                    }}
                     onMouseEnter={() => handlePrefetch(icon.name)}
-                    onFocus={() => handlePrefetch(icon.name)}
                     whileTap={{ scale: 0.92 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 17 }}
                     ref={clickHelpRef}
@@ -439,7 +446,7 @@ export function DesktopIcons({
                     >
                       {icon.name}
                     </span>
-                  </motion.button>
+                  </motion.div>
                 ))}
               </div>
             ))}
@@ -447,20 +454,11 @@ export function DesktopIcons({
         ) : (
           <div className={getLayoutClasses()}>
             {icons.map(icon => (
-              <motion.button
-                type="button"
-                aria-label={icon.name}
+              <motion.div
                 key={icon.name}
-                className={`group flex flex-col items-center gap-1 cursor-pointer touch-target tap-feedback focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-lg ${getIconContainerClasses()} ${selectedIcon === icon.name ? 'bg-white/20 p-2' : 'p-2'}`}
+                className={`group flex flex-col items-center gap-1 cursor-pointer touch-target tap-feedback ${getIconContainerClasses()} ${selectedIcon === icon.name ? 'bg-white/20 rounded-lg p-2' : 'p-2'}`}
                 onClick={() => handleIconClick(icon.name, icon.action)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    openApp(icon.name, icon.action);
-                  }
-                }}
                 onMouseEnter={() => handlePrefetch(icon.name)}
-                onFocus={() => handlePrefetch(icon.name)}
                 whileTap={{ scale: 0.92 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 17 }}
                 ref={clickHelpRef}
@@ -488,7 +486,7 @@ export function DesktopIcons({
                 >
                   {icon.name}
                 </span>
-              </motion.button>
+              </motion.div>
             ))}
           </div>
         )}
