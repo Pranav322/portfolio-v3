@@ -60,7 +60,11 @@ import { motion } from 'framer-motion';
 
 // Loading skeleton for lazy-loaded windows
 const WindowLoadingSkeleton = () => (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
+  <div
+    className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm"
+    role="status"
+    aria-label="Loading window"
+  >
     <div className="flex flex-col items-center gap-3 p-6 rounded-xl bg-gray-900/90 border border-white/10">
       <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin" />
       <span className="text-white/70 text-sm">Loading...</span>

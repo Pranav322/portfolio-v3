@@ -128,6 +128,8 @@ export function PranavChatWindow({ onClose }: PranavChatWindowProps) {
             <motion.button
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               className="p-2 rounded-full"
+              aria-label="Minimize"
+              title="Minimize"
             >
               <IconMinus size={14} className="text-white/80" />
             </motion.button>
@@ -135,6 +137,8 @@ export function PranavChatWindow({ onClose }: PranavChatWindowProps) {
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={() => setIsMaximized(!isMaximized)}
               className="p-2 rounded-full"
+              aria-label={isMaximized ? 'Restore' : 'Maximize'}
+              title={isMaximized ? 'Restore' : 'Maximize'}
             >
               <IconSquare size={14} className="text-white/80" />
             </motion.button>
@@ -142,6 +146,8 @@ export function PranavChatWindow({ onClose }: PranavChatWindowProps) {
               whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
               onClick={onClose}
               className="p-2 rounded-full"
+              aria-label="Close"
+              title="Close"
             >
               <IconX size={14} className="text-white/80" />
             </motion.button>
@@ -212,6 +218,7 @@ export function PranavChatWindow({ onClose }: PranavChatWindowProps) {
               placeholder="Ask me anything..."
               className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 sm:px-4 text-xs sm:text-sm text-white placeholder-white/40 focus:outline-none focus:ring-1 focus:ring-purple-500/50"
               disabled={isLoading}
+              aria-label="Chat input"
             />
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -219,6 +226,8 @@ export function PranavChatWindow({ onClose }: PranavChatWindowProps) {
               onClick={sendMessage}
               disabled={isLoading || !input.trim()}
               className="px-3 sm:px-4 bg-white/5 hover:bg-white/10 disabled:opacity-50 rounded-lg border border-white/10 transition-colors touch-target"
+              aria-label="Send message"
+              title="Send message"
             >
               <IconSend size={16} className="text-purple-400" />
             </motion.button>
