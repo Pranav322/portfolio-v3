@@ -313,6 +313,8 @@ export function SettingsWindow({ onClose, onWallpaperChange }: SettingsWindowPro
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={handleMinimize}
               className="p-2 rounded-full"
+              aria-label="Minimize"
+              title="Minimize"
             >
               <IconMinus size={14} className="text-white/80" />
             </motion.button>
@@ -320,6 +322,8 @@ export function SettingsWindow({ onClose, onWallpaperChange }: SettingsWindowPro
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={() => setIsMaximized(!isMaximized)}
               className="p-2 rounded-full"
+              aria-label={isMaximized ? 'Restore' : 'Maximize'}
+              title={isMaximized ? 'Restore' : 'Maximize'}
             >
               <IconSquare size={14} className="text-white/80" />
             </motion.button>
@@ -327,6 +331,8 @@ export function SettingsWindow({ onClose, onWallpaperChange }: SettingsWindowPro
               whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
               onClick={onClose}
               className="p-2 rounded-full"
+              aria-label="Close"
+              title="Close"
             >
               <IconX size={14} className="text-white/80" />
             </motion.button>
@@ -343,6 +349,7 @@ export function SettingsWindow({ onClose, onWallpaperChange }: SettingsWindowPro
                   key={tab.id}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setActiveTab(tab.id)}
+                  aria-label={tab.label}
                   className={`flex items-center gap-2 px-4 py-3 text-sm whitespace-nowrap transition-colors flex-shrink-0 ${
                     activeTab === tab.id
                       ? 'bg-blue-500/20 text-blue-400 border-b-2 border-blue-400'

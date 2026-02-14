@@ -50,6 +50,8 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
             <motion.button
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               className="p-2 rounded-full"
+              aria-label="Minimize"
+              title="Minimize"
             >
               <IconMinus size={14} className="text-white/80" />
             </motion.button>
@@ -57,6 +59,8 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={() => setIsMaximized(!isMaximized)}
               className="p-2 rounded-full"
+              aria-label={isMaximized ? 'Restore' : 'Maximize'}
+              title={isMaximized ? 'Restore' : 'Maximize'}
             >
               <IconSquare size={14} className="text-white/80" />
             </motion.button>
@@ -64,6 +68,8 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
               whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
               onClick={onClose}
               className="p-2 rounded-full"
+              aria-label="Close"
+              title="Close"
             >
               <IconX size={14} className="text-white/80" />
             </motion.button>
