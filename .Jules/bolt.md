@@ -5,3 +5,7 @@
 ## 2025-02-12 - [Ref Reuse in Maps & Layout Thrashing]
 **Learning:** Using a single `useRef` hook for elements inside a `.map()` loop results in the ref always pointing to the last rendered element, causing bugs in logic that depend on the ref (like tooltip positioning). Additionally, accessing `getBoundingClientRect()` inside the `style` prop of a component forces synchronous layout recalculations (thrashing) on every render.
 **Action:** For list items requiring positioning data, capture `event.currentTarget.getBoundingClientRect()` in the event handler and store it in state, rather than using refs and reading layout during render.
+
+## 2025-02-12 - [Redundant Task]
+**Learning:** This task (optimizing DesktopIcons) was identified as a duplicate of #31. The code changes were reverted to avoid conflict.
+**Action:** Always check for existing PRs or issues before starting work on optimizations.
