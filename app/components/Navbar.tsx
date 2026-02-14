@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { FloatingDock } from './ui/floating-dock';
 import {
   IconBrandGithub,
@@ -36,7 +36,7 @@ function FloatingDockDemo({
   const [showSettings, setShowSettings] = useState(false);
   const [showGames, setShowGames] = useState(false);
 
-  const links = useMemo(() => [
+  const links = [
     {
       title: 'Home',
       icon: <IconHome className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
@@ -74,7 +74,7 @@ function FloatingDockDemo({
       icon: <IconBrandGithub className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
       href: 'https://github.com/pranav322',
     },
-  ], []);
+  ];
 
   return (
     <>
