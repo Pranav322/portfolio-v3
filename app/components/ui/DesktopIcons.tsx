@@ -127,16 +127,10 @@ export function DesktopIcons({
   const [showExperience, setShowExperience] = useState(false);
   const [showPranavChat, setShowPranavChat] = useState(false);
   const [clickHelpIcon, setClickHelpIcon] = useState<string | null>(null);
-  const [tooltipPosition, setTooltipPosition] = useState<{ top: number; left: number } | null>(null);
+  const clickHelpRef = useRef<HTMLDivElement>(null);
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleIconClick = (e: React.MouseEvent, iconName: string, action?: () => void) => {
-    // Capture position for tooltip if desktop
-    if (deviceType === 'desktop') {
-      const rect = e.currentTarget.getBoundingClientRect();
-      setTooltipPosition({ top: rect.top, left: rect.left });
-    }
-
+  const handleIconClick = (iconName: string, action?: () => void) => {
     // On mobile/tablet, single tap opens the window
     if (deviceType === 'mobile' || deviceType === 'tablet') {
       if (action) {
@@ -379,11 +373,11 @@ export function DesktopIcons({
             {organizedColumns.map((column, columnIndex) => (
               <div key={columnIndex} className="flex flex-col gap-3">
                 {column.map(icon => (
-                  <button
-                    type="button"
+                  <div
                     key={icon.name}
-                    className={`group flex flex-col items-center gap-1 cursor-pointer touch-target tap-feedback bg-transparent border-none ${getIconContainerClasses()} ${selectedIcon === icon.name ? 'bg-white/20 rounded-lg p-2' : 'p-2'}`}
-                    onClick={(e) => handleIconClick(e, icon.name, icon.action)}
+                    className={`group flex flex-col items-center gap-1 cursor-pointer touch-target tap-feedback ${getIconContainerClasses()} ${selectedIcon === icon.name ? 'bg-white/20 rounded-lg p-2' : 'p-2'}`}
+                    onClick={() => handleIconClick(icon.name, icon.action)}
+                    ref={clickHelpRef}
                   >
                     <div
                       className={`p-2 sm:p-3 rounded-lg backdrop-blur-md transition-all`}
@@ -408,7 +402,7 @@ export function DesktopIcons({
                     >
                       {icon.name}
                     </span>
-                  </button>
+                  </div>
                 ))}
               </div>
             ))}
@@ -416,11 +410,11 @@ export function DesktopIcons({
         ) : (
           <div className={getLayoutClasses()}>
             {icons.map(icon => (
-              <button
-                type="button"
+              <div
                 key={icon.name}
-                className={`group flex flex-col items-center gap-1 cursor-pointer touch-target tap-feedback bg-transparent border-none ${getIconContainerClasses()} ${selectedIcon === icon.name ? 'bg-white/20 rounded-lg p-2' : 'p-2'}`}
-                onClick={(e) => handleIconClick(e, icon.name, icon.action)}
+                className={`group flex flex-col items-center gap-1 cursor-pointer touch-target tap-feedback ${getIconContainerClasses()} ${selectedIcon === icon.name ? 'bg-white/20 rounded-lg p-2' : 'p-2'}`}
+                onClick={() => handleIconClick(icon.name, icon.action)}
+                ref={clickHelpRef}
               >
                 <div
                   className={`p-2 sm:p-3 rounded-lg backdrop-blur-md transition-all`}
@@ -445,7 +439,7 @@ export function DesktopIcons({
                 >
                   {icon.name}
                 </span>
-              </button>
+              </div>
             ))}
           </div>
         )}
@@ -459,8 +453,8 @@ export function DesktopIcons({
             exit={{ opacity: 0, y: -20 }}
             className="fixed flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-lg text-white/90 text-base rounded-lg border border-white/20 shadow-lg"
             style={{
-              left: `clamp(1rem, ${(tooltipPosition?.left || 0) + 120}px, calc(100vw - 300px))`,
-              top: Math.max(20, (tooltipPosition?.top || 0) - 50),
+              left: `clamp(1rem, ${(clickHelpRef.current?.getBoundingClientRect().left || 0) + 120}px, calc(100vw - 300px))`,
+              top: Math.max(20, (clickHelpRef.current?.getBoundingClientRect().top || 0) - 50),
             }}
           >
             <IconInfoCircle className="animate-pulse" size={20} />
