@@ -168,10 +168,10 @@ export function DesktopIcons({
   const [showExperience, setShowExperience] = useState(false);
   const [showPranavChat, setShowPranavChat] = useState(false);
   const [clickHelpIcon, setClickHelpIcon] = useState<string | null>(null);
-  const [tooltipPosition, setTooltipPosition] = useState<{ x: number; y: number } | null>(null);
+  const clickHelpRef = useRef<HTMLDivElement>(null);
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleIconClick = (e: React.MouseEvent, iconName: string, action?: () => void) => {
+  const handleIconClick = (iconName: string, action?: () => void) => {
     // On mobile/tablet, single tap opens the window
     if (deviceType === 'mobile' || deviceType === 'tablet') {
       if (action) {
@@ -229,8 +229,6 @@ export function DesktopIcons({
       }
     } else {
       // First click
-      const rect = e.currentTarget.getBoundingClientRect();
-      setTooltipPosition({ x: rect.left, y: rect.top });
       setSelectedIcon(iconName);
       setClickHelpIcon(iconName);
       if (clickTimeoutRef.current) {
@@ -419,10 +417,11 @@ export function DesktopIcons({
                   <motion.div
                     key={icon.name}
                     className={`group flex flex-col items-center gap-1 cursor-pointer touch-target tap-feedback ${getIconContainerClasses()} ${selectedIcon === icon.name ? 'bg-white/20 rounded-lg p-2' : 'p-2'}`}
-                    onClick={e => handleIconClick(e, icon.name, icon.action)}
+                    onClick={() => handleIconClick(icon.name, icon.action)}
                     onMouseEnter={() => handlePrefetch(icon.name)}
                     whileTap={{ scale: 0.92 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+                    ref={clickHelpRef}
                   >
                     <div
                       className={`p-2 sm:p-3 rounded-lg backdrop-blur-md transition-all`}
@@ -458,10 +457,11 @@ export function DesktopIcons({
               <motion.div
                 key={icon.name}
                 className={`group flex flex-col items-center gap-1 cursor-pointer touch-target tap-feedback ${getIconContainerClasses()} ${selectedIcon === icon.name ? 'bg-white/20 rounded-lg p-2' : 'p-2'}`}
-                onClick={e => handleIconClick(e, icon.name, icon.action)}
+                onClick={() => handleIconClick(icon.name, icon.action)}
                 onMouseEnter={() => handlePrefetch(icon.name)}
                 whileTap={{ scale: 0.92 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+                ref={clickHelpRef}
               >
                 <div
                   className={`p-2 sm:p-3 rounded-lg backdrop-blur-md transition-all`}
@@ -493,15 +493,15 @@ export function DesktopIcons({
       </div>
 
       <AnimatePresence>
-        {clickHelpIcon && deviceType === 'desktop' && tooltipPosition && (
+        {clickHelpIcon && deviceType === 'desktop' && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             className="fixed flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-lg text-white/90 text-base rounded-lg border border-white/20 shadow-lg"
             style={{
-              left: `clamp(1rem, ${tooltipPosition.x + 120}px, calc(100vw - 300px))`,
-              top: Math.max(20, tooltipPosition.y - 50),
+              left: `clamp(1rem, ${(clickHelpRef.current?.getBoundingClientRect().left || 0) + 120}px, calc(100vw - 300px))`,
+              top: Math.max(20, (clickHelpRef.current?.getBoundingClientRect().top || 0) - 50),
             }}
           >
             <IconInfoCircle className="animate-pulse" size={20} />
