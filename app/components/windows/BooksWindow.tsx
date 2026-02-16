@@ -80,6 +80,8 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
     ? { width: '100%', height: '100%', x: 0, y: 0 }
     : { width: '800px', height: '600px', x: position.x, y: position.y };
 
+  if (isMinimized) return null;
+
   // PDF viewer plugin
   const pdfWorkerUrl = `https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`;
 
@@ -133,6 +135,8 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
             <motion.button
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               className="p-2 rounded-full"
+              onClick={handleMinimize}
+              aria-label="Minimize window"
             >
               <IconMinus size={14} className="text-white/80" />
             </motion.button>
@@ -140,6 +144,7 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={() => setIsMaximized(!isMaximized)}
               className="p-2 rounded-full"
+              aria-label={isMaximized ? 'Restore window' : 'Maximize window'}
             >
               <IconSquare size={14} className="text-white/80" />
             </motion.button>
@@ -147,6 +152,7 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
               whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
               onClick={onClose}
               className="p-2 rounded-full"
+              aria-label="Close window"
             >
               <IconX size={14} className="text-white/80" />
             </motion.button>

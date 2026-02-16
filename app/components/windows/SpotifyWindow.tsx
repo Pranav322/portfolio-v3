@@ -23,6 +23,8 @@ export function SpotifyWindow({ onClose }: SpotifyWindowProps) {
   const handleMinimize = () => setIsMinimized(true);
   const toggleMaximize = () => setIsMaximized(!isMaximized);
 
+  if (isMinimized) return null;
+
   return (
     <WindowWrapper
       isMaximized={isMaximized}
@@ -42,16 +44,22 @@ export function SpotifyWindow({ onClose }: SpotifyWindowProps) {
             <button
               onClick={handleMinimize}
               className="text-white/50 hover:text-white transition-colors"
+              aria-label="Minimize window"
             >
               <IconMinus size={18} />
             </button>
             <button
               onClick={toggleMaximize}
               className="text-white/50 hover:text-white transition-colors"
+              aria-label={isMaximized ? 'Restore window' : 'Maximize window'}
             >
               <IconSquare size={16} />
             </button>
-            <button onClick={onClose} className="text-white/50 hover:text-white transition-colors">
+            <button
+              onClick={onClose}
+              className="text-white/50 hover:text-white transition-colors"
+              aria-label="Close window"
+            >
               <IconX size={20} />
             </button>
           </div>
