@@ -127,6 +127,15 @@ const FloatingDockMobile = ({ items, className }: { items: DockItem[]; className
 
 const FloatingDockDesktop = ({ items, className }: { items: DockItem[]; className?: string }) => {
   let mouseX = useMotionValue(Infinity);
+
+  const handleFocus = (x: number) => {
+    mouseX.set(x);
+  };
+
+  const handleBlur = () => {
+    mouseX.set(Infinity);
+  };
+
   return (
     <motion.div
       onMouseMove={e => mouseX.set(e.pageX)}
@@ -145,7 +154,13 @@ const FloatingDockDesktop = ({ items, className }: { items: DockItem[]; classNam
       }}
     >
       {items.map(item => (
-        <IconContainer mouseX={mouseX} key={item.title} {...item} />
+        <IconContainer
+          mouseX={mouseX}
+          key={item.title}
+          {...item}
+          onFocusParent={handleFocus}
+          onBlurParent={handleBlur}
+        />
       ))}
     </motion.div>
   );
@@ -157,12 +172,16 @@ function IconContainer({
   icon,
   href,
   action,
+  onFocusParent,
+  onBlurParent,
 }: {
   mouseX: MotionValue;
   title: string;
   icon: React.ReactNode;
   href: string;
   action?: () => void;
+  onFocusParent?: (x: number) => void;
+  onBlurParent?: () => void;
 }) {
   let ref = useRef<HTMLDivElement>(null);
   let boundsRef = useRef({ x: 0, width: 0 });
@@ -215,6 +234,20 @@ function IconContainer({
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
 
+  const handleFocus = () => {
+    setFocused(true);
+    if (boundsRef.current && onFocusParent) {
+      onFocusParent(boundsRef.current.x + boundsRef.current.width / 2);
+    }
+  };
+
+  const handleBlur = () => {
+    setFocused(false);
+    if (onBlurParent) {
+      onBlurParent();
+    }
+  };
+
   const isExternal = href && href.startsWith('http');
   const isLink = isExternal || (href && href !== '#');
 
@@ -258,8 +291,8 @@ function IconContainer({
         target={isExternal ? '_blank' : undefined}
         rel={isExternal ? 'noopener noreferrer' : undefined}
         aria-label={title}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
       >
         {content}
       </Link>
@@ -272,8 +305,8 @@ function IconContainer({
       className={cn('bg-transparent border-none p-0 cursor-pointer', containerClass)}
       type="button"
       aria-label={title}
-      onFocus={() => setFocused(true)}
-      onBlur={() => setFocused(false)}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
     >
       {content}
     </button>
