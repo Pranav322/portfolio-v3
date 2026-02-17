@@ -1,6 +1,6 @@
 'use client';
 import { ToggleButton } from './components/ui/ButtonToggle';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import FloatingDockDemo from './components/Navbar';
 import { DesktopIcons } from './components/ui/DesktopIcons';
 import { Quote } from './components/ui/Quote';
@@ -20,10 +20,11 @@ export default function Home() {
   const [isCLI, setIsCLI] = useState(false);
   const [wallpaper, setWallpaper] = useState<string | null>(null);
 
-  const handleWallpaperChange = (newWallpaper: string) => {
+  // Memoize handler to prevent unnecessary re-renders of child components
+  const handleWallpaperChange = useCallback((newWallpaper: string) => {
     console.log('New wallpaper:', newWallpaper); // Debug log
     setWallpaper(newWallpaper);
-  };
+  }, []);
 
   // Add this style to your main container
   const backgroundStyle = wallpaper
