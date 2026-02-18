@@ -250,6 +250,19 @@ function IconContainer({
   const containerClass =
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 rounded-full';
 
+  const handleFocus = () => {
+    setFocused(true);
+    if (boundsRef.current) {
+      const centerX = boundsRef.current.x + boundsRef.current.width / 2 + window.scrollX;
+      mouseX.set(centerX);
+    }
+  };
+
+  const handleBlur = () => {
+    setFocused(false);
+    mouseX.set(Infinity);
+  };
+
   if (isLink) {
     return (
       <Link
@@ -258,8 +271,8 @@ function IconContainer({
         target={isExternal ? '_blank' : undefined}
         rel={isExternal ? 'noopener noreferrer' : undefined}
         aria-label={title}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
       >
         {content}
       </Link>
@@ -272,8 +285,8 @@ function IconContainer({
       className={cn('bg-transparent border-none p-0 cursor-pointer', containerClass)}
       type="button"
       aria-label={title}
-      onFocus={() => setFocused(true)}
-      onBlur={() => setFocused(false)}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
     >
       {content}
     </button>
