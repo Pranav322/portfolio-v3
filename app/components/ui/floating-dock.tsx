@@ -258,8 +258,18 @@ function IconContainer({
         target={isExternal ? '_blank' : undefined}
         rel={isExternal ? 'noopener noreferrer' : undefined}
         aria-label={title}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
+        onFocus={() => {
+          setFocused(true);
+          if (ref.current) {
+            const rect = ref.current.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            mouseX.set(centerX);
+          }
+        }}
+        onBlur={() => {
+          setFocused(false);
+          mouseX.set(Infinity);
+        }}
       >
         {content}
       </Link>
@@ -272,8 +282,18 @@ function IconContainer({
       className={cn('bg-transparent border-none p-0 cursor-pointer', containerClass)}
       type="button"
       aria-label={title}
-      onFocus={() => setFocused(true)}
-      onBlur={() => setFocused(false)}
+      onFocus={() => {
+        setFocused(true);
+        if (ref.current) {
+          const rect = ref.current.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          mouseX.set(centerX);
+        }
+      }}
+      onBlur={() => {
+        setFocused(false);
+        mouseX.set(Infinity);
+      }}
     >
       {content}
     </button>
