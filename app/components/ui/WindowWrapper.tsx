@@ -24,7 +24,7 @@ interface WindowWrapperProps {
   children: React.ReactNode;
   isMaximized: boolean;
   onClose: () => void;
-  onMinimize: () => void;
+  onMinimize?: () => void;
   initialWidth?: number;
   initialHeight?: number;
 }
@@ -145,9 +145,6 @@ export function WindowWrapper({
           )}
           {shouldBeFullscreen && children}
         </motion.div>
-      </div>
-      <div className="window-controls">
-        <button onClick={onMinimize}>Minimize</button>
       </div>
     </motion.div>
   );
