@@ -16,6 +16,48 @@ export interface Experience {
 
 export const experiences: Experience[] = [
   {
+    id: 'the-souled-store-2026',
+    company: 'The Souled Store',
+    role: 'Associate SDE',
+    duration: 'Feb 2026 - Present',
+    startDate: '2026-02-01',
+    endDate: 'Present',
+    location: 'Remote',
+    type: 'Full-time',
+    description:
+      'Recently joined as an Associate Software Development Engineer. Currently focusing on testing systems and understanding the core architecture.',
+    responsibilities: ['Testing software components and contributing to the QA process'],
+    technologies: ['Testing', 'Software Development'],
+    achievements: ['Onboarded as an Associate SDE to help maintain and test core applications'],
+  },
+  {
+    id: 'unusual-consultants-2025',
+    company: 'Unusual Consultants',
+    role: 'Fullstack Developer Intern',
+    duration: 'Dec 2025 - Jan 2026',
+    startDate: '2025-12-01',
+    endDate: '2026-01-31',
+    location: 'Remote',
+    type: 'Internship',
+    description:
+      'Early engineer building a platform to connect mentors and mentees. Handled full-stack development using modern web technologies.',
+    responsibilities: [
+      'Built responsive frontend interfaces using Next.js',
+      'Developed backend services and APIs using FastAPI',
+      'Designed and managed the database schema with PostgreSQL',
+      'Deployed and managed infrastructure on Google Cloud Platform (GCP)',
+    ],
+    technologies: [
+      'Next.js',
+      'FastAPI',
+      'PostgreSQL',
+      'Google Cloud Platform (GCP)',
+      'TypeScript',
+      'Python',
+    ],
+    achievements: ['Contributed as an early engineer to build the core platform from scratch'],
+  },
+  {
     id: 'gradguide-2025',
     company: 'GradGuide',
     role: 'LLM Developer Intern (Backend)',
@@ -56,13 +98,13 @@ export const experiences: Experience[] = [
 
 // Experience summary for quick access
 export const experienceSummary = {
-  totalYears: '3 months',
-  primaryTechnologies: ['Python', 'FastAPI', 'LLM Integration', 'RAG Systems', 'GCP'],
-  currentRole: 'LLM Developer Intern',
+  totalYears: '1 year',
+  primaryTechnologies: ['Next.js', 'FastAPI', 'Python', 'TypeScript', 'PostgreSQL', 'GCP'],
+  currentRole: 'Associate SDE',
   companiesWorked: experiences.length,
   projectsCompleted: '10+',
-  languages: ['Python', 'JavaScript'],
-  frameworks: ['FastAPI', 'Flask', 'Next.js'],
+  languages: ['Python', 'JavaScript', 'TypeScript'],
+  frameworks: ['Next.js', 'FastAPI', 'Flask'],
   databases: ['PostgreSQL', 'MongoDB'],
   tools: ['Git', 'Docker', 'GCP', 'Postman', 'VS Code'],
 };
