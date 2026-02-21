@@ -172,8 +172,15 @@ export function DesktopIcons({
     null
   );
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [windowKeys, setWindowKeys] = useState<Record<string, number>>({});
 
   const openApp = (iconName: string, action?: () => void) => {
+    // Update key to force remount if window was minimized
+    setWindowKeys(prev => ({
+      ...prev,
+      [iconName]: (prev[iconName] || 0) + 1,
+    }));
+
     if (action) {
       action();
     } else {
@@ -526,12 +533,15 @@ export function DesktopIcons({
         )}
       </AnimatePresence>
 
-      {showAbout && <AboutWindow onClose={() => setShowAbout(false)} />}
+      {showAbout && (
+        <AboutWindow key={windowKeys['About Me']} onClose={() => setShowAbout(false)} />
+      )}
       {showBooks && <BooksWindow onClose={() => setShowBooks(false)} />}
       {showProjects && <ProjectsWindow onClose={() => setShowProjects(false)} />}
       {showSkills && <SkillsWindow onClose={() => setShowSkills(false)} />}
       {showSettings && (
         <SettingsWindow
+          key={windowKeys['Settings']}
           onClose={() => setShowSettings(false)}
           onWallpaperChange={onWallpaperChange!}
         />
