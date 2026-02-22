@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
+import { memo } from 'react';
 
-export function Quote() {
+function QuoteComponent() {
   return (
     <motion.div
       initial={{ opacity: 0, y: -20 }}
@@ -14,3 +15,5 @@ export function Quote() {
     </motion.div>
   );
 }
+
+export const Quote = memo(QuoteComponent);
