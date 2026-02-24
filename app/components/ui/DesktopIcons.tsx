@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useMemo } from 'react';
+import { useState, useRef, useEffect, useMemo, memo } from 'react';
 import { AnimatePresence } from 'framer-motion';
 
 // Hook to detect device types
@@ -149,7 +149,8 @@ const handlePrefetch = (iconName: string) => {
 };
 import { useTheme } from '../../contexts/ThemeContext';
 
-export function DesktopIcons({
+// Memoized to prevent re-renders when Home component state updates (e.g. wallpaper changes)
+export const DesktopIcons = memo(function DesktopIcons({
   onWallpaperChange,
 }: {
   onWallpaperChange?: (wallpaper: string) => void;
@@ -548,4 +549,4 @@ export function DesktopIcons({
       {showPranavChat && <PranavChatWindow onClose={() => setShowPranavChat(false)} />}
     </>
   );
-}
+});
