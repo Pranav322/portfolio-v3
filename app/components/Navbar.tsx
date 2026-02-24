@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, memo } from 'react';
 import { FloatingDock } from './ui/floating-dock';
 import {
   IconBrandGithub,
@@ -36,45 +36,49 @@ function FloatingDockDemo({
   const [showSettings, setShowSettings] = useState(false);
   const [showGames, setShowGames] = useState(false);
 
-  const links = [
-    {
-      title: 'Home',
-      icon: <IconHome className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
-      href: '#',
-    },
-    {
-      title: 'Settings',
-      icon: <IconSettings className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
-      href: '#',
-      action: () => setShowSettings(true),
-    },
-    // {
-    //   title: 'Components',
-    //   icon: <IconNewSection className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
-    //   href: '#',
-    // },
-    {
-      title: 'Games',
-      icon: (
-        <IconDeviceGamepad2
-          size={24}
-          className="h-full w-full text-neutral-500 dark:text-neutral-300"
-        />
-      ),
-      href: '#',
-      action: () => setShowGames(true),
-    },
-    {
-      title: 'Twitter',
-      icon: <IconBrandX className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
-      href: 'https://x.com/_pranav69',
-    },
-    {
-      title: 'GitHub',
-      icon: <IconBrandGithub className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
-      href: 'https://github.com/pranav322',
-    },
-  ];
+  const links = useMemo(
+    // Memoized to prevent re-creation of links array on every render
+    () => [
+      {
+        title: 'Home',
+        icon: <IconHome className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+        href: '#',
+      },
+      {
+        title: 'Settings',
+        icon: <IconSettings className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+        href: '#',
+        action: () => setShowSettings(true),
+      },
+      // {
+      //   title: 'Components',
+      //   icon: <IconNewSection className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+      //   href: '#',
+      // },
+      {
+        title: 'Games',
+        icon: (
+          <IconDeviceGamepad2
+            size={24}
+            className="h-full w-full text-neutral-500 dark:text-neutral-300"
+          />
+        ),
+        href: '#',
+        action: () => setShowGames(true),
+      },
+      {
+        title: 'Twitter',
+        icon: <IconBrandX className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+        href: 'https://x.com/_pranav69',
+      },
+      {
+        title: 'GitHub',
+        icon: <IconBrandGithub className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+        href: 'https://github.com/pranav322',
+      },
+    ],
+    []
+  );
 
   return (
     <>
@@ -95,4 +99,5 @@ function FloatingDockDemo({
   );
 }
 
-export default FloatingDockDemo;
+// Memoized to prevent re-renders when parent state updates (e.g. wallpaper)
+export default memo(FloatingDockDemo);
