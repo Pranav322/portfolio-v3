@@ -1,12 +1,13 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
-import { IconX, IconMinus, IconSquare, IconBook } from '@tabler/icons-react';
+import { IconBook } from '@tabler/icons-react';
 import { motion, useDragControls, AnimatePresence } from 'framer-motion';
 import { Worker, Viewer, SpecialZoomLevel, ThemeContext } from '@react-pdf-viewer/core';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import { WindowWrapper } from '../ui/WindowWrapper';
+import { WindowControls } from '../ui/WindowControls';
 import React from 'react';
 import Image from 'next/image';
 
@@ -110,6 +111,10 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
     },
   ];
 
+  if (isMinimized) {
+    return null;
+  }
+
   return (
     <WindowWrapper
       isMaximized={isMaximized}
@@ -129,28 +134,12 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
             </div>
             <span className="text-white/90 text-sm font-medium">Books</span>
           </div>
-          <div className="flex items-center gap-1">
-            <motion.button
-              whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
-              className="p-2 rounded-full"
-            >
-              <IconMinus size={14} className="text-white/80" />
-            </motion.button>
-            <motion.button
-              whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
-              onClick={() => setIsMaximized(!isMaximized)}
-              className="p-2 rounded-full"
-            >
-              <IconSquare size={14} className="text-white/80" />
-            </motion.button>
-            <motion.button
-              whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
-              onClick={onClose}
-              className="p-2 rounded-full"
-            >
-              <IconX size={14} className="text-white/80" />
-            </motion.button>
-          </div>
+          <WindowControls
+            onMinimize={handleMinimize}
+            onMaximize={() => setIsMaximized(!isMaximized)}
+            onClose={onClose}
+            isMaximized={isMaximized}
+          />
         </motion.div>
 
         {/* Content Area - Now with fixed height */}

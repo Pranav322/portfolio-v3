@@ -2,9 +2,6 @@ import React, { useState, useCallback, useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { useDragControls } from 'framer-motion';
 import {
-  IconX,
-  IconMinus,
-  IconSquare,
   IconSettings,
   IconUpload,
   IconWallpaper,
@@ -14,6 +11,7 @@ import {
   IconCheck,
 } from '@tabler/icons-react';
 import { WindowWrapper } from '../ui/WindowWrapper';
+import { WindowControls } from '../ui/WindowControls';
 import Image from 'next/image';
 import { useTheme } from '../../contexts/ThemeContext';
 
@@ -308,29 +306,12 @@ export function SettingsWindow({ onClose, onWallpaperChange }: SettingsWindowPro
             </div>
             <span className="text-white/90 text-sm font-medium">Settings</span>
           </div>
-          <div className="flex items-center gap-1">
-            <motion.button
-              whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
-              onClick={handleMinimize}
-              className="p-2 rounded-full"
-            >
-              <IconMinus size={14} className="text-white/80" />
-            </motion.button>
-            <motion.button
-              whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
-              onClick={() => setIsMaximized(!isMaximized)}
-              className="p-2 rounded-full"
-            >
-              <IconSquare size={14} className="text-white/80" />
-            </motion.button>
-            <motion.button
-              whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
-              onClick={onClose}
-              className="p-2 rounded-full"
-            >
-              <IconX size={14} className="text-white/80" />
-            </motion.button>
-          </div>
+          <WindowControls
+            onMinimize={handleMinimize}
+            onMaximize={() => setIsMaximized(!isMaximized)}
+            onClose={onClose}
+            isMaximized={isMaximized}
+          />
         </motion.div>
 
         {/* Content with Sidebar */}
