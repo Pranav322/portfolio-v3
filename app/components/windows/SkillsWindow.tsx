@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useDragControls } from 'framer-motion';
-import { IconX, IconMinus, IconSquare, IconTools } from '@tabler/icons-react';
+import { IconTools } from '@tabler/icons-react';
 import { WindowWrapper } from '../ui/WindowWrapper';
+import { WindowControls } from '../ui/WindowControls';
 import { skills } from '../helpers/Skills';
+
 interface SkillsWindowProps {
   onClose: () => void;
 }
@@ -12,9 +14,12 @@ export function SkillsWindow({ onClose }: SkillsWindowProps) {
   const [isMaximized, setIsMaximized] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const dragControls = useDragControls();
+
   const handleMinimize = () => {
     setIsMinimized(true);
   };
+
+  if (isMinimized) return null;
 
   const container = {
     hidden: { opacity: 0 },
@@ -50,28 +55,12 @@ export function SkillsWindow({ onClose }: SkillsWindowProps) {
             </div>
             <span className="text-white/90 text-sm font-medium">Skills</span>
           </div>
-          <div className="flex items-center gap-1">
-            <motion.button
-              whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
-              className="p-2 rounded-full"
-            >
-              <IconMinus size={14} className="text-white/80" />
-            </motion.button>
-            <motion.button
-              whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
-              onClick={() => setIsMaximized(!isMaximized)}
-              className="p-2 rounded-full"
-            >
-              <IconSquare size={14} className="text-white/80" />
-            </motion.button>
-            <motion.button
-              whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
-              onClick={onClose}
-              className="p-2 rounded-full"
-            >
-              <IconX size={14} className="text-white/80" />
-            </motion.button>
-          </div>
+          <WindowControls
+            onMinimize={handleMinimize}
+            onMaximize={() => setIsMaximized(!isMaximized)}
+            onClose={onClose}
+            isMaximized={isMaximized}
+          />
         </motion.div>
 
         <div className="p-3 sm:p-6 h-[calc(100%-3rem)] overflow-y-auto custom-scrollbar mobile-hide-scrollbar">

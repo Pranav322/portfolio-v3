@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { WindowWrapper } from '../ui/WindowWrapper';
 import { NowPlaying } from '../spotify/NowPlaying';
 import { TopTracks } from '../spotify/TopTracks';
-import { IconBrandSpotify, IconX, IconMinus, IconSquare, IconClock } from '@tabler/icons-react';
+import { IconBrandSpotify, IconClock } from '@tabler/icons-react';
 import { motion } from 'framer-motion';
 import { TopArtists } from '../spotify/TopArtists';
 import { TopGenres } from '../spotify/TopGenres';
 import { Playlists } from '../spotify/Playlists';
 // import { RecentlyPlayed, AudioFeatures, Recommendations, MoodAnalyzer } from '../spotify';
 import { RecentlyPlayed } from '../spotify/RecentlyPlayed';
-
+import { WindowControls } from '../ui/WindowControls';
 import { ErrorBoundary } from 'react-error-boundary';
 
 interface SpotifyWindowProps {
@@ -22,6 +22,8 @@ export function SpotifyWindow({ onClose }: SpotifyWindowProps) {
 
   const handleMinimize = () => setIsMinimized(true);
   const toggleMaximize = () => setIsMaximized(!isMaximized);
+
+  if (isMinimized) return null;
 
   return (
     <WindowWrapper
@@ -38,23 +40,12 @@ export function SpotifyWindow({ onClose }: SpotifyWindowProps) {
             <IconBrandSpotify size={20} className="text-[#1DB954]" />
             <span className="text-white/90 text-sm font-medium">Spotify Stats</span>
           </div>
-          <div className="flex items-center gap-4">
-            <button
-              onClick={handleMinimize}
-              className="text-white/50 hover:text-white transition-colors"
-            >
-              <IconMinus size={18} />
-            </button>
-            <button
-              onClick={toggleMaximize}
-              className="text-white/50 hover:text-white transition-colors"
-            >
-              <IconSquare size={16} />
-            </button>
-            <button onClick={onClose} className="text-white/50 hover:text-white transition-colors">
-              <IconX size={20} />
-            </button>
-          </div>
+          <WindowControls
+            onMinimize={handleMinimize}
+            onMaximize={toggleMaximize}
+            onClose={onClose}
+            isMaximized={isMaximized}
+          />
         </motion.div>
 
         {/* Content */}

@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import {
-  IconX,
-  IconMinus,
-  IconSquare,
   IconBriefcase,
   IconMapPin,
   IconCalendar,
@@ -12,6 +9,7 @@ import {
 } from '@tabler/icons-react';
 import { motion, useDragControls } from 'framer-motion';
 import { WindowWrapper } from '../ui/WindowWrapper';
+import { WindowControls } from '../ui/WindowControls';
 import { experiences, experienceSummary } from '../helpers/Experience';
 
 interface ExperienceWindowProps {
@@ -48,6 +46,8 @@ export default function ExperienceWindow({ onClose }: ExperienceWindowProps) {
     return colors[index % colors.length];
   };
 
+  if (isMinimized) return null;
+
   return (
     <WindowWrapper
       isMaximized={isMaximized}
@@ -69,29 +69,12 @@ export default function ExperienceWindow({ onClose }: ExperienceWindowProps) {
             <span className="text-white/90 text-sm font-medium">Professional Experience</span>
           </div>
           {/* Window Controls */}
-          <div className="flex items-center gap-1">
-            <motion.button
-              whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
-              onClick={handleMinimize}
-              className="p-2 rounded-full"
-            >
-              <IconMinus size={14} className="text-white/80" />
-            </motion.button>
-            <motion.button
-              whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
-              onClick={() => setIsMaximized(!isMaximized)}
-              className="p-2 rounded-full"
-            >
-              <IconSquare size={14} className="text-white/80" />
-            </motion.button>
-            <motion.button
-              whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
-              onClick={onClose}
-              className="p-2 rounded-full"
-            >
-              <IconX size={14} className="text-white/80" />
-            </motion.button>
-          </div>
+          <WindowControls
+            onMinimize={handleMinimize}
+            onMaximize={() => setIsMaximized(!isMaximized)}
+            onClose={onClose}
+            isMaximized={isMaximized}
+          />
         </motion.div>
 
         {/* Content */}
