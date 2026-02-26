@@ -6,6 +6,7 @@ import {
   IconUser,
   IconBrandGithub,
   IconExternalLink,
+  IconCheck,
 } from '@tabler/icons-react';
 import { motion, AnimatePresence, useDragControls } from 'framer-motion';
 import { WindowWrapper } from '../ui/WindowWrapper';
@@ -19,10 +20,17 @@ interface AboutWindowProps {
 export default function AboutWindow({ onClose }: AboutWindowProps) {
   const [isMaximized, setIsMaximized] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
+  const [emailCopied, setEmailCopied] = useState(false);
   const dragControls = useDragControls();
 
   const handleMinimize = () => {
     setIsMinimized(true);
+  };
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText('pranavdotdev@gmail.com');
+    setEmailCopied(true);
+    setTimeout(() => setEmailCopied(false), 2000);
   };
 
   return (
@@ -49,7 +57,9 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
           <div className="flex items-center gap-1">
             <motion.button
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
+              onClick={handleMinimize}
               className="p-2 rounded-full"
+              aria-label="Minimize window"
             >
               <IconMinus size={14} className="text-white/80" />
             </motion.button>
@@ -57,6 +67,7 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={() => setIsMaximized(!isMaximized)}
               className="p-2 rounded-full"
+              aria-label={isMaximized ? 'Restore window' : 'Maximize window'}
             >
               <IconSquare size={14} className="text-white/80" />
             </motion.button>
@@ -64,6 +75,7 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
               whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
               onClick={onClose}
               className="p-2 rounded-full"
+              aria-label="Close window"
             >
               <IconX size={14} className="text-white/80" />
             </motion.button>
@@ -91,12 +103,21 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
                   >
                     <span>📍</span> <p className="text-white/90">Chandigarh</p>
                   </motion.a>
-                  <motion.a
+                  <motion.button
                     whileHover={{ scale: 1.05 }}
-                    className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors"
+                    onClick={handleCopyEmail}
+                    className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
+                    aria-label="Copy email address"
                   >
-                    <span>📧</span> <p className="text-white/90">pranavdotdev@gmail.com</p>
-                  </motion.a>
+                    {emailCopied ? (
+                      <IconCheck size={16} className="text-green-400" />
+                    ) : (
+                      <span>📧</span>
+                    )}
+                    <p className={`text-white/90 ${emailCopied ? 'text-green-400' : ''}`}>
+                      {emailCopied ? 'Copied!' : 'pranavdotdev@gmail.com'}
+                    </p>
+                  </motion.button>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors"
