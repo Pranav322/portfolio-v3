@@ -15,7 +15,7 @@ import {
   useTransform,
 } from 'framer-motion';
 import Link from 'next/link';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, memo } from 'react';
 
 interface DockItem {
   title: string;
@@ -24,7 +24,9 @@ interface DockItem {
   action?: () => void;
 }
 
-export const FloatingDock = ({
+// Memoize FloatingDock to prevent expensive re-renders (framer-motion hooks)
+// when parent component state updates but props remain unchanged.
+export const FloatingDock = memo(function FloatingDock({
   items,
   desktopClassName,
   mobileClassName,
@@ -32,14 +34,14 @@ export const FloatingDock = ({
   items: DockItem[];
   desktopClassName?: string;
   mobileClassName?: string;
-}) => {
+}) {
   return (
     <>
       <FloatingDockDesktop items={items} className={desktopClassName} />
       <FloatingDockMobile items={items} className={mobileClassName} />
     </>
   );
-};
+});
 
 const FloatingDockMobile = ({ items, className }: { items: DockItem[]; className?: string }) => {
   const [open, setOpen] = useState(false);
