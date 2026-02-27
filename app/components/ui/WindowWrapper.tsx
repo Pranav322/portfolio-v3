@@ -146,9 +146,6 @@ export function WindowWrapper({
           {shouldBeFullscreen && children}
         </motion.div>
       </div>
-      <div className="window-controls">
-        <button onClick={onMinimize}>Minimize</button>
-      </div>
     </motion.div>
   );
 }

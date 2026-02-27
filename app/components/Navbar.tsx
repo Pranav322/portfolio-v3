@@ -35,6 +35,7 @@ function FloatingDockDemo({
 }: FloatingDockDemoProps) {
   const [showSettings, setShowSettings] = useState(false);
   const [showGames, setShowGames] = useState(false);
+  const [windowKeys, setWindowKeys] = useState<Record<string, number>>({});
 
   const links = [
     {
@@ -46,7 +47,10 @@ function FloatingDockDemo({
       title: 'Settings',
       icon: <IconSettings className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
       href: '#',
-      action: () => setShowSettings(true),
+      action: () => {
+        setShowSettings(true);
+        setWindowKeys(prev => ({ ...prev, Settings: (prev['Settings'] || 0) + 1 }));
+      },
     },
     // {
     //   title: 'Components',
@@ -62,7 +66,10 @@ function FloatingDockDemo({
         />
       ),
       href: '#',
-      action: () => setShowGames(true),
+      action: () => {
+        setShowGames(true);
+        setWindowKeys(prev => ({ ...prev, Games: (prev['Games'] || 0) + 1 }));
+      },
     },
     {
       title: 'Twitter',
@@ -88,9 +95,12 @@ function FloatingDockDemo({
         <SettingsWindow
           onClose={() => setShowSettings(false)}
           onWallpaperChange={onWallpaperChange}
+          key={windowKeys['Settings'] || 0}
         />
       )}
-      {showGames && <GamesWindow onClose={() => setShowGames(false)} />}
+      {showGames && (
+        <GamesWindow onClose={() => setShowGames(false)} key={windowKeys['Games'] || 0} />
+      )}
     </>
   );
 }
