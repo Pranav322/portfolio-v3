@@ -1,14 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {
-  IconX,
-  IconMinus,
-  IconSquare,
-  IconUser,
-  IconBrandGithub,
-  IconExternalLink,
-} from '@tabler/icons-react';
+import { IconUser, IconBrandGithub, IconExternalLink } from '@tabler/icons-react';
 import { motion, AnimatePresence, useDragControls } from 'framer-motion';
 import { WindowWrapper } from '../ui/WindowWrapper';
+import { WindowControls } from '../ui/WindowControls';
 import { skills } from '../helpers/Skills';
 import { projects } from '../helpers/Projects';
 import { experiences } from '../helpers/Experience';
@@ -24,6 +18,8 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
   const handleMinimize = () => {
     setIsMinimized(true);
   };
+
+  if (isMinimized) return null;
 
   return (
     <WindowWrapper
@@ -46,28 +42,12 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
             <span className="text-white/90 text-sm font-medium">About Me</span>
           </div>
           {/* Window Controls */}
-          <div className="flex items-center gap-1">
-            <motion.button
-              whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
-              className="p-2 rounded-full"
-            >
-              <IconMinus size={14} className="text-white/80" />
-            </motion.button>
-            <motion.button
-              whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
-              onClick={() => setIsMaximized(!isMaximized)}
-              className="p-2 rounded-full"
-            >
-              <IconSquare size={14} className="text-white/80" />
-            </motion.button>
-            <motion.button
-              whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
-              onClick={onClose}
-              className="p-2 rounded-full"
-            >
-              <IconX size={14} className="text-white/80" />
-            </motion.button>
-          </div>
+          <WindowControls
+            onMinimize={handleMinimize}
+            onMaximize={() => setIsMaximized(!isMaximized)}
+            onClose={onClose}
+            isMaximized={isMaximized}
+          />
         </motion.div>
 
         {/* Content */}

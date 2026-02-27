@@ -171,9 +171,13 @@ export function DesktopIcons({
   const [tooltipPosition, setTooltipPosition] = useState<{ top: number; left: number } | null>(
     null
   );
+  const [windowKeys, setWindowKeys] = useState<Record<string, number>>({});
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const openApp = (iconName: string, action?: () => void) => {
+    // Increment the key for the app being opened to force re-render
+    setWindowKeys(prev => ({ ...prev, [iconName]: (prev[iconName] || 0) + 1 }));
+
     if (action) {
       action();
     } else {
@@ -526,26 +530,54 @@ export function DesktopIcons({
         )}
       </AnimatePresence>
 
-      {showAbout && <AboutWindow onClose={() => setShowAbout(false)} />}
-      {showBooks && <BooksWindow onClose={() => setShowBooks(false)} />}
-      {showProjects && <ProjectsWindow onClose={() => setShowProjects(false)} />}
-      {showSkills && <SkillsWindow onClose={() => setShowSkills(false)} />}
+      {showAbout && (
+        <AboutWindow onClose={() => setShowAbout(false)} key={windowKeys['About Me'] || 0} />
+      )}
+      {showBooks && (
+        <BooksWindow onClose={() => setShowBooks(false)} key={windowKeys['Books'] || 0} />
+      )}
+      {showProjects && (
+        <ProjectsWindow onClose={() => setShowProjects(false)} key={windowKeys['Projects'] || 0} />
+      )}
+      {showSkills && (
+        <SkillsWindow onClose={() => setShowSkills(false)} key={windowKeys['Skills'] || 0} />
+      )}
       {showSettings && (
         <SettingsWindow
           onClose={() => setShowSettings(false)}
           onWallpaperChange={onWallpaperChange!}
+          key={windowKeys['Settings'] || 0}
         />
       )}
       {showBrowser && (
         <BrowserWindow
           initialUrl="https://iframee.vercel.app"
           onClose={() => setShowBrowser(false)}
+          key={windowKeys['Browser'] || 0}
         />
       )}
-      {showSpotify && <SpotifyWindow onClose={() => setShowSpotify(false)} />}
-      {showPdf && <PdfWindow filePath="/backend_dev.pdf" onClose={() => setShowPdf(false)} />}
-      {showExperience && <ExperienceWindow onClose={() => setShowExperience(false)} />}
-      {showPranavChat && <PranavChatWindow onClose={() => setShowPranavChat(false)} />}
+      {showSpotify && (
+        <SpotifyWindow onClose={() => setShowSpotify(false)} key={windowKeys['Spotify'] || 0} />
+      )}
+      {showPdf && (
+        <PdfWindow
+          filePath="/backend_dev.pdf"
+          onClose={() => setShowPdf(false)}
+          key={windowKeys['Resume'] || 0}
+        />
+      )}
+      {showExperience && (
+        <ExperienceWindow
+          onClose={() => setShowExperience(false)}
+          key={windowKeys['Experience'] || 0}
+        />
+      )}
+      {showPranavChat && (
+        <PranavChatWindow
+          onClose={() => setShowPranavChat(false)}
+          key={windowKeys['Pranav AI'] || 0}
+        />
+      )}
     </>
   );
 }
