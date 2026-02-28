@@ -15,7 +15,7 @@ import {
   useTransform,
 } from 'framer-motion';
 import Link from 'next/link';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, memo } from 'react';
 
 interface DockItem {
   title: string;
@@ -151,7 +151,10 @@ const FloatingDockDesktop = ({ items, className }: { items: DockItem[]; classNam
   );
 };
 
-function IconContainer({
+// ⚡ Bolt Optimization: Wrap IconContainer in React.memo to prevent expensive re-renders
+// Since it relies heavily on Framer Motion's useSpring and useTransform hooks,
+// avoiding re-renders significantly improves performance when the parent component updates.
+const IconContainer = memo(function IconContainer({
   mouseX,
   title,
   icon,
@@ -278,4 +281,4 @@ function IconContainer({
       {content}
     </button>
   );
-}
+});
