@@ -15,7 +15,7 @@ import {
   useTransform,
 } from 'framer-motion';
 import Link from 'next/link';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, memo } from 'react';
 
 interface DockItem {
   title: string;
@@ -24,7 +24,7 @@ interface DockItem {
   action?: () => void;
 }
 
-export const FloatingDock = ({
+export const FloatingDock = memo(function FloatingDock({
   items,
   desktopClassName,
   mobileClassName,
@@ -32,16 +32,16 @@ export const FloatingDock = ({
   items: DockItem[];
   desktopClassName?: string;
   mobileClassName?: string;
-}) => {
+}) {
   return (
     <>
       <FloatingDockDesktop items={items} className={desktopClassName} />
       <FloatingDockMobile items={items} className={mobileClassName} />
     </>
   );
-};
+});
 
-const FloatingDockMobile = ({ items, className }: { items: DockItem[]; className?: string }) => {
+const FloatingDockMobile = memo(function FloatingDockMobile({ items, className }: { items: DockItem[]; className?: string }) {
   const [open, setOpen] = useState(false);
   return (
     <div className={cn('relative block md:hidden', className)}>
@@ -123,9 +123,9 @@ const FloatingDockMobile = ({ items, className }: { items: DockItem[]; className
       </motion.button>
     </div>
   );
-};
+});
 
-const FloatingDockDesktop = ({ items, className }: { items: DockItem[]; className?: string }) => {
+const FloatingDockDesktop = memo(function FloatingDockDesktop({ items, className }: { items: DockItem[]; className?: string }) {
   let mouseX = useMotionValue(Infinity);
   return (
     <motion.div
@@ -149,9 +149,10 @@ const FloatingDockDesktop = ({ items, className }: { items: DockItem[]; classNam
       ))}
     </motion.div>
   );
-};
+});
 
-function IconContainer({
+// Memoize IconContainer to prevent re-initializing expensive framer-motion hooks unnecessarily
+const IconContainer = memo(function IconContainer({
   mouseX,
   title,
   icon,
@@ -278,4 +279,4 @@ function IconContainer({
       {content}
     </button>
   );
-}
+});
