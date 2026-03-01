@@ -70,21 +70,21 @@ export default function ExperienceWindow({ onClose }: ExperienceWindowProps) {
           </div>
           {/* Window Controls */}
           <div className="flex items-center gap-1">
-            <motion.button
+            <motion.button aria-label="Minimize"
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={handleMinimize}
               className="p-2 rounded-full"
             >
               <IconMinus size={14} className="text-white/80" />
             </motion.button>
-            <motion.button
+            <motion.button aria-label="Maximize"
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={() => setIsMaximized(!isMaximized)}
               className="p-2 rounded-full"
             >
               <IconSquare size={14} className="text-white/80" />
             </motion.button>
-            <motion.button
+            <motion.button aria-label="Close"
               whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
               onClick={onClose}
               className="p-2 rounded-full"
