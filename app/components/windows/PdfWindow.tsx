@@ -17,6 +17,8 @@ export function PdfWindow({ onClose, filePath }: PdfWindowProps) {
     setIsMinimized(true);
   };
 
+  if (isMinimized) return null;
+
   return (
     <WindowWrapper
       isMaximized={isMaximized}
@@ -40,6 +42,8 @@ export function PdfWindow({ onClose, filePath }: PdfWindowProps) {
             <motion.button
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               className="p-2 rounded-full"
+              onClick={handleMinimize}
+              aria-label="Minimize window"
             >
               <IconMinus size={14} className="text-white/80" />
             </motion.button>
@@ -47,6 +51,7 @@ export function PdfWindow({ onClose, filePath }: PdfWindowProps) {
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={() => setIsMaximized(!isMaximized)}
               className="p-2 rounded-full"
+              aria-label={isMaximized ? 'Restore window' : 'Maximize window'}
             >
               <IconSquare size={14} className="text-white/80" />
             </motion.button>
@@ -54,6 +59,7 @@ export function PdfWindow({ onClose, filePath }: PdfWindowProps) {
               whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
               onClick={onClose}
               className="p-2 rounded-full"
+              aria-label="Close window"
             >
               <IconX size={14} className="text-white/80" />
             </motion.button>

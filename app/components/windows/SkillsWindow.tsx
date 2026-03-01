@@ -16,6 +16,8 @@ export function SkillsWindow({ onClose }: SkillsWindowProps) {
     setIsMinimized(true);
   };
 
+  if (isMinimized) return null;
+
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -54,6 +56,8 @@ export function SkillsWindow({ onClose }: SkillsWindowProps) {
             <motion.button
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               className="p-2 rounded-full"
+              onClick={handleMinimize}
+              aria-label="Minimize window"
             >
               <IconMinus size={14} className="text-white/80" />
             </motion.button>
@@ -61,6 +65,7 @@ export function SkillsWindow({ onClose }: SkillsWindowProps) {
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={() => setIsMaximized(!isMaximized)}
               className="p-2 rounded-full"
+              aria-label={isMaximized ? 'Restore window' : 'Maximize window'}
             >
               <IconSquare size={14} className="text-white/80" />
             </motion.button>
@@ -68,6 +73,7 @@ export function SkillsWindow({ onClose }: SkillsWindowProps) {
               whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
               onClick={onClose}
               className="p-2 rounded-full"
+              aria-label="Close window"
             >
               <IconX size={14} className="text-white/80" />
             </motion.button>
