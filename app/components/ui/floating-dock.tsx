@@ -15,7 +15,7 @@ import {
   useTransform,
 } from 'framer-motion';
 import Link from 'next/link';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, memo } from 'react';
 
 interface DockItem {
   title: string;
@@ -24,7 +24,8 @@ interface DockItem {
   action?: () => void;
 }
 
-export const FloatingDock = ({
+// Memoized to prevent re-renders when parent state updates but items are stable
+export const FloatingDock = memo(function FloatingDock({
   items,
   desktopClassName,
   mobileClassName,
@@ -32,14 +33,14 @@ export const FloatingDock = ({
   items: DockItem[];
   desktopClassName?: string;
   mobileClassName?: string;
-}) => {
+}) {
   return (
     <>
       <FloatingDockDesktop items={items} className={desktopClassName} />
       <FloatingDockMobile items={items} className={mobileClassName} />
     </>
   );
-};
+});
 
 const FloatingDockMobile = ({ items, className }: { items: DockItem[]; className?: string }) => {
   const [open, setOpen] = useState(false);
@@ -151,7 +152,8 @@ const FloatingDockDesktop = ({ items, className }: { items: DockItem[]; classNam
   );
 };
 
-function IconContainer({
+// Memoized to prevent expensive Framer Motion hook recalculations on unrelated parent re-renders
+const IconContainer = memo(function IconContainer({
   mouseX,
   title,
   icon,
@@ -278,4 +280,4 @@ function IconContainer({
       {content}
     </button>
   );
-}
+});
