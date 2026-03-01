@@ -6,3 +6,7 @@
 ## 2025-02-23 - Tooltips for Keyboard Focus
 **Learning:** Icon-only buttons often rely on hover tooltips for context, leaving keyboard users guessing. Adding `onFocus`/`onBlur` handlers to show the same tooltip on focus bridges this gap without visual clutter.
 **Action:** When creating tooltips for icon-only elements, trigger visibility on `hover || focus` and ensure the interactive element itself (not just the inner icon) handles the focus events.
+
+## 2026-02-18 - Keyboard Fisheye Effect
+**Learning:** Mouse-driven physics animations (like a fisheye dock) often feel dead to keyboard users because focus doesn't trigger the layout changes. Manually updating the driving motion value (e.g., `mouseX`) within `onFocus` handlers bridges this gap, making the interface feel alive for everyone.
+**Action:** When implementing physics-based animations that depend on cursor position, add `onFocus` handlers to programmatically set the position variable to the focused element's center coordinates.
