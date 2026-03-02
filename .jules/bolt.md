@@ -1,0 +1,3 @@
+## 2024-03-12 - [Memoizing Framer Motion Component Trees]
+**Learning:** When using Framer Motion hooks like `useSpring` and `useTransform` in heavy component trees (e.g. `FloatingDock` and `DesktopIcons`), any state change in a parent component (like `Home` updating `wallpaper` state) causes a complete re-render and recalculation of these expensive animation hooks.
+**Action:** Always strictly memoize `React` elements that wrap these hooks using `React.memo`, ensure complex arrays of objects passed to them are memoized with `useMemo`, and wrap any event handlers passed as props (e.g. `handleWallpaperChange`) with `useCallback` to maintain referential stability.
