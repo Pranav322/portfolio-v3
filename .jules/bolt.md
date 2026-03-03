@@ -1,0 +1,3 @@
+## 2024-05-24 - [React.memo and Object Props]
+**Learning:** When using React.memo to prevent re-renders on heavy UI components like DesktopIcons or FloatingDockDemo, it is not enough to just wrap the component itself. You must ensure that any objects, arrays, or functions passed to them as props maintain referential equality across renders using useMemo or useCallback. Otherwise, a new reference is generated on every render of the parent component, completely bypassing the React.memo optimization and causing the child component to re-render anyway.
+**Action:** Always check the props of a memoized component. Wrap inline arrays or objects with useMemo and inline functions with useCallback at the parent level before passing them down.
