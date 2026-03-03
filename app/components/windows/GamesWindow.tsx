@@ -47,6 +47,7 @@ export function GamesWindow({ onClose }: GamesWindowProps) {
           </div>
           <div className="flex items-center gap-1">
             <motion.button
+              aria-label="Minimize window"
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               className="p-2 rounded-full"
               onClick={handleMinimize}
@@ -54,6 +55,7 @@ export function GamesWindow({ onClose }: GamesWindowProps) {
               <IconMinus size={14} className="text-white/80" />
             </motion.button>
             <motion.button
+              aria-label="Maximize window"
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={() => setIsMaximized(!isMaximized)}
               className="p-2 rounded-full"
@@ -61,6 +63,7 @@ export function GamesWindow({ onClose }: GamesWindowProps) {
               <IconSquare size={14} className="text-white/80" />
             </motion.button>
             <motion.button
+              aria-label="Close window"
               whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
               onClick={onClose}
               className="p-2 rounded-full"
@@ -170,6 +173,7 @@ export function GamesWindow({ onClose }: GamesWindowProps) {
             <div className="h-full flex flex-col">
               <div className="flex items-center justify-between p-4 border-b border-white/10">
                 <motion.button
+                  aria-label="Go back"
                   whileHover={{ scale: 1.05 }}
                   onClick={() => setSelectedGame(null)}
                   className="flex items-center gap-2 text-white/80 hover:text-white transition-colors"
