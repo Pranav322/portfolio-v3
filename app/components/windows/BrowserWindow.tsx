@@ -78,12 +78,14 @@ export function BrowserWindow({
           </div>
           <div className="flex items-center gap-1">
             <motion.button
+              aria-label="Minimize window"
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               className="p-2 rounded-full"
             >
               <IconMinus size={14} className="text-white/80" />
             </motion.button>
             <motion.button
+              aria-label="Maximize window"
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={() => setIsMaximized(!isMaximized)}
               className="p-2 rounded-full"
@@ -91,6 +93,7 @@ export function BrowserWindow({
               <IconSquare size={14} className="text-white/80" />
             </motion.button>
             <motion.button
+              aria-label="Close window"
               whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
               onClick={onClose}
               className="p-2 rounded-full"
@@ -103,6 +106,7 @@ export function BrowserWindow({
         {/* Browser Controls */}
         <div className="flex items-center gap-2 px-4 py-2 bg-gray-900/50 border-b border-white/10">
           <button
+            aria-label="Go back"
             onClick={goBack}
             disabled={historyIndex === 0}
             className="p-1.5 rounded-full hover:bg-white/10 disabled:opacity-50 disabled:hover:bg-transparent"
@@ -110,13 +114,18 @@ export function BrowserWindow({
             <IconArrowLeft size={16} className="text-white/80" />
           </button>
           <button
+            aria-label="Go forward"
             onClick={goForward}
             disabled={historyIndex === history.length - 1}
             className="p-1.5 rounded-full hover:bg-white/10 disabled:opacity-50 disabled:hover:bg-transparent"
           >
             <IconArrowRight size={16} className="text-white/80" />
           </button>
-          <button onClick={refresh} className="p-1.5 rounded-full hover:bg-white/10">
+          <button
+            aria-label="Refresh page"
+            onClick={refresh}
+            className="p-1.5 rounded-full hover:bg-white/10"
+          >
             <IconRefresh size={16} className="text-white/80" />
           </button>
           <input
