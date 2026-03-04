@@ -15,7 +15,7 @@ import {
   useTransform,
 } from 'framer-motion';
 import Link from 'next/link';
-import { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 interface DockItem {
   title: string;
@@ -151,7 +151,7 @@ const FloatingDockDesktop = ({ items, className }: { items: DockItem[]; classNam
   );
 };
 
-function IconContainer({
+const IconContainer = React.memo(function IconContainer({
   mouseX,
   title,
   icon,
@@ -278,4 +278,4 @@ function IconContainer({
       {content}
     </button>
   );
-}
+});
