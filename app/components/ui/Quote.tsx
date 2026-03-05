@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
+import { memo } from 'react';
 
-export function Quote() {
+// ⚡ Bolt: Prevent unnecessary re-renders since this is a static visual component
+export const Quote = memo(function Quote() {
   return (
     <motion.div
       initial={{ opacity: 0, y: -20 }}
@@ -13,4 +15,4 @@ export function Quote() {
       <p className="text-white/40 text-xs text-right">— Charles Bukowski</p>
     </motion.div>
   );
-}
+});
