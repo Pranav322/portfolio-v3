@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, memo } from 'react';
 import { FloatingDock } from './ui/floating-dock';
 import {
   IconBrandGithub,
@@ -28,7 +28,8 @@ interface FloatingDockDemoProps {
   onWallpaperChange: (wallpaper: string) => void;
 }
 
-function FloatingDockDemo({
+// ⚡ Bolt: Prevent unnecessary re-renders of the entire dock structure
+const FloatingDockDemo = memo(function FloatingDockDemo({
   desktopClassName,
   mobileClassName,
   onWallpaperChange,
@@ -36,7 +37,8 @@ function FloatingDockDemo({
   const [showSettings, setShowSettings] = useState(false);
   const [showGames, setShowGames] = useState(false);
 
-  const links = [
+  // ⚡ Bolt: Memoize the links array to maintain referential stability for FloatingDock
+  const links = useMemo(() => [
     {
       title: 'Home',
       icon: <IconHome className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
@@ -74,7 +76,7 @@ function FloatingDockDemo({
       icon: <IconBrandGithub className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
       href: 'https://github.com/pranav322',
     },
-  ];
+  ], []);
 
   return (
     <>
@@ -93,6 +95,6 @@ function FloatingDockDemo({
       {showGames && <GamesWindow onClose={() => setShowGames(false)} />}
     </>
   );
-}
+});
 
 export default FloatingDockDemo;

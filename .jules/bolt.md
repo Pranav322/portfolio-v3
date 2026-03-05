@@ -1,0 +1,3 @@
+## 2024-05-24 - Expensive Framer Motion Hooks Require Strict Memoization
+**Learning:** Components using expensive Framer Motion hooks (`useSpring`, `useTransform`) like `IconContainer` in `floating-dock.tsx` will cause severe performance degradation if they re-render on parent state updates (like `Home` component's `isCLI` or `wallpaper`). Passing unmemoized arrays (like `links`) or functions to these components triggers unnecessary re-renders.
+**Action:** Always wrap heavy interactive components (like `DesktopIcons`, `FloatingDock`, `Quote`) in `React.memo` and strictly memoize their props using `useMemo` for arrays/objects and `useCallback` for functions passed from parent components to prevent layout thrashing and garbage collection overhead.
