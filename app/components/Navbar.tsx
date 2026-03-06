@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { FloatingDock } from './ui/floating-dock';
 import {
   IconBrandGithub,
@@ -28,7 +28,9 @@ interface FloatingDockDemoProps {
   onWallpaperChange: (wallpaper: string) => void;
 }
 
-function FloatingDockDemo({
+// ⚡ Bolt: Wrap FloatingDockDemo in React.memo to prevent expensive re-renders
+// when the parent Home component's state (e.g., isCLI) changes.
+const FloatingDockDemo = memo(function FloatingDockDemo({
   desktopClassName,
   mobileClassName,
   onWallpaperChange,
@@ -93,6 +95,6 @@ function FloatingDockDemo({
       {showGames && <GamesWindow onClose={() => setShowGames(false)} />}
     </>
   );
-}
+});
 
 export default FloatingDockDemo;
