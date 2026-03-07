@@ -80,6 +80,8 @@ export function BrowserWindow({
             <motion.button
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               className="p-2 rounded-full"
+              aria-label="Minimize"
+              onClick={handleMinimize}
             >
               <IconMinus size={14} className="text-white/80" />
             </motion.button>
@@ -87,6 +89,7 @@ export function BrowserWindow({
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={() => setIsMaximized(!isMaximized)}
               className="p-2 rounded-full"
+              aria-label={isMaximized ? "Restore" : "Maximize"}
             >
               <IconSquare size={14} className="text-white/80" />
             </motion.button>
@@ -94,6 +97,7 @@ export function BrowserWindow({
               whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
               onClick={onClose}
               className="p-2 rounded-full"
+              aria-label="Close"
             >
               <IconX size={14} className="text-white/80" />
             </motion.button>
@@ -106,6 +110,7 @@ export function BrowserWindow({
             onClick={goBack}
             disabled={historyIndex === 0}
             className="p-1.5 rounded-full hover:bg-white/10 disabled:opacity-50 disabled:hover:bg-transparent"
+            aria-label="Go Back"
           >
             <IconArrowLeft size={16} className="text-white/80" />
           </button>
@@ -113,10 +118,11 @@ export function BrowserWindow({
             onClick={goForward}
             disabled={historyIndex === history.length - 1}
             className="p-1.5 rounded-full hover:bg-white/10 disabled:opacity-50 disabled:hover:bg-transparent"
+            aria-label="Go Forward"
           >
             <IconArrowRight size={16} className="text-white/80" />
           </button>
-          <button onClick={refresh} className="p-1.5 rounded-full hover:bg-white/10">
+          <button onClick={refresh} className="p-1.5 rounded-full hover:bg-white/10" aria-label="Refresh">
             <IconRefresh size={16} className="text-white/80" />
           </button>
           <input
