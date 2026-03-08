@@ -15,7 +15,7 @@ import {
   useTransform,
 } from 'framer-motion';
 import Link from 'next/link';
-import { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 interface DockItem {
   title: string;
@@ -145,13 +145,17 @@ const FloatingDockDesktop = ({ items, className }: { items: DockItem[]; classNam
       }}
     >
       {items.map(item => (
-        <IconContainer mouseX={mouseX} key={item.title} {...item} />
+        <MemoizedIconContainer mouseX={mouseX} key={item.title} {...item} />
       ))}
     </motion.div>
   );
 };
 
-function IconContainer({
+// ⚡ Bolt Performance Optimization:
+// Wrapping IconContainer in React.memo prevents expensive Framer Motion hooks
+// (useSpring, useTransform) from re-evaluating when unrelated parent components re-render.
+// This works alongside memoizing the items array passed to FloatingDock.
+const MemoizedIconContainer = React.memo(function IconContainer({
   mouseX,
   title,
   icon,
@@ -278,4 +282,4 @@ function IconContainer({
       {content}
     </button>
   );
-}
+});
