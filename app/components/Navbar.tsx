@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { FloatingDock } from './ui/floating-dock';
 import {
   IconBrandGithub,
@@ -36,7 +36,11 @@ function FloatingDockDemo({
   const [showSettings, setShowSettings] = useState(false);
   const [showGames, setShowGames] = useState(false);
 
-  const links = [
+  // ⚡ Bolt Performance Optimization:
+  // Memoizing the links array prevents it from being recreated on every render
+  // when showSettings or showGames state changes, which in turn prevents
+  // unnecessary re-renders of the expensive FloatingDock component
+  const links = useMemo(() => [
     {
       title: 'Home',
       icon: <IconHome className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
@@ -74,7 +78,7 @@ function FloatingDockDemo({
       icon: <IconBrandGithub className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
       href: 'https://github.com/pranav322',
     },
-  ];
+  ], []);
 
   return (
     <>
