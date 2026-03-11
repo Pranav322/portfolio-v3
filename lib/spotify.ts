@@ -106,6 +106,14 @@ export async function getPlaylists() {
   }
 }
 
+interface Track {
+  title: string;
+  artist: string;
+  albumImageUrl: string;
+  url: string;
+  playedAt: string;
+}
+
 export async function getRecentlyPlayed(): Promise<{ tracks: Track[] }> {
   try {
     const { access_token } = await getAccessToken();
