@@ -21,6 +21,36 @@ interface Book {
   coverImage: string;
 }
 
+// Optimization: Define static arrays outside component to prevent recreation on every render
+const pdfWorkerUrl = `https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`;
+
+const books: Book[] = [
+  {
+    title: 'Women',
+    path: '/books/Women-CharlesBukowski.pdf',
+    author: 'Charles Bukowski',
+    coverImage: '/books/covers/bukowski.jpeg',
+  },
+  {
+    title: 'No Longer Human',
+    path: '/books/no-osamu.pdf',
+    author: 'Dazai Osamu',
+    coverImage: '/books/covers/nolongercover.jpg',
+  },
+  {
+    title: 'A Thousand Splendid Suns',
+    path: '/books/thousand-khaled.pdf',
+    author: 'Khaled Hosseini',
+    coverImage: '/books/covers/thousand.jpg',
+  },
+  {
+    title: 'God is not Great',
+    path: '/books/godisnotgreat.pdf',
+    author: 'Ziauddin Sardar',
+    coverImage: '/books/covers/godisnotgreat-cover.jpeg',
+  },
+];
+
 export function BooksWindow({ onClose }: BooksWindowProps) {
   const [isMaximized, setIsMaximized] = useState(false);
   const [position, setPosition] = useState({ x: window.innerWidth / 4, y: window.innerHeight / 8 });
@@ -31,8 +61,9 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
   const defaultLayoutPluginInstance = defaultLayoutPlugin({
     sidebarTabs: defaultTabs => defaultTabs,
     toolbarPlugin: {
+      // @ts-expect-error - The types for moreActionsPopover are missing in this version
       moreActionsPopover: {
-        render: props => (
+        render: (props: any) => (
           <div style={{ backgroundColor: '#2b2c2f', color: '#ffffff' }}>{props.children}</div>
         ),
       },
@@ -79,36 +110,6 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
   const windowSize = isMaximized
     ? { width: '100%', height: '100%', x: 0, y: 0 }
     : { width: '800px', height: '600px', x: position.x, y: position.y };
-
-  // PDF viewer plugin
-  const pdfWorkerUrl = `https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`;
-
-  const books: Book[] = [
-    {
-      title: 'Women',
-      path: '/books/Women-CharlesBukowski.pdf',
-      author: 'Charles Bukowski',
-      coverImage: '/books/covers/bukowski.jpeg',
-    },
-    {
-      title: 'No Longer Human',
-      path: '/books/no-osamu.pdf',
-      author: 'Dazai Osamu',
-      coverImage: '/books/covers/nolongercover.jpg',
-    },
-    {
-      title: 'A Thousand Splendid Suns',
-      path: '/books/thousand-khaled.pdf',
-      author: 'Khaled Hosseini',
-      coverImage: '/books/covers/thousand.jpg',
-    },
-    {
-      title: 'God is not Great',
-      path: '/books/godisnotgreat.pdf',
-      author: 'Ziauddin Sardar',
-      coverImage: '/books/covers/godisnotgreat-cover.jpeg',
-    },
-  ];
 
   return (
     <WindowWrapper
@@ -274,6 +275,7 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
                 <Worker workerUrl={pdfWorkerUrl}>
                   <ThemeContext.Provider
                     value={{
+                      // @ts-expect-error - 'background' is used but not typed in this version
                       background: '#1a1b1e',
                       text: '#ffffff',
                       controlLabel: {
@@ -296,6 +298,7 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
                         plugins={[defaultLayoutPluginInstance]}
                         defaultScale={SpecialZoomLevel.PageFit}
                         theme="dark"
+                        // @ts-expect-error - className might be missing in these specific pdf viewer types
                         className="dark-pdf-viewer"
                       />
                     </div>
