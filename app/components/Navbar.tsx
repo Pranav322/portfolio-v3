@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { FloatingDock } from './ui/floating-dock';
 import {
   IconBrandGithub,
@@ -95,4 +95,4 @@ function FloatingDockDemo({
   );
 }
 
-export default FloatingDockDemo;
+export default memo(FloatingDockDemo);
