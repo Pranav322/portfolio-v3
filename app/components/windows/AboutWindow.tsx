@@ -47,7 +47,7 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
           </div>
           {/* Window Controls */}
           <div className="flex items-center gap-1">
-            <motion.button
+            <motion.button aria-label="Minimize" title="Minimize"
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               className="p-2 rounded-full"
             >
@@ -60,7 +60,7 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
             >
               <IconSquare size={14} className="text-white/80" />
             </motion.button>
-            <motion.button
+            <motion.button aria-label="Close" title="Close"
               whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
               onClick={onClose}
               className="p-2 rounded-full"

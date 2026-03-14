@@ -51,7 +51,7 @@ export function SkillsWindow({ onClose }: SkillsWindowProps) {
             <span className="text-white/90 text-sm font-medium">Skills</span>
           </div>
           <div className="flex items-center gap-1">
-            <motion.button
+            <motion.button aria-label="Minimize" title="Minimize"
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               className="p-2 rounded-full"
             >
@@ -64,7 +64,7 @@ export function SkillsWindow({ onClose }: SkillsWindowProps) {
             >
               <IconSquare size={14} className="text-white/80" />
             </motion.button>
-            <motion.button
+            <motion.button aria-label="Close" title="Close"
               whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
               onClick={onClose}
               className="p-2 rounded-full"
