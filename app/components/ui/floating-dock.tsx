@@ -15,7 +15,7 @@ import {
   useTransform,
 } from 'framer-motion';
 import Link from 'next/link';
-import { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, memo } from 'react';
 
 interface DockItem {
   title: string;
@@ -151,7 +151,8 @@ const FloatingDockDesktop = ({ items, className }: { items: DockItem[]; classNam
   );
 };
 
-function IconContainer({
+// ⚡ Bolt: Memoize IconContainer to prevent expensive Framer Motion hook recalculations on parent re-render
+const IconContainer = memo(function IconContainer({
   mouseX,
   title,
   icon,
@@ -278,4 +279,6 @@ function IconContainer({
       {content}
     </button>
   );
-}
+});
+
+IconContainer.displayName = 'IconContainer';
