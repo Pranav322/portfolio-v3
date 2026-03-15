@@ -6,3 +6,6 @@
 ## 2025-02-23 - Tooltips for Keyboard Focus
 **Learning:** Icon-only buttons often rely on hover tooltips for context, leaving keyboard users guessing. Adding `onFocus`/`onBlur` handlers to show the same tooltip on focus bridges this gap without visual clutter.
 **Action:** When creating tooltips for icon-only elements, trigger visibility on `hover || focus` and ensure the interactive element itself (not just the inner icon) handles the focus events.
+## 2026-03-15 - Add accessible labels to window controls
+**Learning:** Window controls (Minimize, Maximize, Close) are duplicated across individual desktop window components in `app/components/windows/`. Adding accessibility improvements to them requires manual updates to each respective `*Window.tsx` file.
+**Action:** When making UX or accessibility improvements to window headers, ensure changes are applied consistently across all window component files.
