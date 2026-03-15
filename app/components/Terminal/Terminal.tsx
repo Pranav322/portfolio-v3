@@ -3,14 +3,33 @@ import { TerminalSquare } from 'lucide-react';
 import { safeEvaluate } from '@/lib/math';
 import { getFormattedTime } from '@/lib/utils';
 
-const TerminalClock = () => {
+// Memoized to prevent O(N) re-renders on every keystroke
+const TerminalClock = React.memo(() => {
   const [time, setTime] = useState(getFormattedTime());
   useEffect(() => {
     const timer = setInterval(() => setTime(getFormattedTime()), 1000);
     return () => clearInterval(timer);
   }, []);
   return <div className="text-xs mb-2 sm:mb-4 opacity-70">Last login: {time}</div>;
-};
+});
+TerminalClock.displayName = 'TerminalClock';
+
+// Memoized list item to avoid re-rendering entire command history when typing
+const TerminalCommandItem = React.memo(({ command, userName }: { command: any, userName: string }) => (
+  <div className="mb-2 sm:mb-4" suppressHydrationWarning>
+    <div className="flex gap-1 sm:gap-2 text-xs sm:text-sm flex-wrap">
+      <span className="text-green-500">{userName || 'guest'}@portfolio</span>
+      <span className="text-blue-400">:</span>
+      <span className="text-blue-400">{command.directory || '~'}</span>
+      <span className="text-white">$</span>
+      <span className="text-white break-all">{command.input}</span>
+    </div>
+    <div className="mt-1 text-xs sm:text-sm text-gray-300 break-words whitespace-pre-wrap">
+      {command.output}
+    </div>
+  </div>
+));
+TerminalCommandItem.displayName = 'TerminalCommandItem';
 
 const Terminalcomp = () => {
   const [input, setInput] = useState('');
@@ -491,24 +510,8 @@ const Terminalcomp = () => {
         <div className="p-1 sm:p-2 text-green-100">
           <TerminalClock />
 
-          {commands.map(command => (
-            <div
-              ref={terminalRef}
-              key={command.id}
-              className="mb-2 sm:mb-4"
-              suppressHydrationWarning
-            >
-              <div className="flex gap-1 sm:gap-2 text-xs sm:text-sm flex-wrap">
-                <span className="text-green-500">{userName || 'guest'}@portfolio</span>
-                <span className="text-blue-400">:</span>
-                <span className="text-blue-400">{command.directory || '~'}</span>
-                <span className="text-white">$</span>
-                <span className="text-white break-all">{command.input}</span>
-              </div>
-              <div className="mt-1 text-xs sm:text-sm text-gray-300 break-words whitespace-pre-wrap">
-                {command.output}
-              </div>
-            </div>
+          {commands.map((command: any) => (
+            <TerminalCommandItem key={command.id} command={command} userName={userName} />
           ))}
 
           {isAskingName && (
@@ -516,7 +519,7 @@ const Terminalcomp = () => {
               Please enter your name to continue:
             </div>
           )}
-          <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+          <div ref={terminalRef} className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
             <span className="text-green-500">{userName || 'guest'}@portfolio</span>
             <span className="text-blue-400">:</span>
             <span className="text-blue-400">{currentDirectory}</span>
