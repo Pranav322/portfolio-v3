@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { FloatingDock } from './ui/floating-dock';
 import {
   IconBrandGithub,
@@ -36,7 +36,14 @@ function FloatingDockDemo({
   const [showSettings, setShowSettings] = useState(false);
   const [showGames, setShowGames] = useState(false);
 
-  const links = [
+  // Memoize actions to prevent recreating functions on every render
+  const openSettings = useCallback(() => setShowSettings(true), []);
+  const openGames = useCallback(() => setShowGames(true), []);
+  const closeSettings = useCallback(() => setShowSettings(false), []);
+  const closeGames = useCallback(() => setShowGames(false), []);
+
+  // Memoize links array so FloatingDock doesn't re-render its expensive children
+  const links = useMemo(() => [
     {
       title: 'Home',
       icon: <IconHome className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
@@ -46,13 +53,8 @@ function FloatingDockDemo({
       title: 'Settings',
       icon: <IconSettings className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
       href: '#',
-      action: () => setShowSettings(true),
+      action: openSettings,
     },
-    // {
-    //   title: 'Components',
-    //   icon: <IconNewSection className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
-    //   href: '#',
-    // },
     {
       title: 'Games',
       icon: (
@@ -62,7 +64,7 @@ function FloatingDockDemo({
         />
       ),
       href: '#',
-      action: () => setShowGames(true),
+      action: openGames,
     },
     {
       title: 'Twitter',
@@ -74,7 +76,7 @@ function FloatingDockDemo({
       icon: <IconBrandGithub className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
       href: 'https://github.com/pranav322',
     },
-  ];
+  ], [openSettings, openGames]);
 
   return (
     <>
@@ -86,11 +88,11 @@ function FloatingDockDemo({
 
       {showSettings && (
         <SettingsWindow
-          onClose={() => setShowSettings(false)}
+          onClose={closeSettings}
           onWallpaperChange={onWallpaperChange}
         />
       )}
-      {showGames && <GamesWindow onClose={() => setShowGames(false)} />}
+      {showGames && <GamesWindow onClose={closeGames} />}
     </>
   );
 }
