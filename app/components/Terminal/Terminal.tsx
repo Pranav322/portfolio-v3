@@ -3,14 +3,35 @@ import { TerminalSquare } from 'lucide-react';
 import { safeEvaluate } from '@/lib/math';
 import { getFormattedTime } from '@/lib/utils';
 
-const TerminalClock = () => {
+// ⚡ Bolt: Memoized the TerminalClock so it does not re-render every time the user types in the terminal.
+const TerminalClock = React.memo(() => {
   const [time, setTime] = useState(getFormattedTime());
   useEffect(() => {
     const timer = setInterval(() => setTime(getFormattedTime()), 1000);
     return () => clearInterval(timer);
   }, []);
   return <div className="text-xs mb-2 sm:mb-4 opacity-70">Last login: {time}</div>;
-};
+});
+TerminalClock.displayName = 'TerminalClock';
+
+// ⚡ Bolt: Memoized individual command items to prevent O(N) re-renders of the entire history on every keystroke.
+const TerminalCommandItem = React.memo(({ command, userName }: { command: any; userName: string }) => {
+  return (
+    <div className="mb-2 sm:mb-4" suppressHydrationWarning>
+      <div className="flex gap-1 sm:gap-2 text-xs sm:text-sm flex-wrap">
+        <span className="text-green-500">{userName || 'guest'}@portfolio</span>
+        <span className="text-blue-400">:</span>
+        <span className="text-blue-400">{command.directory || '~'}</span>
+        <span className="text-white">$</span>
+        <span className="text-white break-all">{command.input}</span>
+      </div>
+      <div className="mt-1 text-xs sm:text-sm text-gray-300 break-words whitespace-pre-wrap">
+        {command.output}
+      </div>
+    </div>
+  );
+});
+TerminalCommandItem.displayName = 'TerminalCommandItem';
 
 const Terminalcomp = () => {
   const [input, setInput] = useState('');
@@ -492,23 +513,7 @@ const Terminalcomp = () => {
           <TerminalClock />
 
           {commands.map(command => (
-            <div
-              ref={terminalRef}
-              key={command.id}
-              className="mb-2 sm:mb-4"
-              suppressHydrationWarning
-            >
-              <div className="flex gap-1 sm:gap-2 text-xs sm:text-sm flex-wrap">
-                <span className="text-green-500">{userName || 'guest'}@portfolio</span>
-                <span className="text-blue-400">:</span>
-                <span className="text-blue-400">{command.directory || '~'}</span>
-                <span className="text-white">$</span>
-                <span className="text-white break-all">{command.input}</span>
-              </div>
-              <div className="mt-1 text-xs sm:text-sm text-gray-300 break-words whitespace-pre-wrap">
-                {command.output}
-              </div>
-            </div>
+            <TerminalCommandItem key={command.id} command={command} userName={userName} />
           ))}
 
           {isAskingName && (
@@ -516,7 +521,8 @@ const Terminalcomp = () => {
               Please enter your name to continue:
             </div>
           )}
-          <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+          {/* ⚡ Bolt: Moved the ref to the static input container instead of dynamically re-attaching it in the map loop on every render. */}
+          <div ref={terminalRef} className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
             <span className="text-green-500">{userName || 'guest'}@portfolio</span>
             <span className="text-blue-400">:</span>
             <span className="text-blue-400">{currentDirectory}</span>
