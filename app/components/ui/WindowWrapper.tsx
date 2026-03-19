@@ -33,7 +33,7 @@ export function WindowWrapper({
   children,
   isMaximized,
   onClose,
-  onMinimize,
+  onMinimize: _onMinimize,
   initialWidth = 800,
   initialHeight = 600,
 }: WindowWrapperProps) {
@@ -98,25 +98,35 @@ export function WindowWrapper({
             scale: 1,
             x: shouldBeFullscreen ? 0 : position.x,
             y: shouldBeFullscreen ? 0 : position.y,
-            width: shouldBeFullscreen ? '100%' : size.width,
-            height: shouldBeFullscreen ? '100%' : size.height,
+            top: shouldBeFullscreen ? 0 : undefined,
+            left: shouldBeFullscreen ? 0 : undefined,
+            width: shouldBeFullscreen ? '100vw' : size.width,
+            height: shouldBeFullscreen ? '100vh' : size.height,
           }}
-          transition={{
-            type: 'spring',
-            stiffness: 300,
-            damping: 25,
-            mass: 0.5,
-          }}
+          transition={
+            shouldBeFullscreen
+              ? { duration: 0 }
+              : {
+                  type: 'spring',
+                  stiffness: 300,
+                  damping: 25,
+                  mass: 0.5,
+                }
+          }
           drag={!shouldBeFullscreen}
           dragControls={dragControls}
+          dragListener={!shouldBeFullscreen}
           dragConstraints={constraintsRef}
           dragMomentum={false}
           dragElastic={0}
           onDragEnd={handleDragEnd}
-          className={`fixed bg-gradient-to-br from-gray-900/95 to-black/95 overflow-hidden border border-white/10 ${
-            isMobile ? 'rounded-none' : 'rounded-xl'
+          className={`absolute box-border bg-gradient-to-br from-gray-900/95 to-black/95 overflow-hidden border border-white/10 ${
+            shouldBeFullscreen ? 'rounded-none' : 'rounded-xl'
           }`}
-          style={{ boxShadow: isMobile ? 'none' : '0 8px 32px rgba(0,0,0,0.4)' }}
+          style={{
+            boxShadow: shouldBeFullscreen ? 'none' : '0 8px 32px rgba(0,0,0,0.4)',
+            transformOrigin: 'top left',
+          }}
         >
           {!shouldBeFullscreen && (
             <Resizable
@@ -145,9 +155,6 @@ export function WindowWrapper({
           )}
           {shouldBeFullscreen && children}
         </motion.div>
-      </div>
-      <div className="window-controls">
-        <button onClick={onMinimize}>Minimize</button>
       </div>
     </motion.div>
   );
