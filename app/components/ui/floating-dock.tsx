@@ -14,6 +14,7 @@ import {
   useSpring,
   useTransform,
 } from 'framer-motion';
+import React from 'react';
 import Link from 'next/link';
 import { useRef, useState, useEffect } from 'react';
 
@@ -151,20 +152,21 @@ const FloatingDockDesktop = ({ items, className }: { items: DockItem[]; classNam
   );
 };
 
-function IconContainer({
-  mouseX,
-  title,
-  icon,
-  href,
-  action,
-}: {
-  mouseX: MotionValue;
-  title: string;
-  icon: React.ReactNode;
-  href: string;
-  action?: () => void;
-}) {
-  let ref = useRef<HTMLDivElement>(null);
+const IconContainer = React.memo(
+  ({
+    mouseX,
+    title,
+    icon,
+    href,
+    action,
+  }: {
+    mouseX: MotionValue;
+    title: string;
+    icon: React.ReactNode;
+    href: string;
+    action?: () => void;
+  }) => {
+    let ref = useRef<HTMLDivElement>(null);
   let boundsRef = useRef({ x: 0, width: 0 });
 
   useEffect(() => {
@@ -278,4 +280,6 @@ function IconContainer({
       {content}
     </button>
   );
-}
+});
+
+IconContainer.displayName = 'IconContainer';
