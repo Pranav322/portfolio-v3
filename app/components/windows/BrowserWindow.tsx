@@ -80,7 +80,7 @@ export function BrowserWindow({
             <motion.button
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               className="p-2 rounded-full"
-            >
+             aria-label="Minimize" title="Minimize">
               <IconMinus size={14} className="text-white/80" />
             </motion.button>
             <motion.button
@@ -94,7 +94,7 @@ export function BrowserWindow({
               whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
               onClick={onClose}
               className="p-2 rounded-full"
-            >
+             aria-label="Close" title="Close">
               <IconX size={14} className="text-white/80" />
             </motion.button>
           </div>
