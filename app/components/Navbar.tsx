@@ -36,7 +36,14 @@ function FloatingDockDemo({
   const [showSettings, setShowSettings] = useState(false);
   const [showGames, setShowGames] = useState(false);
 
-  const links = [
+  // ⚡ Bolt: Provide a stable reference to the links array to maintain referential equality across renders.
+  // The FloatingDock component passes these items to IconContainer components which
+  // use heavy Framer Motion hooks (useSpring, useTransform). Recreating this array
+  // on every parent render (like when showSettings/showGames state changes) causes
+  // unnecessary and expensive re-renders of all dock icons.
+  // Using useMemo since some items (Settings/Games) contain actions that reference state setters
+  // that need access to the component scope.
+  const links = React.useMemo(() => [
     {
       title: 'Home',
       icon: <IconHome className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
@@ -74,7 +81,7 @@ function FloatingDockDemo({
       icon: <IconBrandGithub className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
       href: 'https://github.com/pranav322',
     },
-  ];
+  ], [setShowSettings, setShowGames]);
 
   return (
     <>
