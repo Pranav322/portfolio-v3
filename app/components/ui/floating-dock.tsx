@@ -15,7 +15,7 @@ import {
   useTransform,
 } from 'framer-motion';
 import Link from 'next/link';
-import { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 interface DockItem {
   title: string;
@@ -151,7 +151,7 @@ const FloatingDockDesktop = ({ items, className }: { items: DockItem[]; classNam
   );
 };
 
-function IconContainer({
+const IconContainer = React.memo(({
   mouseX,
   title,
   icon,
@@ -163,7 +163,7 @@ function IconContainer({
   icon: React.ReactNode;
   href: string;
   action?: () => void;
-}) {
+}) => {
   let ref = useRef<HTMLDivElement>(null);
   let boundsRef = useRef({ x: 0, width: 0 });
 
@@ -278,4 +278,6 @@ function IconContainer({
       {content}
     </button>
   );
-}
+});
+
+IconContainer.displayName = 'IconContainer';
