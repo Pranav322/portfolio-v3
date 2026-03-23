@@ -36,7 +36,7 @@ function FloatingDockDemo({
   const [showSettings, setShowSettings] = useState(false);
   const [showGames, setShowGames] = useState(false);
 
-  const links = [
+  const links = React.useMemo(() => [
     {
       title: 'Home',
       icon: <IconHome className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
@@ -74,7 +74,7 @@ function FloatingDockDemo({
       icon: <IconBrandGithub className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
       href: 'https://github.com/pranav322',
     },
-  ];
+  ], []);
 
   return (
     <>

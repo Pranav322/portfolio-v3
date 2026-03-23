@@ -15,7 +15,7 @@ import {
   useTransform,
 } from 'framer-motion';
 import Link from 'next/link';
-import { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 interface DockItem {
   title: string;
@@ -24,7 +24,7 @@ interface DockItem {
   action?: () => void;
 }
 
-export const FloatingDock = ({
+export const FloatingDock = React.memo(({
   items,
   desktopClassName,
   mobileClassName,
@@ -39,7 +39,8 @@ export const FloatingDock = ({
       <FloatingDockMobile items={items} className={mobileClassName} />
     </>
   );
-};
+});
+FloatingDock.displayName = 'FloatingDock';
 
 const FloatingDockMobile = ({ items, className }: { items: DockItem[]; className?: string }) => {
   const [open, setOpen] = useState(false);
