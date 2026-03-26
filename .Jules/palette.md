@@ -6,3 +6,7 @@
 ## 2025-02-23 - Tooltips for Keyboard Focus
 **Learning:** Icon-only buttons often rely on hover tooltips for context, leaving keyboard users guessing. Adding `onFocus`/`onBlur` handlers to show the same tooltip on focus bridges this gap without visual clutter.
 **Action:** When creating tooltips for icon-only elements, trigger visibility on `hover || focus` and ensure the interactive element itself (not just the inner icon) handles the focus events.
+
+## 2025-03-01 - Title Tooltips on Hover
+**Learning:** Native `title` attributes provide built-in tooltips on hover for icon-only buttons, complementing `aria-label` for mouse users without requiring additional UI dependencies or state.
+**Action:** Always add `title` attributes alongside `aria-label` to icon-only buttons to ensure context is available visually on mouse hover.
