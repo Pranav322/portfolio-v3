@@ -3,6 +3,13 @@ class RacingGame {
   constructor() {
     this.canvas = document.getElementById('gameCanvas');
     this.ctx = this.canvas.getContext('2d');
+
+    // ⚡ Bolt: Cache DOM elements to prevent repetitive lookups in the 60fps game loop
+    this.scoreElement = document.getElementById('score');
+    this.speedElement = document.getElementById('speed');
+    this.finalScoreElement = document.getElementById('finalScore');
+    this.gameOverElement = document.getElementById('gameOver');
+
     this.score = 0;
     this.speed = 0;
     this.gameRunning = false;
@@ -348,8 +355,9 @@ class RacingGame {
   }
 
   updateScore() {
-    document.getElementById('score').textContent = this.score;
-    document.getElementById('speed').textContent = this.speed;
+    // ⚡ Bolt: Use cached elements instead of querying DOM
+    this.scoreElement.textContent = this.score;
+    this.speedElement.textContent = this.speed;
   }
 
   render() {
@@ -556,8 +564,9 @@ class RacingGame {
 
   gameOver() {
     this.gameRunning = false;
-    document.getElementById('finalScore').textContent = this.score;
-    document.getElementById('gameOver').style.display = 'block';
+    // ⚡ Bolt: Use cached elements
+    this.finalScoreElement.textContent = this.score;
+    this.gameOverElement.style.display = 'block';
   }
 
   restart() {
@@ -576,7 +585,8 @@ class RacingGame {
     this.magnetActive = false;
     this.magnetTimer = 0;
     this.gameRunning = true;
-    document.getElementById('gameOver').style.display = 'none';
+    // ⚡ Bolt: Use cached elements
+    this.gameOverElement.style.display = 'none';
   }
 
   gameLoop() {
