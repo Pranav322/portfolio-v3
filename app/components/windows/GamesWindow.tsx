@@ -49,6 +49,8 @@ export function GamesWindow({ onClose }: GamesWindowProps) {
             <motion.button
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               className="p-2 rounded-full"
+              aria-label="Minimize"
+              title="Minimize"
               onClick={handleMinimize}
             >
               <IconMinus size={14} className="text-white/80" />
@@ -57,6 +59,8 @@ export function GamesWindow({ onClose }: GamesWindowProps) {
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={() => setIsMaximized(!isMaximized)}
               className="p-2 rounded-full"
+              aria-label="Maximize"
+              title="Maximize"
             >
               <IconSquare size={14} className="text-white/80" />
             </motion.button>
@@ -64,6 +68,8 @@ export function GamesWindow({ onClose }: GamesWindowProps) {
               whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
               onClick={onClose}
               className="p-2 rounded-full"
+              aria-label="Close"
+              title="Close"
             >
               <IconX size={14} className="text-white/80" />
             </motion.button>
