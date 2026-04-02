@@ -3,6 +3,15 @@ class RacingGame {
   constructor() {
     this.canvas = document.getElementById('gameCanvas');
     this.ctx = this.canvas.getContext('2d');
+
+    // Cache UI elements to avoid repetitive DOM lookups in performance-critical loops
+    this.uiElements = {
+      score: document.getElementById('score'),
+      speed: document.getElementById('speed'),
+      finalScore: document.getElementById('finalScore'),
+      gameOver: document.getElementById('gameOver'),
+    };
+
     this.score = 0;
     this.speed = 0;
     this.gameRunning = false;
@@ -348,8 +357,8 @@ class RacingGame {
   }
 
   updateScore() {
-    document.getElementById('score').textContent = this.score;
-    document.getElementById('speed').textContent = this.speed;
+    this.uiElements.score.textContent = this.score;
+    this.uiElements.speed.textContent = this.speed;
   }
 
   render() {
@@ -556,8 +565,8 @@ class RacingGame {
 
   gameOver() {
     this.gameRunning = false;
-    document.getElementById('finalScore').textContent = this.score;
-    document.getElementById('gameOver').style.display = 'block';
+    this.uiElements.finalScore.textContent = this.score;
+    this.uiElements.gameOver.style.display = 'block';
   }
 
   restart() {
@@ -576,7 +585,7 @@ class RacingGame {
     this.magnetActive = false;
     this.magnetTimer = 0;
     this.gameRunning = true;
-    document.getElementById('gameOver').style.display = 'none';
+    this.uiElements.gameOver.style.display = 'none';
   }
 
   gameLoop() {
