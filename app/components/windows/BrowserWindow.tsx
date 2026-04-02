@@ -79,6 +79,9 @@ export function BrowserWindow({
           <div className="flex items-center gap-1">
             <motion.button
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
+              onClick={handleMinimize}
+              aria-label="Minimize"
+              title="Minimize"
               className="p-2 rounded-full"
             >
               <IconMinus size={14} className="text-white/80" />
@@ -86,6 +89,8 @@ export function BrowserWindow({
             <motion.button
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={() => setIsMaximized(!isMaximized)}
+              aria-label="Maximize"
+              title="Maximize"
               className="p-2 rounded-full"
             >
               <IconSquare size={14} className="text-white/80" />
@@ -93,6 +98,8 @@ export function BrowserWindow({
             <motion.button
               whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
               onClick={onClose}
+              aria-label="Close"
+              title="Close"
               className="p-2 rounded-full"
             >
               <IconX size={14} className="text-white/80" />
@@ -105,6 +112,8 @@ export function BrowserWindow({
           <button
             onClick={goBack}
             disabled={historyIndex === 0}
+            aria-label="Go back"
+            title="Go back"
             className="p-1.5 rounded-full hover:bg-white/10 disabled:opacity-50 disabled:hover:bg-transparent"
           >
             <IconArrowLeft size={16} className="text-white/80" />
@@ -112,17 +121,25 @@ export function BrowserWindow({
           <button
             onClick={goForward}
             disabled={historyIndex === history.length - 1}
+            aria-label="Go forward"
+            title="Go forward"
             className="p-1.5 rounded-full hover:bg-white/10 disabled:opacity-50 disabled:hover:bg-transparent"
           >
             <IconArrowRight size={16} className="text-white/80" />
           </button>
-          <button onClick={refresh} className="p-1.5 rounded-full hover:bg-white/10">
+          <button
+            onClick={refresh}
+            aria-label="Refresh page"
+            title="Refresh page"
+            className="p-1.5 rounded-full hover:bg-white/10"
+          >
             <IconRefresh size={16} className="text-white/80" />
           </button>
           <input
             type="text"
             value={url}
             onChange={e => handleUrlChange(e.target.value)}
+            aria-label="URL"
             className="flex-1 px-3 py-1.5 bg-white/5 rounded-lg text-white/80 text-sm focus:outline-none focus:ring-1 focus:ring-blue-400/50"
           />
         </div>
