@@ -491,13 +491,9 @@ const Terminalcomp = () => {
         <div className="p-1 sm:p-2 text-green-100">
           <TerminalClock />
 
+          {/* ⚡ Bolt: Removed ref from mapped items to prevent N ref updates per render */}
           {commands.map(command => (
-            <div
-              ref={terminalRef}
-              key={command.id}
-              className="mb-2 sm:mb-4"
-              suppressHydrationWarning
-            >
+            <div key={command.id} className="mb-2 sm:mb-4" suppressHydrationWarning>
               <div className="flex gap-1 sm:gap-2 text-xs sm:text-sm flex-wrap">
                 <span className="text-green-500">{userName || 'guest'}@portfolio</span>
                 <span className="text-blue-400">:</span>
@@ -510,6 +506,9 @@ const Terminalcomp = () => {
               </div>
             </div>
           ))}
+
+          {/* ⚡ Bolt: Single ref attached here for scrolling */}
+          <div ref={terminalRef} />
 
           {isAskingName && (
             <div className="mb-2 sm:mb-4 text-xs sm:text-sm text-yellow-400">
