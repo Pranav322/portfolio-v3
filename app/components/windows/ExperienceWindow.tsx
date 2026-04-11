@@ -73,6 +73,8 @@ export default function ExperienceWindow({ onClose }: ExperienceWindowProps) {
             <motion.button
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={handleMinimize}
+              aria-label="Minimize"
+              title="Minimize"
               className="p-2 rounded-full"
             >
               <IconMinus size={14} className="text-white/80" />
@@ -80,6 +82,8 @@ export default function ExperienceWindow({ onClose }: ExperienceWindowProps) {
             <motion.button
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={() => setIsMaximized(!isMaximized)}
+              aria-label="Maximize"
+              title="Maximize"
               className="p-2 rounded-full"
             >
               <IconSquare size={14} className="text-white/80" />
@@ -87,6 +91,8 @@ export default function ExperienceWindow({ onClose }: ExperienceWindowProps) {
             <motion.button
               whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
               onClick={onClose}
+              aria-label="Close"
+              title="Close"
               className="p-2 rounded-full"
             >
               <IconX size={14} className="text-white/80" />
