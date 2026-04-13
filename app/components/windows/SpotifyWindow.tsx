@@ -42,16 +42,25 @@ export function SpotifyWindow({ onClose }: SpotifyWindowProps) {
             <button
               onClick={handleMinimize}
               className="text-white/50 hover:text-white transition-colors"
+              aria-label="Minimize"
+              title="Minimize"
             >
               <IconMinus size={18} />
             </button>
             <button
               onClick={toggleMaximize}
               className="text-white/50 hover:text-white transition-colors"
+              aria-label={isMaximized ? 'Restore' : 'Maximize'}
+              title={isMaximized ? 'Restore' : 'Maximize'}
             >
               <IconSquare size={16} />
             </button>
-            <button onClick={onClose} className="text-white/50 hover:text-white transition-colors">
+            <button
+              onClick={onClose}
+              className="text-white/50 hover:text-white transition-colors"
+              aria-label="Close"
+              title="Close"
+            >
               <IconX size={20} />
             </button>
           </div>
