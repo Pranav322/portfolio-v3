@@ -492,12 +492,7 @@ const Terminalcomp = () => {
           <TerminalClock />
 
           {commands.map(command => (
-            <div
-              ref={terminalRef}
-              key={command.id}
-              className="mb-2 sm:mb-4"
-              suppressHydrationWarning
-            >
+            <div key={command.id} className="mb-2 sm:mb-4" suppressHydrationWarning>
               <div className="flex gap-1 sm:gap-2 text-xs sm:text-sm flex-wrap">
                 <span className="text-green-500">{userName || 'guest'}@portfolio</span>
                 <span className="text-blue-400">:</span>
@@ -516,6 +511,8 @@ const Terminalcomp = () => {
               Please enter your name to continue:
             </div>
           )}
+          {/* ⚡ Bolt: Attached scroll ref to a single empty div at the end instead of every mapped item to prevent N ref assignments per commit. */}
+          <div ref={terminalRef} />
           <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
             <span className="text-green-500">{userName || 'guest'}@portfolio</span>
             <span className="text-blue-400">:</span>
