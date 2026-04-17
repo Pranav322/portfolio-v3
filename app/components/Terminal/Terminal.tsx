@@ -492,12 +492,7 @@ const Terminalcomp = () => {
           <TerminalClock />
 
           {commands.map(command => (
-            <div
-              ref={terminalRef}
-              key={command.id}
-              className="mb-2 sm:mb-4"
-              suppressHydrationWarning
-            >
+            <div key={command.id} className="mb-2 sm:mb-4" suppressHydrationWarning>
               <div className="flex gap-1 sm:gap-2 text-xs sm:text-sm flex-wrap">
                 <span className="text-green-500">{userName || 'guest'}@portfolio</span>
                 <span className="text-blue-400">:</span>
@@ -533,6 +528,7 @@ const Terminalcomp = () => {
               />
             </form>
           </div>
+          <div ref={terminalRef} />
         </div>
       </div>
     </div>
