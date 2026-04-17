@@ -79,21 +79,28 @@ export function BrowserWindow({
           <div className="flex items-center gap-1">
             <motion.button
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
-              className="p-2 rounded-full"
+              onClick={handleMinimize}
+              aria-label="Minimize"
+              title="Minimize"
+              className="p-2 rounded-full focus-visible:ring-2 focus-visible:outline-none"
             >
               <IconMinus size={14} className="text-white/80" />
             </motion.button>
             <motion.button
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={() => setIsMaximized(!isMaximized)}
-              className="p-2 rounded-full"
+              aria-label="Maximize"
+              title="Maximize"
+              className="p-2 rounded-full focus-visible:ring-2 focus-visible:outline-none"
             >
               <IconSquare size={14} className="text-white/80" />
             </motion.button>
             <motion.button
               whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
               onClick={onClose}
-              className="p-2 rounded-full"
+              aria-label="Close"
+              title="Close"
+              className="p-2 rounded-full focus-visible:ring-2 focus-visible:outline-none"
             >
               <IconX size={14} className="text-white/80" />
             </motion.button>
@@ -105,18 +112,27 @@ export function BrowserWindow({
           <button
             onClick={goBack}
             disabled={historyIndex === 0}
-            className="p-1.5 rounded-full hover:bg-white/10 disabled:opacity-50 disabled:hover:bg-transparent"
+            aria-label="Go back"
+            title={historyIndex === 0 ? 'Cannot go back' : 'Go back'}
+            className="p-1.5 rounded-full hover:bg-white/10 disabled:opacity-50 disabled:hover:bg-transparent focus-visible:ring-2 focus-visible:outline-none"
           >
             <IconArrowLeft size={16} className="text-white/80" />
           </button>
           <button
             onClick={goForward}
             disabled={historyIndex === history.length - 1}
-            className="p-1.5 rounded-full hover:bg-white/10 disabled:opacity-50 disabled:hover:bg-transparent"
+            aria-label="Go forward"
+            title={historyIndex === history.length - 1 ? 'Cannot go forward' : 'Go forward'}
+            className="p-1.5 rounded-full hover:bg-white/10 disabled:opacity-50 disabled:hover:bg-transparent focus-visible:ring-2 focus-visible:outline-none"
           >
             <IconArrowRight size={16} className="text-white/80" />
           </button>
-          <button onClick={refresh} className="p-1.5 rounded-full hover:bg-white/10">
+          <button
+            onClick={refresh}
+            aria-label="Refresh page"
+            title="Refresh page"
+            className="p-1.5 rounded-full hover:bg-white/10 focus-visible:ring-2 focus-visible:outline-none"
+          >
             <IconRefresh size={16} className="text-white/80" />
           </button>
           <input
