@@ -56,14 +56,18 @@ export function GamesWindow({ onClose }: GamesWindowProps) {
             <motion.button
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={() => setIsMaximized(!isMaximized)}
-              className="p-2 rounded-full"
+              className="p-2 rounded-full focus-visible:ring-2 focus-visible:outline-none"
+              aria-label="Maximize"
+              title="Maximize"
             >
               <IconSquare size={14} className="text-white/80" />
             </motion.button>
             <motion.button
               whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
               onClick={onClose}
-              className="p-2 rounded-full"
+              className="p-2 rounded-full focus-visible:ring-2 focus-visible:outline-none"
+              aria-label="Close"
+              title="Close"
             >
               <IconX size={14} className="text-white/80" />
             </motion.button>
