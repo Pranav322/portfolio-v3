@@ -493,7 +493,6 @@ const Terminalcomp = () => {
 
           {commands.map(command => (
             <div
-              ref={terminalRef}
               key={command.id}
               className="mb-2 sm:mb-4"
               suppressHydrationWarning
@@ -533,6 +532,8 @@ const Terminalcomp = () => {
               />
             </form>
           </div>
+          {/* ⚡ Bolt: Attached ref to a single empty element at the end instead of inside the .map() loop to prevent O(N) ref updates per commit */}
+          <div ref={terminalRef} />
         </div>
       </div>
     </div>
