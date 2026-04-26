@@ -40,6 +40,11 @@ class RacingGame {
     this.coinSpawnTimer = 0;
     this.powerUpSpawnTimer = 0;
 
+    this.scoreElement = document.getElementById('score');
+    this.speedElement = document.getElementById('speed');
+    this.finalScoreElement = document.getElementById('finalScore');
+    this.gameOverElement = document.getElementById('gameOver');
+
     this.init();
   }
 
@@ -348,8 +353,8 @@ class RacingGame {
   }
 
   updateScore() {
-    document.getElementById('score').textContent = this.score;
-    document.getElementById('speed').textContent = this.speed;
+    this.scoreElement.textContent = this.score;
+    this.speedElement.textContent = this.speed;
   }
 
   render() {
@@ -556,8 +561,8 @@ class RacingGame {
 
   gameOver() {
     this.gameRunning = false;
-    document.getElementById('finalScore').textContent = this.score;
-    document.getElementById('gameOver').style.display = 'block';
+    this.finalScoreElement.textContent = this.score;
+    this.gameOverElement.style.display = 'block';
   }
 
   restart() {
@@ -576,7 +581,7 @@ class RacingGame {
     this.magnetActive = false;
     this.magnetTimer = 0;
     this.gameRunning = true;
-    document.getElementById('gameOver').style.display = 'none';
+    this.gameOverElement.style.display = 'none';
   }
 
   gameLoop() {
