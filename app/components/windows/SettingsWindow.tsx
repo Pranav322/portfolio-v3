@@ -310,8 +310,6 @@ export function SettingsWindow({ onClose, onWallpaperChange }: SettingsWindowPro
           </div>
           <div className="flex items-center gap-1">
             <motion.button
-              aria-label="Minimize"
-              title="Minimize"
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={handleMinimize}
               className="p-2 rounded-full"
@@ -319,8 +317,6 @@ export function SettingsWindow({ onClose, onWallpaperChange }: SettingsWindowPro
               <IconMinus size={14} className="text-white/80" />
             </motion.button>
             <motion.button
-              aria-label={isMaximized ? 'Restore' : 'Maximize'}
-              title={isMaximized ? 'Restore' : 'Maximize'}
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={() => setIsMaximized(!isMaximized)}
               className="p-2 rounded-full"
@@ -328,8 +324,6 @@ export function SettingsWindow({ onClose, onWallpaperChange }: SettingsWindowPro
               <IconSquare size={14} className="text-white/80" />
             </motion.button>
             <motion.button
-              aria-label="Close"
-              title="Close"
               whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
               onClick={onClose}
               className="p-2 rounded-full"
