@@ -1,0 +1,3 @@
+## 2025-04-28 - Spotify Token Caching
+**Learning:** When fetching API tokens in Next.js backend routes (e.g. `lib/spotify.ts`) used by multiple UI components rendering simultaneously, caching the token value after it arrives is insufficient. If 5 components render at once (like Top Tracks, Top Artists, Now Playing), they will fire 5 parallel token requests before the first one resolves. Furthermore, checking expiration time against a default `0` while the promise is still pending will cause concurrent requests to bypass the cache.
+**Action:** Always cache the *Promise* of the token fetch itself, and ensure the cache validity check correctly accounts for the initial pending state (e.g., `tokenExpirationTime === 0`) to properly deduplicate concurrent requests.
