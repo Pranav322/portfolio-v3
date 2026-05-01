@@ -8,8 +8,19 @@ const TOP_TRACKS_ENDPOINT = 'https://api.spotify.com/v1/me/top/tracks';
 const TOP_ARTISTS_ENDPOINT = 'https://api.spotify.com/v1/me/top/artists';
 const RECENTLY_PLAYED_ENDPOINT = 'https://api.spotify.com/v1/me/player/recently-played';
 
+let tokenPromise: Promise<any> | null = null;
+let tokenExpirationTime = 0;
+
 async function getAccessToken() {
-  const response = await fetch(TOKEN_ENDPOINT, {
+  const now = Date.now();
+
+  // ⚡ Bolt: Cache the Promise to prevent concurrent requests during the resolution phase.
+  if (tokenPromise && (tokenExpirationTime === 0 || now < tokenExpirationTime)) {
+    return tokenPromise;
+  }
+
+  tokenExpirationTime = 0; // Reset to prevent concurrent fetches during renewal
+  tokenPromise = fetch(TOKEN_ENDPOINT, {
     method: 'POST',
     headers: {
       Authorization: `Basic ${basic}`,
@@ -19,9 +30,21 @@ async function getAccessToken() {
       grant_type: 'refresh_token',
       refresh_token: refresh_token!,
     }),
+  }).then(async (response) => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    // Cache for 1 hour (Spotify default), minus 60s for safety buffer
+    tokenExpirationTime = now + (data.expires_in ? (data.expires_in - 60) * 1000 : 3500 * 1000);
+    return data;
+  }).catch((error) => {
+    tokenPromise = null;
+    tokenExpirationTime = 0;
+    throw error;
   });
 
-  return response.json();
+  return tokenPromise;
 }
 
 export async function getNowPlaying() {
