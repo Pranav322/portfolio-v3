@@ -49,21 +49,27 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
           <div className="flex items-center gap-1">
             <motion.button
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
-              className="p-2 rounded-full"
+              className="p-2 rounded-full focus-visible:ring-2 focus-visible:outline-none"
+              aria-label="Minimize"
+              title="Minimize"
             >
               <IconMinus size={14} className="text-white/80" />
             </motion.button>
             <motion.button
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={() => setIsMaximized(!isMaximized)}
-              className="p-2 rounded-full"
+              className="p-2 rounded-full focus-visible:ring-2 focus-visible:outline-none"
+              aria-label="Maximize"
+              title="Maximize"
             >
               <IconSquare size={14} className="text-white/80" />
             </motion.button>
             <motion.button
               whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
               onClick={onClose}
-              className="p-2 rounded-full"
+              className="p-2 rounded-full focus-visible:ring-2 focus-visible:outline-none"
+              aria-label="Close"
+              title="Close"
             >
               <IconX size={14} className="text-white/80" />
             </motion.button>
@@ -97,13 +103,17 @@ export default function AboutWindow({ onClose }: AboutWindowProps) {
                   >
                     <span>📧</span> <p className="text-white/90">pranavdotdev@gmail.com</p>
                   </motion.a>
-                  <motion.button
+                  <motion.a
                     whileHover={{ scale: 1.05 }}
-                    className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors"
-                    onClick={() => window.open('https://github.com/Pranav322', '_blank')}
+                    className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors focus-visible:ring-2 focus-visible:outline-none"
+                    href="https://github.com/Pranav322"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="GitHub Profile"
+                    title="GitHub Profile"
                   >
                     <span>🔗</span> <p className="text-white/90">github.com/pranav322</p>
-                  </motion.button>
+                  </motion.a>
                 </div>
               </motion.div>
 
