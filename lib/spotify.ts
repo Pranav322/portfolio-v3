@@ -8,20 +8,59 @@ const TOP_TRACKS_ENDPOINT = 'https://api.spotify.com/v1/me/top/tracks';
 const TOP_ARTISTS_ENDPOINT = 'https://api.spotify.com/v1/me/top/artists';
 const RECENTLY_PLAYED_ENDPOINT = 'https://api.spotify.com/v1/me/player/recently-played';
 
-async function getAccessToken() {
-  const response = await fetch(TOKEN_ENDPOINT, {
-    method: 'POST',
-    headers: {
-      Authorization: `Basic ${basic}`,
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: new URLSearchParams({
-      grant_type: 'refresh_token',
-      refresh_token: refresh_token!,
-    }),
-  });
+// ⚡ Bolt: Cache the access token promise to prevent duplicate concurrent network requests
+// when multiple components (NowPlaying, TopTracks, etc.) render simultaneously.
+let tokenPromiseCache: Promise<any> | null = null;
+let tokenExpirationTime = 0;
 
-  return response.json();
+async function getAccessToken() {
+  const now = Date.now();
+
+  // If we have a cached promise and it hasn't expired, return it immediately
+  if (tokenPromiseCache && now < tokenExpirationTime) {
+    return tokenPromiseCache;
+  }
+
+  // Create a new promise and cache it
+  tokenPromiseCache = (async () => {
+    const response = await fetch(TOKEN_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        Authorization: `Basic ${basic}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        grant_type: 'refresh_token',
+        refresh_token: refresh_token!,
+      }),
+    });
+
+    if (!response.ok) {
+      // Clear the cache on failure so the next request can try again
+      tokenPromiseCache = null;
+      throw new Error(`Failed to fetch Spotify access token: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    // Spotify tokens typically expire in 3600 seconds (1 hour)
+    // We set expiration slightly earlier (55 minutes) to be safe
+    // If expires_in isn't provided, default to 55 minutes
+    const expiresInSeconds = data.expires_in || 3600;
+    tokenExpirationTime = now + (expiresInSeconds - 300) * 1000;
+
+    return data;
+  })();
+
+  // Evaluate tokenExpirationTime === 0 check to ensure we don't inadvertently
+  // bypass the cache while the first request is still resolving
+  // Setting an arbitrary initial expiration ensures subsequent synchronous callers
+  // hit the cached promise instead of triggering a new fetch
+  if (tokenExpirationTime === 0) {
+    tokenExpirationTime = now + 10000;
+  }
+
+  return tokenPromiseCache;
 }
 
 export async function getNowPlaying() {
