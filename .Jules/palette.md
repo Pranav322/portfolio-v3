@@ -6,3 +6,7 @@
 ## 2025-02-23 - Tooltips for Keyboard Focus
 **Learning:** Icon-only buttons often rely on hover tooltips for context, leaving keyboard users guessing. Adding `onFocus`/`onBlur` handlers to show the same tooltip on focus bridges this gap without visual clutter.
 **Action:** When creating tooltips for icon-only elements, trigger visibility on `hover || focus` and ensure the interactive element itself (not just the inner icon) handles the focus events.
+
+## 2025-05-04 - Floating Action Buttons Focus States
+**Learning:** Fixed position or "floating" icon buttons (like mode toggles) are often easily missed by keyboard users if they lack distinct focus styles, as browser default focus rings can blend into the background or be overridden by other utilities.
+**Action:** Always explicitly define `focus-visible` ring utilities (e.g., `focus-visible:ring-2 focus-visible:ring-blue-500`) on floating action buttons to ensure they have high visibility when navigated via keyboard.

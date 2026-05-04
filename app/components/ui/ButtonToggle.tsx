@@ -10,7 +10,7 @@ export function ToggleButton({ isCLI, onToggle }: ToggleButtonProps) {
   return (
     <button
       onClick={onToggle}
-      className="fixed bottom-20 sm:bottom-24 right-4 sm:right-8 p-3 sm:p-4 rounded-full bg-white/50 backdrop-blur-sm text-black shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 transition-all duration-300 z-50 min-w-[44px] min-h-[44px] flex items-center justify-center"
+      className="fixed bottom-20 sm:bottom-24 right-4 sm:right-8 p-3 sm:p-4 rounded-full bg-white/50 backdrop-blur-sm text-black shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 transition-all duration-300 z-50 min-w-[44px] min-h-[44px] flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
       aria-label={isCLI ? 'Switch to GUI mode' : 'Switch to CLI mode'}
       title={isCLI ? 'Switch to GUI mode' : 'Switch to CLI mode'}
     >
