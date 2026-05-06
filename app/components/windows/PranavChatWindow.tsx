@@ -210,6 +210,7 @@ export function PranavChatWindow({ onClose }: PranavChatWindowProps) {
               onChange={e => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Ask me anything..."
+              aria-label="Type your message"
               className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 sm:px-4 text-xs sm:text-sm text-white placeholder-white/40 focus:outline-none focus:ring-1 focus:ring-purple-500/50"
               disabled={isLoading}
             />
@@ -218,9 +219,15 @@ export function PranavChatWindow({ onClose }: PranavChatWindowProps) {
               whileTap={{ scale: 0.95 }}
               onClick={sendMessage}
               disabled={isLoading || !input.trim()}
-              className="px-3 sm:px-4 bg-white/5 hover:bg-white/10 disabled:opacity-50 rounded-lg border border-white/10 transition-colors touch-target"
+              aria-label="Send message"
+              title={isLoading ? 'Sending...' : 'Send message'}
+              className="px-3 sm:px-4 bg-white/5 hover:bg-white/10 disabled:opacity-50 rounded-lg border border-white/10 transition-colors touch-target focus-visible:ring-2 focus-visible:ring-purple-500/50 focus-visible:outline-none"
             >
-              <IconSend size={16} className="text-purple-400" />
+              {isLoading ? (
+                <IconLoader2 size={16} className="text-purple-400 animate-spin" />
+              ) : (
+                <IconSend size={16} className="text-purple-400" />
+              )}
             </motion.button>
           </div>
         </div>
