@@ -6,3 +6,7 @@
 ## 2025-02-23 - Tooltips for Keyboard Focus
 **Learning:** Icon-only buttons often rely on hover tooltips for context, leaving keyboard users guessing. Adding `onFocus`/`onBlur` handlers to show the same tooltip on focus bridges this gap without visual clutter.
 **Action:** When creating tooltips for icon-only elements, trigger visibility on `hover || focus` and ensure the interactive element itself (not just the inner icon) handles the focus events.
+
+## 2025-02-23 - Accessible Custom File Uploads
+**Learning:** Using Tailwind's `hidden` class (`display: none`) on native `<input type="file">` elements to create custom upload buttons removes the element entirely from the accessibility tree, making it undiscoverable by screen readers and unreachable via keyboard tabbing.
+**Action:** Always use `sr-only` to visually hide native inputs while preserving accessibility. To provide visual feedback for keyboard users, apply `focus-within:ring-2` (and related styling) to the surrounding `<label>` element that acts as the custom button.
