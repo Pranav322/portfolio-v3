@@ -6,3 +6,7 @@
 ## 2025-02-23 - Tooltips for Keyboard Focus
 **Learning:** Icon-only buttons often rely on hover tooltips for context, leaving keyboard users guessing. Adding `onFocus`/`onBlur` handlers to show the same tooltip on focus bridges this gap without visual clutter.
 **Action:** When creating tooltips for icon-only elements, trigger visibility on `hover || focus` and ensure the interactive element itself (not just the inner icon) handles the focus events.
+
+## 2024-05-10 - File Upload Accessibility
+**Learning:** Custom file upload UI using `<label>` with an internal `input type="file"` often uses `className="hidden"` to hide the ugly default input. This removes the input from the accessibility tree, breaking keyboard navigation.
+**Action:** Always use `.sr-only` to visually hide `<input type="file">` elements while preserving accessibility. Combine this with `focus-within:ring-*` on the parent `<label>` to display focus states correctly when keyboard users tab to the input.
