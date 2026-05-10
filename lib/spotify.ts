@@ -8,7 +8,10 @@ const TOP_TRACKS_ENDPOINT = 'https://api.spotify.com/v1/me/top/tracks';
 const TOP_ARTISTS_ENDPOINT = 'https://api.spotify.com/v1/me/top/artists';
 const RECENTLY_PLAYED_ENDPOINT = 'https://api.spotify.com/v1/me/player/recently-played';
 
-async function getAccessToken() {
+let cachedTokenPromise: Promise<{ access_token: string; expires_in: number }> | null = null;
+let tokenExpirationTime: number = 0;
+
+async function fetchAccessToken() {
   const response = await fetch(TOKEN_ENDPOINT, {
     method: 'POST',
     headers: {
@@ -21,7 +24,34 @@ async function getAccessToken() {
     }),
   });
 
+  if (!response.ok) {
+    throw new Error(`Failed to fetch access token: ${response.statusText}`);
+  }
+
   return response.json();
+}
+
+async function getAccessToken() {
+  const now = Date.now();
+  // Check if we need to fetch a new token
+  if (!cachedTokenPromise || (tokenExpirationTime > 0 && now >= tokenExpirationTime)) {
+    // Reset expiration time to prevent concurrent requests from bypassing the cache
+    tokenExpirationTime = 0;
+
+    cachedTokenPromise = fetchAccessToken()
+      .then((data) => {
+        // Set expiration time 5 seconds before actual expiration to be safe
+        tokenExpirationTime = Date.now() + (data.expires_in - 5) * 1000;
+        return data;
+      })
+      .catch((error) => {
+        // Clear cache on error so next attempt can retry
+        cachedTokenPromise = null;
+        throw error;
+      });
+  }
+
+  return cachedTokenPromise;
 }
 
 export async function getNowPlaying() {
