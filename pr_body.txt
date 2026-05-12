@@ -1,0 +1,7 @@
+💡 What: Replaced the Tailwind `hidden` class with `sr-only` on the custom wallpaper file input and added a `focus-within` visual ring to the surrounding `<label>`.
+
+🎯 Why: The `hidden` utility removes elements from the accessibility tree entirely, meaning keyboard users cannot tab to the input, and screen readers cannot interact with it.
+
+📸 Before/After: Visual changes are limited to a focus ring appearing on the upload zone when navigated via keyboard.
+
+♿ Accessibility: The file input is now fully focusable via keyboard navigation, properly read by screen readers, and displays a clear visual focus state on its interactive wrapper label.
