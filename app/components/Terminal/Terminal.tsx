@@ -475,12 +475,25 @@ const Terminalcomp = () => {
       <div className="border-2 border-neutral-800 dark:border-neutral-700 rounded-sm w-full max-w-[700px] h-[500px] max-h-[80vh] bg-black/90 backdrop-blur-sm p-2 sm:p-4 overflow-y-auto font-mono terminal-glow mobile-hide-scrollbar custom-scrollbar">
         <div className="flex justify-between mb-3 sm:mb-5 items-center sticky top-0 bg-black/90 z-20 backdrop-blur-lg p-1 sm:p-2 rounded-sm">
           <div className="flex gap-1 sm:gap-2">
-            <div
-              className="w-2 h-2 sm:w-3 sm:h-3 duration-200 cursor-pointer bg-red-500 rounded-full hover:bg-red-400"
+            <button
+              type="button"
+              aria-label="Close terminal"
+              title="Close terminal"
+              className="w-2 h-2 sm:w-3 sm:h-3 duration-200 cursor-pointer bg-red-500 rounded-full hover:bg-red-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
               onClick={() => (window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ')}
-            ></div>
-            <div className="w-2 h-2 sm:w-3 sm:h-3 duration-200 cursor-pointer bg-yellow-500 rounded-full hover:bg-yellow-400"></div>
-            <div className="w-2 h-2 sm:w-3 sm:h-3 cursor-pointer duration-200 bg-green-500 rounded-full hover:bg-green-400"></div>
+            ></button>
+            <button
+              type="button"
+              aria-label="Minimize terminal"
+              title="Minimize terminal"
+              className="w-2 h-2 sm:w-3 sm:h-3 duration-200 cursor-pointer bg-yellow-500 rounded-full hover:bg-yellow-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+            ></button>
+            <button
+              type="button"
+              aria-label="Maximize terminal"
+              title="Maximize terminal"
+              className="w-2 h-2 sm:w-3 sm:h-3 cursor-pointer duration-200 bg-green-500 rounded-full hover:bg-green-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+            ></button>
           </div>
           <h1 className="text-white text-xs sm:text-sm truncate mx-2">{getPrompt()}</h1>
           <span className="flex gap-1 text-xs sm:text-sm border border-white/20 rounded-sm px-1 sm:px-2 py-0.5 sm:py-1 text-green-400">
@@ -525,6 +538,7 @@ const Terminalcomp = () => {
                 className="bg-transparent w-full outline-none border-none focus:outline-none text-white caret-green-500 text-xs sm:text-sm"
                 spellCheck={false}
                 autoFocus
+                aria-label="Terminal command input"
               />
             </form>
           </div>
