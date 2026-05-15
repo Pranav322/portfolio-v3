@@ -1,3 +1,4 @@
-## 2025-02-12 - [Conditional Rendering vs Code Splitting]
-**Learning:** Static imports of components inside conditional blocks (e.g., `{isCLI && <Terminalcomp />}`) are still bundled in the main chunk. Simply wrapping a component in a conditional check does NOT lazy load its code.
-**Action:** Always use `next/dynamic` or `React.lazy` for heavy components that are not visible on initial render, especially for "modes" or "tabs" that are hidden by default.
+## 2024-05-15 - Cache Promises to Prevent Concurrent Duplicate Fetches
+
+**Learning:** When fetching tokens or data used by multiple components rendering simultaneously, caching just the resolved result isn't enough. Concurrent requests will still fire.
+**Action:** Cache the Promise itself during the pending state. When caching Promises with expiration, always handle the initial pending state (e.g., `tokenExpirationTime === 0`), check `!response.ok` before caching, and clear the cache variable in `.catch()` to prevent caching failed states.
