@@ -8,8 +8,21 @@ const TOP_TRACKS_ENDPOINT = 'https://api.spotify.com/v1/me/top/tracks';
 const TOP_ARTISTS_ENDPOINT = 'https://api.spotify.com/v1/me/top/artists';
 const RECENTLY_PLAYED_ENDPOINT = 'https://api.spotify.com/v1/me/player/recently-played';
 
+import type { Track } from '@/types/spotify';
+
+let cachedPromise: Promise<any> | null = null;
+let tokenExpirationTime: number = 0;
+
 async function getAccessToken() {
-  const response = await fetch(TOKEN_ENDPOINT, {
+  const now = Date.now();
+
+  if (cachedPromise && (tokenExpirationTime === 0 || now < tokenExpirationTime)) {
+    return cachedPromise;
+  }
+
+  tokenExpirationTime = 0;
+
+  cachedPromise = fetch(TOKEN_ENDPOINT, {
     method: 'POST',
     headers: {
       Authorization: `Basic ${basic}`,
@@ -19,9 +32,22 @@ async function getAccessToken() {
       grant_type: 'refresh_token',
       refresh_token: refresh_token!,
     }),
-  });
+  })
+    .then(async response => {
+      if (!response.ok) {
+        throw new Error(`Failed to fetch access token`);
+      }
+      const data = await response.json();
+      tokenExpirationTime = Date.now() + (data.expires_in || 3600) * 1000 - 60000; // 60s buffer
+      return data;
+    })
+    .catch(error => {
+      cachedPromise = null;
+      tokenExpirationTime = 0;
+      throw error;
+    });
 
-  return response.json();
+  return cachedPromise;
 }
 
 export async function getNowPlaying() {
