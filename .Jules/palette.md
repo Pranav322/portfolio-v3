@@ -6,3 +6,7 @@
 ## 2025-02-23 - Tooltips for Keyboard Focus
 **Learning:** Icon-only buttons often rely on hover tooltips for context, leaving keyboard users guessing. Adding `onFocus`/`onBlur` handlers to show the same tooltip on focus bridges this gap without visual clutter.
 **Action:** When creating tooltips for icon-only elements, trigger visibility on `hover || focus` and ensure the interactive element itself (not just the inner icon) handles the focus events.
+
+## 2024-05-16 - Accessible Window Controls
+**Learning:** Custom window control components (Minimize/Maximize/Close) require explicit `aria-label`, `title`, and `focus-visible` styling to be accessible. Relying on hover states alone hides functionality from keyboard users.
+**Action:** Always verify that newly created custom window headers include focus states and ARIA labels.
