@@ -6,3 +6,7 @@
 ## 2025-02-23 - Tooltips for Keyboard Focus
 **Learning:** Icon-only buttons often rely on hover tooltips for context, leaving keyboard users guessing. Adding `onFocus`/`onBlur` handlers to show the same tooltip on focus bridges this gap without visual clutter.
 **Action:** When creating tooltips for icon-only elements, trigger visibility on `hover || focus` and ensure the interactive element itself (not just the inner icon) handles the focus events.
+
+## 2026-05-18 - File Input Accessibility
+**Learning:** Tailwind's `hidden` class removes file inputs from the accessibility tree, making them completely inaccessible to keyboard and screen reader users.
+**Action:** Use `sr-only` on the `<input type="file">` to keep it in the DOM for screen readers and tab navigation, and apply `focus-within` styles to its visible wrapping `<label>` to display focus states to sighted keyboard users.
