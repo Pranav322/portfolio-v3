@@ -1,0 +1,4 @@
+💡 What: Changed the custom file upload input from 'hidden' to 'sr-only' and added focus-within styles.
+🎯 Why: To maintain keyboard tab order and ensure keyboard users can interact with the file upload and see their focus position.
+📸 Before/After: Before: File input was fully removed from accessibility tree. After: Input is visually hidden but navigable, wrapping label shows focus rings.
+♿ Accessibility: Improved keyboard navigation and focus visibility for the wallpaper settings file upload.
