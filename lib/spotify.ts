@@ -8,8 +8,25 @@ const TOP_TRACKS_ENDPOINT = 'https://api.spotify.com/v1/me/top/tracks';
 const TOP_ARTISTS_ENDPOINT = 'https://api.spotify.com/v1/me/top/artists';
 const RECENTLY_PLAYED_ENDPOINT = 'https://api.spotify.com/v1/me/player/recently-played';
 
+// Cache the Promise of the token fetch to prevent duplicate concurrent network requests.
+// This is critical since multiple components might request Spotify data simultaneously.
+let cachedTokenPromise: Promise<any> | null = null;
+let tokenExpirationTime = 0;
+
 async function getAccessToken() {
-  const response = await fetch(TOKEN_ENDPOINT, {
+  const now = Date.now();
+
+  // If we have a pending promise or a valid token, return the cached promise
+  // We check if tokenExpirationTime is 0 to correctly evaluate the initial pending state
+  if (cachedTokenPromise && (tokenExpirationTime === 0 || now < tokenExpirationTime)) {
+    return cachedTokenPromise;
+  }
+
+  // Reset expiration time before initiating the new fetch to ensure concurrent requests
+  // correctly evaluate the pending state instead of bypassing the cache with a stale expiration.
+  tokenExpirationTime = 0;
+
+  cachedTokenPromise = fetch(TOKEN_ENDPOINT, {
     method: 'POST',
     headers: {
       Authorization: `Basic ${basic}`,
@@ -19,9 +36,25 @@ async function getAccessToken() {
       grant_type: 'refresh_token',
       refresh_token: refresh_token!,
     }),
-  });
+  })
+    .then(async response => {
+      // Explicitly check !response.ok to prevent silently caching failed HTTP responses
+      if (!response.ok) {
+        throw new Error(`Failed to fetch access token: ${response.status} ${response.statusText}`);
+      }
+      const data = await response.json();
+      // Set expiration time (subtract 5 minutes (300000ms) as a buffer)
+      tokenExpirationTime = Date.now() + data.expires_in * 1000 - 300000;
+      return data;
+    })
+    .catch(error => {
+      // Reset cache variable to prevent transient errors from poisoning the cache permanently
+      cachedTokenPromise = null;
+      tokenExpirationTime = 0;
+      throw error;
+    });
 
-  return response.json();
+  return cachedTokenPromise;
 }
 
 export async function getNowPlaying() {
