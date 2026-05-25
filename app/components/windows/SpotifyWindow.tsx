@@ -38,21 +38,30 @@ export function SpotifyWindow({ onClose }: SpotifyWindowProps) {
             <IconBrandSpotify size={20} className="text-[#1DB954]" />
             <span className="text-white/90 text-sm font-medium">Spotify Stats</span>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1">
             <button
               onClick={handleMinimize}
-              className="text-white/50 hover:text-white transition-colors"
+              aria-label="Minimize"
+              title="Minimize"
+              className="p-2 rounded-full text-white/50 hover:text-white hover:bg-white/10 transition-colors focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-white/50"
             >
-              <IconMinus size={18} />
+              <IconMinus size={14} />
             </button>
             <button
               onClick={toggleMaximize}
-              className="text-white/50 hover:text-white transition-colors"
+              aria-label={isMaximized ? 'Restore down' : 'Maximize'}
+              title={isMaximized ? 'Restore down' : 'Maximize'}
+              className="p-2 rounded-full text-white/50 hover:text-white hover:bg-white/10 transition-colors focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-white/50"
             >
-              <IconSquare size={16} />
+              <IconSquare size={14} />
             </button>
-            <button onClick={onClose} className="text-white/50 hover:text-white transition-colors">
-              <IconX size={20} />
+            <button
+              onClick={onClose}
+              aria-label="Close"
+              title="Close"
+              className="p-2 rounded-full text-white/50 hover:text-white hover:bg-red-500/20 transition-colors focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-red-500/50"
+            >
+              <IconX size={14} />
             </button>
           </div>
         </motion.div>
