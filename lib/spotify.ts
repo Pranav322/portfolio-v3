@@ -8,8 +8,26 @@ const TOP_TRACKS_ENDPOINT = 'https://api.spotify.com/v1/me/top/tracks';
 const TOP_ARTISTS_ENDPOINT = 'https://api.spotify.com/v1/me/top/artists';
 const RECENTLY_PLAYED_ENDPOINT = 'https://api.spotify.com/v1/me/player/recently-played';
 
+// ⚡ Bolt: Cache Spotify access token promise to prevent concurrent requests
+// 💡 What: Cache the pending fetch Promise and its resolved token, with expiration.
+// 🎯 Why: Multiple components rendering simultaneously (e.g., Now Playing, Top Tracks)
+//        can trigger duplicate token requests before the first one completes.
+//        Caching the Promise ensures all concurrent callers await the same request.
+let cachedTokenPromise: Promise<any> | null = null;
+let tokenExpirationTime: number = 0;
+
 async function getAccessToken() {
-  const response = await fetch(TOKEN_ENDPOINT, {
+  const now = Date.now();
+
+  // Return the cached promise if it's currently fetching (expiration is 0) or the token hasn't expired
+  if (cachedTokenPromise && (tokenExpirationTime === 0 || now < tokenExpirationTime)) {
+    return cachedTokenPromise;
+  }
+
+  // Reset expiration to indicate a pending request and prevent concurrent fetches
+  tokenExpirationTime = 0;
+
+  cachedTokenPromise = fetch(TOKEN_ENDPOINT, {
     method: 'POST',
     headers: {
       Authorization: `Basic ${basic}`,
@@ -19,9 +37,25 @@ async function getAccessToken() {
       grant_type: 'refresh_token',
       refresh_token: refresh_token!,
     }),
-  });
+  })
+    .then(async response => {
+      // Throw error before parsing to prevent silently caching failed HTTP responses
+      if (!response.ok) {
+        throw new Error(`Failed to fetch access token: ${response.statusText}`);
+      }
+      const data = await response.json();
 
-  return response.json();
+      // Set expiration time (subtracting a 60s buffer to ensure token is valid)
+      tokenExpirationTime = now + (data.expires_in - 60) * 1000;
+      return data;
+    })
+    .catch(error => {
+      // Clear the cache promise to avoid poisoning it with a rejection
+      cachedTokenPromise = null;
+      throw error;
+    });
+
+  return cachedTokenPromise;
 }
 
 export async function getNowPlaying() {
