@@ -160,14 +160,14 @@ export function SettingsWindow({ onClose, onWallpaperChange }: SettingsWindowPro
             {/* Custom Upload Section */}
             <div className="mb-8">
               <h3 className="text-white/90 font-medium mb-4">Upload Custom Wallpaper</h3>
-              <label className="flex items-center gap-3 p-4 border border-dashed border-white/20 rounded-lg cursor-pointer hover:bg-white/5">
+              <label className="flex items-center gap-3 p-4 border border-dashed border-white/20 rounded-lg cursor-pointer hover:bg-white/5 focus-within:ring-2 focus-within:outline-none">
                 <IconUpload className="text-white/60" />
                 <span className="text-white/60">Choose a file or drag it here</span>
                 <input
                   type="file"
                   accept="image/*"
                   onChange={handleFileUpload}
-                  className="hidden"
+                  className="sr-only"
                 />
               </label>
             </div>
@@ -310,23 +310,29 @@ export function SettingsWindow({ onClose, onWallpaperChange }: SettingsWindowPro
           </div>
           <div className="flex items-center gap-1">
             <motion.button
+              aria-label="Minimize"
+              title="Minimize"
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={handleMinimize}
-              className="p-2 rounded-full"
+              className="p-2 rounded-full focus-visible:outline-none focus-visible:ring-2"
             >
               <IconMinus size={14} className="text-white/80" />
             </motion.button>
             <motion.button
+              aria-label={isMaximized ? 'Restore' : 'Maximize'}
+              title={isMaximized ? 'Restore' : 'Maximize'}
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={() => setIsMaximized(!isMaximized)}
-              className="p-2 rounded-full"
+              className="p-2 rounded-full focus-visible:outline-none focus-visible:ring-2"
             >
               <IconSquare size={14} className="text-white/80" />
             </motion.button>
             <motion.button
+              aria-label="Close"
+              title="Close"
               whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
               onClick={onClose}
-              className="p-2 rounded-full"
+              className="p-2 rounded-full focus-visible:outline-none focus-visible:ring-2"
             >
               <IconX size={14} className="text-white/80" />
             </motion.button>

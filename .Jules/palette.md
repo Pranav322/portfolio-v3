@@ -4,5 +4,11 @@
 **Action:** When animating interactive elements, always ensure the root interactive element is semantic (`<button>` or `<a>`) and carries the necessary event handlers and ARIA attributes, even if it requires refactoring the animation wrapper.
 
 ## 2025-02-23 - Tooltips for Keyboard Focus
+
 **Learning:** Icon-only buttons often rely on hover tooltips for context, leaving keyboard users guessing. Adding `onFocus`/`onBlur` handlers to show the same tooltip on focus bridges this gap without visual clutter.
 **Action:** When creating tooltips for icon-only elements, trigger visibility on `hover || focus` and ensure the interactive element itself (not just the inner icon) handles the focus events.
+
+## 2025-02-23 - File Upload Keyboard Navigation
+
+**Learning:** Using Tailwind's `hidden` class on `<input type="file">` removes it from the accessibility tree and keyboard tab order, breaking keyboard navigation for file uploads.
+**Action:** Use `sr-only` on the input element to visually hide it while keeping it in the tab order, and apply `focus-within` styling to its wrapper (e.g., `<label>`) to show focus state visually.
