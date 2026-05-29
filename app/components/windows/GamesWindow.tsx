@@ -48,22 +48,28 @@ export function GamesWindow({ onClose }: GamesWindowProps) {
           <div className="flex items-center gap-1">
             <motion.button
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
-              className="p-2 rounded-full"
               onClick={handleMinimize}
+              aria-label="Minimize"
+              title="Minimize"
+              className="p-2 rounded-full focus-visible:ring-2 focus-visible:outline-none"
             >
               <IconMinus size={14} className="text-white/80" />
             </motion.button>
             <motion.button
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={() => setIsMaximized(!isMaximized)}
-              className="p-2 rounded-full"
+              aria-label={isMaximized ? 'Restore' : 'Maximize'}
+              title={isMaximized ? 'Restore' : 'Maximize'}
+              className="p-2 rounded-full focus-visible:ring-2 focus-visible:outline-none"
             >
               <IconSquare size={14} className="text-white/80" />
             </motion.button>
             <motion.button
               whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
               onClick={onClose}
-              className="p-2 rounded-full"
+              aria-label="Close"
+              title="Close"
+              className="p-2 rounded-full focus-visible:ring-2 focus-visible:outline-none"
             >
               <IconX size={14} className="text-white/80" />
             </motion.button>
