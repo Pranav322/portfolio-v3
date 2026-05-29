@@ -8,7 +8,13 @@ const TOP_TRACKS_ENDPOINT = 'https://api.spotify.com/v1/me/top/tracks';
 const TOP_ARTISTS_ENDPOINT = 'https://api.spotify.com/v1/me/top/artists';
 const RECENTLY_PLAYED_ENDPOINT = 'https://api.spotify.com/v1/me/player/recently-played';
 
-async function getAccessToken() {
+// ⚡ Bolt Optimization: In-memory token caching to prevent redundant API calls
+// Spotify access tokens are valid for 1 hour. This cache deduplicates requests
+// that occur simultaneously and reuses the token until it's near expiration.
+let cachedTokenPromise: Promise<any> | null = null;
+let tokenExpirationTime: number = 0;
+
+async function fetchNewToken() {
   const response = await fetch(TOKEN_ENDPOINT, {
     method: 'POST',
     headers: {
@@ -21,7 +27,40 @@ async function getAccessToken() {
     }),
   });
 
-  return response.json();
+  // Explicitly check for ok status to avoid caching failed requests
+  if (!response.ok) {
+    throw new Error(`Failed to fetch token: ${response.status}`);
+  }
+
+  const data = await response.json();
+  // Spotify tokens expire in 3600 seconds. We subtract 60s as a buffer.
+  const expiresIn = data.expires_in || 3600;
+  tokenExpirationTime = Date.now() + (expiresIn - 60) * 1000;
+
+  return data;
+}
+
+async function getAccessToken() {
+  const now = Date.now();
+
+  // Return cached promise if we have one and it hasn't expired
+  // We check for tokenExpirationTime === 0 to allow concurrent pending requests
+  // to reuse the same promise before the token data has been fully parsed.
+  if (cachedTokenPromise && (tokenExpirationTime === 0 || now < tokenExpirationTime)) {
+    return cachedTokenPromise;
+  }
+
+  // Set to pending state
+  tokenExpirationTime = 0;
+
+  // Create a new promise and immediately catch errors to reset the cache.
+  // This prevents transient network errors from permanently poisoning the cache.
+  cachedTokenPromise = fetchNewToken().catch(error => {
+    cachedTokenPromise = null;
+    throw error;
+  });
+
+  return cachedTokenPromise;
 }
 
 export async function getNowPlaying() {
