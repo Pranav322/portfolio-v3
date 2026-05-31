@@ -8,8 +8,25 @@ const TOP_TRACKS_ENDPOINT = 'https://api.spotify.com/v1/me/top/tracks';
 const TOP_ARTISTS_ENDPOINT = 'https://api.spotify.com/v1/me/top/artists';
 const RECENTLY_PLAYED_ENDPOINT = 'https://api.spotify.com/v1/me/player/recently-played';
 
+// ⚡ Bolt: Implement in-memory Promise cache for Spotify Access Token
+// Prevents redundant concurrent token fetches when multiple components
+// (e.g., DesktopIcons prefetching) request Spotify data simultaneously.
+let cachedTokenPromise: Promise<any> | null = null;
+let tokenExpirationTime: number = 0;
+
 async function getAccessToken() {
-  const response = await fetch(TOKEN_ENDPOINT, {
+  const now = Date.now();
+
+  // If a pending request exists, or we have a valid token, return the cache.
+  // Explicitly checking tokenExpirationTime === 0 handles the pending state.
+  if (cachedTokenPromise && (tokenExpirationTime === 0 || now < tokenExpirationTime)) {
+    return cachedTokenPromise;
+  }
+
+  // Reset to pending state before initiating new fetch
+  tokenExpirationTime = 0;
+
+  cachedTokenPromise = fetch(TOKEN_ENDPOINT, {
     method: 'POST',
     headers: {
       Authorization: `Basic ${basic}`,
@@ -19,9 +36,24 @@ async function getAccessToken() {
       grant_type: 'refresh_token',
       refresh_token: refresh_token!,
     }),
-  });
+  })
+    .then(async response => {
+      if (!response.ok) {
+        throw new Error(`Spotify API error: ${response.statusText}`);
+      }
+      const data = await response.json();
+      // Tokens typically expire in 1 hour (3600 seconds). We buffer by 5 minutes.
+      tokenExpirationTime = now + (data.expires_in - 300) * 1000;
+      return data;
+    })
+    .catch(error => {
+      // Prevent failed requests from poisoning the cache
+      cachedTokenPromise = null;
+      tokenExpirationTime = 0;
+      throw error;
+    });
 
-  return response.json();
+  return cachedTokenPromise;
 }
 
 export async function getNowPlaying() {
