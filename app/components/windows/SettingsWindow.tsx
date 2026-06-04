@@ -160,14 +160,14 @@ export function SettingsWindow({ onClose, onWallpaperChange }: SettingsWindowPro
             {/* Custom Upload Section */}
             <div className="mb-8">
               <h3 className="text-white/90 font-medium mb-4">Upload Custom Wallpaper</h3>
-              <label className="flex items-center gap-3 p-4 border border-dashed border-white/20 rounded-lg cursor-pointer hover:bg-white/5">
+              <label className="flex items-center gap-3 p-4 border border-dashed border-white/20 rounded-lg cursor-pointer hover:bg-white/5 focus-within:ring-2 focus-within:outline-none">
                 <IconUpload className="text-white/60" />
                 <span className="text-white/60">Choose a file or drag it here</span>
                 <input
                   type="file"
                   accept="image/*"
                   onChange={handleFileUpload}
-                  className="hidden"
+                  className="sr-only"
                 />
               </label>
             </div>
