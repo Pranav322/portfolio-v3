@@ -1,0 +1,4 @@
+## 2024-06-25 - Prevent concurrent Spotify token fetches with Promise caching
+
+**Learning:** In Next.js, concurrent server-side components rendering on a single page load can all hit the same API abstraction (`lib/spotify.ts`) simultaneously. If each call awaits a new `fetch` for an access token without sharing state, it creates an N+1 API bottleneck and risks rate-limiting from the Spotify API.
+**Action:** When creating a server-side abstraction for an external API that multiple components will use, implement an in-memory Promise cache at the module level. Ensure the cache logic properly handles the "pending" state (`tokenExpirationTime === 0`) so concurrent requests await the same in-flight Promise instead of bypassing the cache and making redundant requests. Also, remember to handle `.catch()` to clear the cache so transient errors don't permanently poison it.
