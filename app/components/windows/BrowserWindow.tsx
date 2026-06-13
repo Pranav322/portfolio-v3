@@ -89,8 +89,8 @@ export function BrowserWindow({
             <motion.button
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={() => setIsMaximized(!isMaximized)}
-              aria-label="Maximize"
-              title="Maximize"
+              aria-label={isMaximized ? 'Restore' : 'Maximize'}
+              title={isMaximized ? 'Restore' : 'Maximize'}
               className="p-2 rounded-full focus-visible:ring-2 focus-visible:outline-none"
             >
               <IconSquare size={14} className="text-white/80" />
