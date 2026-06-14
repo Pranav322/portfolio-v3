@@ -4,5 +4,11 @@
 **Action:** When animating interactive elements, always ensure the root interactive element is semantic (`<button>` or `<a>`) and carries the necessary event handlers and ARIA attributes, even if it requires refactoring the animation wrapper.
 
 ## 2025-02-23 - Tooltips for Keyboard Focus
+
 **Learning:** Icon-only buttons often rely on hover tooltips for context, leaving keyboard users guessing. Adding `onFocus`/`onBlur` handlers to show the same tooltip on focus bridges this gap without visual clutter.
 **Action:** When creating tooltips for icon-only elements, trigger visibility on `hover || focus` and ensure the interactive element itself (not just the inner icon) handles the focus events.
+
+## 2025-02-23 - Inconsistent Window Accessibility
+
+**Learning:** Multiple window components duplicate header controls (`IconMinus`, `IconSquare`, `IconX`). Because these are not yet centralized in a shared component, accessibility baselines (dynamic `aria-label`, `title`, and `focus-visible` rings) easily become inconsistent or drift across window variants.
+**Action:** When working with duplicated structural controls (like window headers), always verify standard keyboard access and dynamic screen reader states (e.g. `isMaximized ? 'Restore' : 'Maximize'`) are uniformly applied until the UI is refactored into a single shared accessible primitive.
