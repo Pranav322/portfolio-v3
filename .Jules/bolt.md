@@ -1,3 +1,4 @@
-## 2025-02-12 - [Conditional Rendering vs Code Splitting]
-**Learning:** Static imports of components inside conditional blocks (e.g., `{isCLI && <Terminalcomp />}`) are still bundled in the main chunk. Simply wrapping a component in a conditional check does NOT lazy load its code.
-**Action:** Always use `next/dynamic` or `React.lazy` for heavy components that are not visible on initial render, especially for "modes" or "tabs" that are hidden by default.
+## 2024-10-24 - [In-memory Promise Cache for Concurrent API Requests]
+
+**Learning:** Concurrent calls to asynchronous functions that lack state tracking will trigger duplicate API requests, bypassing subsequent caches. When using an in-memory Promise cache to mitigate this, zeroing out the expiration tracker before the fetch resolves is critical. If the condition only checks `now < expirationTime`, concurrent requests evaluating a '0' state will incorrectly bypass the pending cache and trigger redundant fetches.
+**Action:** Always track pending states with a specific value (e.g., `0`) and explicitly include it in the cache hit logic (e.g., `expiration === 0 || now < expiration`) to ensure concurrent requests await the in-flight Promise.
