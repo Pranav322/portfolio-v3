@@ -8,8 +8,22 @@ const TOP_TRACKS_ENDPOINT = 'https://api.spotify.com/v1/me/top/tracks';
 const TOP_ARTISTS_ENDPOINT = 'https://api.spotify.com/v1/me/top/artists';
 const RECENTLY_PLAYED_ENDPOINT = 'https://api.spotify.com/v1/me/player/recently-played';
 
+// In-memory cache for the Spotify access token
+let cachedTokenPromise: Promise<{ access_token: string }> | null = null;
+let tokenExpirationTime: number = 0; // 0 indicates a pending state when a fetch is in progress
+
 async function getAccessToken() {
-  const response = await fetch(TOKEN_ENDPOINT, {
+  const now = Date.now();
+
+  // Return the cached promise if it exists and hasn't expired, or if a fetch is currently pending (expiration 0)
+  if (cachedTokenPromise && (tokenExpirationTime === 0 || now < tokenExpirationTime)) {
+    return cachedTokenPromise;
+  }
+
+  // Reset expiration to 0 to indicate a pending request, preventing concurrent duplicate fetches
+  tokenExpirationTime = 0;
+
+  cachedTokenPromise = fetch(TOKEN_ENDPOINT, {
     method: 'POST',
     headers: {
       Authorization: `Basic ${basic}`,
@@ -19,9 +33,27 @@ async function getAccessToken() {
       grant_type: 'refresh_token',
       refresh_token: refresh_token!,
     }),
-  });
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Spotify token fetch failed with status ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      // Tokens typically expire in 3600 seconds (1 hour). We cache for slightly less (3500 seconds) to be safe.
+      const expiresIn = data.expires_in ? data.expires_in : 3600;
+      tokenExpirationTime = Date.now() + expiresIn * 1000 - 100000;
+      return data;
+    })
+    .catch(error => {
+      // Explicitly reset the cache on failure so we can try again
+      cachedTokenPromise = null;
+      tokenExpirationTime = 0;
+      throw error;
+    });
 
-  return response.json();
+  return cachedTokenPromise;
 }
 
 export async function getNowPlaying() {
