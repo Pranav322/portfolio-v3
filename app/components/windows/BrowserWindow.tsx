@@ -82,16 +82,16 @@ export function BrowserWindow({
               onClick={handleMinimize}
               aria-label="Minimize"
               title="Minimize"
-              className="p-2 rounded-full focus-visible:ring-2 focus-visible:outline-none"
+              className="p-2 rounded-full focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-white/50"
             >
               <IconMinus size={14} className="text-white/80" />
             </motion.button>
             <motion.button
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={() => setIsMaximized(!isMaximized)}
-              aria-label="Maximize"
-              title="Maximize"
-              className="p-2 rounded-full focus-visible:ring-2 focus-visible:outline-none"
+              aria-label={isMaximized ? 'Restore' : 'Maximize'}
+              title={isMaximized ? 'Restore' : 'Maximize'}
+              className="p-2 rounded-full focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-white/50"
             >
               <IconSquare size={14} className="text-white/80" />
             </motion.button>
@@ -100,7 +100,7 @@ export function BrowserWindow({
               onClick={onClose}
               aria-label="Close"
               title="Close"
-              className="p-2 rounded-full focus-visible:ring-2 focus-visible:outline-none"
+              className="p-2 rounded-full focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-white/50"
             >
               <IconX size={14} className="text-white/80" />
             </motion.button>
