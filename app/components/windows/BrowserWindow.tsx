@@ -10,6 +10,7 @@ import {
   IconRefresh,
 } from '@tabler/icons-react';
 import { WindowWrapper } from '../ui/WindowWrapper';
+import { WindowControls } from '../ui/WindowControls';
 
 interface BrowserWindowProps {
   onClose: () => void;
@@ -76,35 +77,12 @@ export function BrowserWindow({
             </div>
             <span className="text-white/90 text-sm font-medium">Browser</span>
           </div>
-          <div className="flex items-center gap-1">
-            <motion.button
-              whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
-              onClick={handleMinimize}
-              aria-label="Minimize"
-              title="Minimize"
-              className="p-2 rounded-full focus-visible:ring-2 focus-visible:outline-none"
-            >
-              <IconMinus size={14} className="text-white/80" />
-            </motion.button>
-            <motion.button
-              whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
-              onClick={() => setIsMaximized(!isMaximized)}
-              aria-label="Maximize"
-              title="Maximize"
-              className="p-2 rounded-full focus-visible:ring-2 focus-visible:outline-none"
-            >
-              <IconSquare size={14} className="text-white/80" />
-            </motion.button>
-            <motion.button
-              whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
-              onClick={onClose}
-              aria-label="Close"
-              title="Close"
-              className="p-2 rounded-full focus-visible:ring-2 focus-visible:outline-none"
-            >
-              <IconX size={14} className="text-white/80" />
-            </motion.button>
-          </div>
+          <WindowControls
+            isMaximized={isMaximized}
+            onMinimize={handleMinimize}
+            onMaximizeToggle={() => setIsMaximized(!isMaximized)}
+            onClose={onClose}
+          />
         </motion.div>
 
         {/* Browser Controls */}
