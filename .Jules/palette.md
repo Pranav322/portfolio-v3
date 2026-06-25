@@ -12,3 +12,8 @@
 
 **Learning:** Window control buttons (like Maximize/Restore) that change state visually must also dynamically update their `aria-label` and `title` attributes. Static labels fail to provide accurate context to screen reader users after an interaction.
 **Action:** When implementing custom UI controls that toggle state, ensure their accessibility attributes conditionally reflect the current state (e.g., `aria-label={isMaximized ? 'Restore' : 'Maximize'}`) alongside adding `focus-visible` styles.
+
+## 2025-02-23 - File Upload Keyboard Accessibility
+
+**Learning:** Using Tailwind's `hidden` class on `<input type="file">` removes it from the accessibility tree and keyboard tab order, breaking keyboard navigation for custom file uploads.
+**Action:** Always use `sr-only` instead of `hidden` for file inputs, and apply `focus-within:ring-2 focus-within:outline-none` to their wrapping `<label>` to provide a visual focus indicator for keyboard users.
