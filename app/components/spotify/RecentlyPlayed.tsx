@@ -2,6 +2,7 @@ import { IconClock } from '@tabler/icons-react';
 import { useState, useEffect } from 'react';
 import { Track } from '@/types/spotify';
 import { LoadingSpinner } from '../ui/LoadingSpinner';
+import { fetchWithCache } from './api';
 
 export function RecentlyPlayed() {
   const [tracks, setTracks] = useState<Track[]>([]);
@@ -10,8 +11,7 @@ export function RecentlyPlayed() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch('/api/spotify/recently-played');
-        const { tracks } = await res.json();
+        const { tracks } = await fetchWithCache('/api/spotify/recently-played');
         setTracks(tracks);
       } catch (error) {
         console.error('Error fetching recently played:', error);
