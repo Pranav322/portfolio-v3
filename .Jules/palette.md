@@ -17,3 +17,8 @@
 
 **Learning:** Using Tailwind's `hidden` class on `<input type="file">` removes it from the accessibility tree and keyboard tab order, breaking keyboard navigation for custom file uploads.
 **Action:** Always use `sr-only` instead of `hidden` for file inputs, and apply `focus-within:ring-2 focus-within:outline-none` to their wrapping `<label>` to provide a visual focus indicator for keyboard users.
+
+## 2025-02-23 - Interactive UI Components Validation
+
+**Learning:** It is easy to assume standard UI controls (like window minimize buttons) are fully interactive when they have hover states and accessibility labels, but they may lack the actual event handlers connecting them to their state logic.
+**Action:** Always verify that interactive elements with defined state-mutation functions (e.g., `handleMinimize`) are actually bound to an `onClick` or keyboard event handler, not just visually styled.
