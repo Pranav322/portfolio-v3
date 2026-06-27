@@ -38,22 +38,34 @@ export function SpotifyWindow({ onClose }: SpotifyWindowProps) {
             <IconBrandSpotify size={20} className="text-[#1DB954]" />
             <span className="text-white/90 text-sm font-medium">Spotify Stats</span>
           </div>
-          <div className="flex items-center gap-4">
-            <button
+          <div className="flex items-center gap-1">
+            <motion.button
+              whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={handleMinimize}
-              className="text-white/50 hover:text-white transition-colors"
+              className="p-2 rounded-full focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-white/50"
+              aria-label="Minimize"
+              title="Minimize"
             >
-              <IconMinus size={18} />
-            </button>
-            <button
+              <IconMinus size={14} className="text-white/80" />
+            </motion.button>
+            <motion.button
+              whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={toggleMaximize}
-              className="text-white/50 hover:text-white transition-colors"
+              className="p-2 rounded-full focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-white/50"
+              aria-label={isMaximized ? 'Restore' : 'Maximize'}
+              title={isMaximized ? 'Restore' : 'Maximize'}
             >
-              <IconSquare size={16} />
-            </button>
-            <button onClick={onClose} className="text-white/50 hover:text-white transition-colors">
-              <IconX size={20} />
-            </button>
+              <IconSquare size={14} className="text-white/80" />
+            </motion.button>
+            <motion.button
+              whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
+              onClick={onClose}
+              className="p-2 rounded-full focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-white/50"
+              aria-label="Close"
+              title="Close"
+            >
+              <IconX size={14} className="text-white/80" />
+            </motion.button>
           </div>
         </motion.div>
 

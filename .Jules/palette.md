@@ -17,3 +17,8 @@
 
 **Learning:** Using Tailwind's `hidden` class on `<input type="file">` removes it from the accessibility tree and keyboard tab order, breaking keyboard navigation for custom file uploads.
 **Action:** Always use `sr-only` instead of `hidden` for file inputs, and apply `focus-within:ring-2 focus-within:outline-none` to their wrapping `<label>` to provide a visual focus indicator for keyboard users.
+
+## 2025-02-23 - Reused Layout Accessibility
+
+**Learning:** When UI patterns (like window control headers) are repeated across multiple files rather than abstracted into a single shared component, accessibility attributes (ARIA labels, titles, focus visible styles) often get missed in some files, leading to inconsistent screen reader and keyboard experiences.
+**Action:** Always audit all instances of a repeated layout pattern across the codebase to ensure consistent implementation of accessibility attributes and focus indicators.
