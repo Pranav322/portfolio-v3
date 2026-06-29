@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { LoadingSpinner } from '../ui/LoadingSpinner';
+import { deduplicatedFetchJSON } from '@/lib/fetch';
 
 interface Artist {
   name: string;
@@ -15,8 +16,7 @@ export function TopArtists() {
   useEffect(() => {
     const fetchTopArtists = async () => {
       try {
-        const res = await fetch('/api/spotify/top-artists');
-        const data = await res.json();
+        const data = await deduplicatedFetchJSON('/api/spotify/top-artists');
         setArtists(data.artists);
       } finally {
         setLoading(false);
