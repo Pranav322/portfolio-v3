@@ -17,3 +17,8 @@
 
 **Learning:** Using Tailwind's `hidden` class on `<input type="file">` removes it from the accessibility tree and keyboard tab order, breaking keyboard navigation for custom file uploads.
 **Action:** Always use `sr-only` instead of `hidden` for file inputs, and apply `focus-within:ring-2 focus-within:outline-none` to their wrapping `<label>` to provide a visual focus indicator for keyboard users.
+
+## 2025-02-23 - Interactive Controls in Games and Spotify Windows
+
+**Learning:** Sibling components implementing similar windowing functionality (`GamesWindow.tsx`, `SpotifyWindow.tsx`) frequently miss basic ARIA attributes (`aria-label`, `title`) and keyboard focus indicators (`focus-visible`) for their icon-only window controls (Minimize, Maximize, Close) because they do not share a common UI abstract element.
+**Action:** Always audit icon-only controls across all window components to ensure consistent accessibility markers and visual focus hints are applied. For toggle states like Maximize, use dynamic `aria-label`s based on state (e.g. `aria-label={isMaximized ? 'Restore' : 'Maximize'}`).
