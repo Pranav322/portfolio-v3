@@ -139,6 +139,7 @@ export function BrowserWindow({
             type="text"
             value={url}
             onChange={e => handleUrlChange(e.target.value)}
+            aria-label="URL address"
             className="flex-1 px-3 py-1.5 bg-white/5 rounded-lg text-white/80 text-sm focus:outline-none focus:ring-1 focus:ring-blue-400/50"
           />
         </div>

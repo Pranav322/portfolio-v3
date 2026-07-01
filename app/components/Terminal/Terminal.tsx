@@ -522,6 +522,7 @@ const Terminalcomp = () => {
                 value={input}
                 onChange={handleInputChange}
                 onKeyDown={handleKeyPress}
+                aria-label="Terminal input"
                 className="bg-transparent w-full outline-none border-none focus:outline-none text-white caret-green-500 text-xs sm:text-sm"
                 spellCheck={false}
                 autoFocus

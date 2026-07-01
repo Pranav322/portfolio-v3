@@ -17,3 +17,8 @@
 
 **Learning:** Using Tailwind's `hidden` class on `<input type="file">` removes it from the accessibility tree and keyboard tab order, breaking keyboard navigation for custom file uploads.
 **Action:** Always use `sr-only` instead of `hidden` for file inputs, and apply `focus-within:ring-2 focus-within:outline-none` to their wrapping `<label>` to provide a visual focus indicator for keyboard users.
+
+## 2025-02-23 - Input Accessibility Without Visual Labels
+
+**Learning:** Inputs that rely purely on visual context or placeholders (like search bars, terminal inputs, or chat inputs) fail to communicate their purpose to screen reader users if missing explicit accessible names.
+**Action:** Always provide an explicit `aria-label` on `<input>` elements when a visual `<label>` tag is omitted by design, ensuring screen reader users have the same contextual understanding.
