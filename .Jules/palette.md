@@ -17,3 +17,8 @@
 
 **Learning:** Using Tailwind's `hidden` class on `<input type="file">` removes it from the accessibility tree and keyboard tab order, breaking keyboard navigation for custom file uploads.
 **Action:** Always use `sr-only` instead of `hidden` for file inputs, and apply `focus-within:ring-2 focus-within:outline-none` to their wrapping `<label>` to provide a visual focus indicator for keyboard users.
+
+## 2025-02-23 - Accessibility Batch Updates
+
+**Learning:** When making accessibility updates (like adding ARIA attributes to a specific button), it is critical to ensure that any associated interaction handlers (e.g., `onClick`) are not only added to the element, but also correctly defined and scoped within the component. The `request_code_review` tool highlighted a regression where `onClick={handleMinimize}` was added, but assumed to exist, potentially breaking the build.
+**Action:** When adding missing interaction handlers alongside accessibility attributes, always manually verify (e.g., using `grep`) that the handler function is actually declared within the component's scope before committing the change.
