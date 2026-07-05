@@ -525,6 +525,7 @@ const Terminalcomp = () => {
                 className="bg-transparent w-full outline-none border-none focus:outline-none text-white caret-green-500 text-xs sm:text-sm"
                 spellCheck={false}
                 autoFocus
+                aria-label="Terminal command input"
               />
             </form>
           </div>
