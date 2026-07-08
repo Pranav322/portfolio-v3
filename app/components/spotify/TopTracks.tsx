@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { IconMusic } from '@tabler/icons-react';
+import { deduplicatedFetchJSON } from '../../../lib/fetch';
 
 interface Track {
   title: string;
@@ -15,8 +16,7 @@ export function TopTracks() {
   useEffect(() => {
     const fetchTopTracks = async () => {
       try {
-        const res = await fetch('/api/spotify/top-tracks');
-        const data = await res.json();
+        const data = await deduplicatedFetchJSON('/api/spotify/top-tracks');
         setTracks(data.tracks);
       } catch (error) {
         console.error('Error fetching top tracks:', error);
