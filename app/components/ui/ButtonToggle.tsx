@@ -1,5 +1,5 @@
 import React from 'react';
-import { Terminal as TerminalIcon, Monitor } from 'lucide-react';
+import { IconTerminal2, IconDeviceDesktop } from '@tabler/icons-react';
 
 interface ToggleButtonProps {
   isCLI: boolean;
@@ -15,9 +15,9 @@ export function ToggleButton({ isCLI, onToggle }: ToggleButtonProps) {
       title={isCLI ? 'Switch to GUI mode' : 'Switch to CLI mode'}
     >
       {isCLI ? (
-        <Monitor className="w-5 h-5 sm:w-6 sm:h-6" />
+        <IconDeviceDesktop className="w-5 h-5 sm:w-6 sm:h-6" />
       ) : (
-        <TerminalIcon className="w-5 h-5 sm:w-6 sm:h-6" />
+        <IconTerminal2 className="w-5 h-5 sm:w-6 sm:h-6" />
       )}
     </button>
   );

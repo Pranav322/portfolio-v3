@@ -1,5 +1,5 @@
 import React, { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
-import { TerminalSquare } from 'lucide-react';
+import { IconTerminal2 } from '@tabler/icons-react';
 import { safeEvaluate } from '@/lib/math';
 import { getFormattedTime } from '@/lib/utils';
 
@@ -484,7 +484,7 @@ const Terminalcomp = () => {
           </div>
           <h1 className="text-white text-xs sm:text-sm truncate mx-2">{getPrompt()}</h1>
           <span className="flex gap-1 text-xs sm:text-sm border border-white/20 rounded-sm px-1 sm:px-2 py-0.5 sm:py-1 text-green-400">
-            <TerminalSquare size={12} className="sm:w-[14px] sm:h-[14px]" />
+            <IconTerminal2 size={12} className="sm:w-[14px] sm:h-[14px]" />
             <span className="hidden sm:inline">bash</span>
           </span>
         </div>

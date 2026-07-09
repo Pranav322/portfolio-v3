@@ -2,10 +2,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { IconX, IconMinus, IconSquare, IconBook } from '@tabler/icons-react';
 import { motion, useDragControls, AnimatePresence } from 'framer-motion';
-import { Worker, Viewer, SpecialZoomLevel, ThemeContext } from '@react-pdf-viewer/core';
-import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
-import '@react-pdf-viewer/core/lib/styles/index.css';
-import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import { WindowWrapper } from '../ui/WindowWrapper';
 import React from 'react';
 import Image from 'next/image';
@@ -28,16 +24,6 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
   const constraintsRef = useRef<HTMLDivElement>(null);
   const dragControls = useDragControls();
   const [selectedBook, setSelectedBook] = useState<string | null>(null);
-  const defaultLayoutPluginInstance = defaultLayoutPlugin({
-    sidebarTabs: defaultTabs => defaultTabs,
-    toolbarPlugin: {
-      moreActionsPopover: {
-        render: props => (
-          <div style={{ backgroundColor: '#2b2c2f', color: '#ffffff' }}>{props.children}</div>
-        ),
-      },
-    },
-  });
   const [isMinimized, setIsMinimized] = useState(false);
 
   const handleMinimize = () => {
@@ -79,9 +65,6 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
   const windowSize = isMaximized
     ? { width: '100%', height: '100%', x: 0, y: 0 }
     : { width: '800px', height: '600px', x: position.x, y: position.y };
-
-  // PDF viewer plugin
-  const pdfWorkerUrl = `https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`;
 
   const books: Book[] = [
     {
@@ -277,36 +260,10 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
                 </button>
               </div>
               <div className="flex-1">
-                <Worker workerUrl={pdfWorkerUrl}>
-                  <ThemeContext.Provider
-                    value={{
-                      background: '#1a1b1e',
-                      text: '#ffffff',
-                      controlLabel: {
-                        backgroundColor: '#2b2c2f',
-                        color: '#ffffff',
-                      },
-                      toolbar: {
-                        backgroundColor: '#2b2c2f',
-                        color: '#ffffff',
-                      },
-                      tooltip: {
-                        backgroundColor: '#3f3f3f',
-                        color: '#ffffff',
-                      },
-                    }}
-                  >
-                    <div style={{ height: 'calc(100vh - 160px)' }}>
-                      <Viewer
-                        fileUrl={selectedBook}
-                        plugins={[defaultLayoutPluginInstance]}
-                        defaultScale={SpecialZoomLevel.PageFit}
-                        theme="dark"
-                        className="dark-pdf-viewer"
-                      />
-                    </div>
-                  </ThemeContext.Provider>
-                </Worker>
+                {/* Browser-native PDF viewer, same pattern as PdfWindow */}
+                <object data={selectedBook} type="application/pdf" className="w-full h-full">
+                  <iframe src={selectedBook} className="w-full h-full border-none" />
+                </object>
               </div>
             </div>
           )}
