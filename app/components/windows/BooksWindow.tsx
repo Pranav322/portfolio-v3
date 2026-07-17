@@ -19,7 +19,10 @@ interface Book {
 
 export function BooksWindow({ onClose }: BooksWindowProps) {
   const [isMaximized, setIsMaximized] = useState(false);
-  const [position, setPosition] = useState({ x: window.innerWidth / 4, y: window.innerHeight / 8 });
+  const [position, setPosition] = useState({
+    x: window.innerWidth / 2 - 350,
+    y: window.innerHeight / 2 - 250,
+  });
   const windowRef = useRef<HTMLDivElement>(null);
   const constraintsRef = useRef<HTMLDivElement>(null);
   const dragControls = useDragControls();

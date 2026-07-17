@@ -107,10 +107,10 @@ export function WindowWrapper({
             shouldBeFullscreen
               ? { duration: 0 }
               : {
-                  type: 'spring',
-                  stiffness: 300,
-                  damping: 25,
-                  mass: 0.5,
+                  opacity: { type: 'spring', stiffness: 300, damping: 25, mass: 0.5 },
+                  scale: { type: 'spring', stiffness: 300, damping: 25, mass: 0.5 },
+                  x: { duration: 0 },
+                  y: { duration: 0 },
                 }
           }
           drag={!shouldBeFullscreen}
