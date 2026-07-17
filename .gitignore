@@ -32,5 +32,6 @@ bun-error.log
 *.tsbuildinfo
 next-env.d.ts
 WARP.md
+.claude/worktrees/
 
 .agent/
