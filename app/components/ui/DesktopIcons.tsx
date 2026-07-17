@@ -4,16 +4,12 @@ import { AnimatePresence } from 'framer-motion';
 // Hook to detect device types
 const useDeviceType = () => {
   const [deviceType, setDeviceType] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
-  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
 
     const checkDeviceType = () => {
       const width = window.innerWidth;
-      const height = window.innerHeight;
-
-      setWindowSize({ width, height });
 
       if (width < 640) {
         setDeviceType('mobile');
@@ -38,7 +34,7 @@ const useDeviceType = () => {
     };
   }, []);
 
-  return { deviceType, windowSize };
+  return deviceType;
 };
 
 import {
@@ -154,7 +150,7 @@ export function DesktopIcons({
 }: {
   onWallpaperChange?: (wallpaper: string) => void;
 }) {
-  const { deviceType, windowSize } = useDeviceType();
+  const deviceType = useDeviceType();
   const { currentTheme } = useTheme();
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
   const [showAbout, setShowAbout] = useState(false);
@@ -297,50 +293,6 @@ export function DesktopIcons({
     [currentTheme]
   );
 
-  // Organize icons into columns for desktop - memoized to prevent recalculation on every render
-  const organizedColumns = useMemo(() => {
-    if (deviceType !== 'desktop') return [icons]; // For mobile/tablet, return as single array
-
-    // Calculate optimal layout for desktop with natural column flow
-    const availableHeight = windowSize.height - 180; // Account for margins, padding, and bottom dock
-    const availableWidth = windowSize.width - 100; // Account for left margin and some right padding
-    const iconHeight = 100; // More accurate height per icon including gap and text
-    const iconWidth = 88; // Width per icon including gap
-    const totalIcons = icons.length;
-
-    // Calculate maximum icons per column that can fit vertically
-    const maxIconsPerColumn = Math.max(1, Math.floor(availableHeight / iconHeight));
-
-    // Calculate minimum columns needed to fit all icons
-    const minColumnsNeeded = Math.ceil(totalIcons / maxIconsPerColumn);
-
-    // Calculate maximum columns that can fit horizontally
-    const maxColumnsByWidth = Math.floor(availableWidth / iconWidth);
-
-    // Use the minimum of what we need and what fits horizontally
-    const optimalColumns = Math.max(1, Math.min(minColumnsNeeded, maxColumnsByWidth, 4)); // Max 4 columns for readability
-
-    const columns: (typeof icons)[] = [];
-
-    for (let i = 0; i < optimalColumns; i++) {
-      columns.push([]);
-    }
-
-    // Fill columns naturally - fill first column completely, then move to next
-    let currentColumn = 0;
-    for (let i = 0; i < icons.length; i++) {
-      if (
-        columns[currentColumn].length >= maxIconsPerColumn &&
-        currentColumn < optimalColumns - 1
-      ) {
-        currentColumn++;
-      }
-      columns[currentColumn].push(icons[i]);
-    }
-
-    return columns.filter(column => column.length > 0); // Remove empty columns
-  }, [deviceType, windowSize, icons]);
-
   // Get layout classes based on device type
   const getLayoutClasses = () => {
     switch (deviceType) {
@@ -350,7 +302,7 @@ export function DesktopIcons({
         return 'flex flex-wrap gap-4 max-w-[calc(100vw-2rem)]';
       case 'desktop':
       default:
-        return 'flex gap-4 max-h-[calc(100vh-200px)]';
+        return 'flex h-[calc(100vh-2rem)] flex-col flex-wrap content-start gap-x-4 gap-y-3';
     }
   };
 
@@ -406,51 +358,47 @@ export function DesktopIcons({
       >
         {deviceType === 'desktop' ? (
           <div className={getLayoutClasses()}>
-            {organizedColumns.map((column, columnIndex) => (
-              <div key={columnIndex} className="flex flex-col gap-3">
-                {column.map(icon => (
-                  <motion.button
-                    type="button"
-                    aria-label={icon.name}
-                    key={icon.name}
-                    className={`group flex flex-col items-center gap-1 cursor-pointer touch-target tap-feedback bg-transparent border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-lg ${getIconContainerClasses()} ${selectedIcon === icon.name ? 'bg-white/20 p-2' : 'p-2'}`}
-                    onClick={e => handleIconClick(e, icon.name, icon.action)}
-                    onKeyDown={e => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        openApp(icon.name, icon.action);
-                      }
-                    }}
-                    onMouseEnter={() => handlePrefetch(icon.name)}
-                    whileTap={{ scale: 0.92 }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-                  >
-                    <div
-                      className={`p-2 sm:p-3 rounded-lg backdrop-blur-md transition-all`}
-                      style={{
-                        backgroundColor: currentTheme.colors.glass,
-                      }}
-                      onMouseEnter={e => {
-                        e.currentTarget.style.backgroundColor = currentTheme.colors.hover;
-                      }}
-                      onMouseLeave={e => {
-                        e.currentTarget.style.backgroundColor = currentTheme.colors.glass;
-                      }}
-                    >
-                      <div className="flex flex-col items-center">
-                        <div className={getIconSizeClasses()} style={{ color: icon.color }}>
-                          {icon.icon}
-                        </div>
-                      </div>
+            {icons.map(icon => (
+              <motion.button
+                type="button"
+                aria-label={icon.name}
+                key={icon.name}
+                className={`group flex flex-col items-center gap-1 cursor-pointer touch-target tap-feedback bg-transparent border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-lg ${getIconContainerClasses()} ${selectedIcon === icon.name ? 'bg-white/20 p-2' : 'p-2'}`}
+                onClick={e => handleIconClick(e, icon.name, icon.action)}
+                onKeyDown={e => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openApp(icon.name, icon.action);
+                  }
+                }}
+                onMouseEnter={() => handlePrefetch(icon.name)}
+                whileTap={{ scale: 0.92 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+              >
+                <div
+                  className={`p-2 sm:p-3 rounded-lg backdrop-blur-md transition-all`}
+                  style={{
+                    backgroundColor: currentTheme.colors.glass,
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.backgroundColor = currentTheme.colors.hover;
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.backgroundColor = currentTheme.colors.glass;
+                  }}
+                >
+                  <div className="flex flex-col items-center">
+                    <div className={getIconSizeClasses()} style={{ color: icon.color }}>
+                      {icon.icon}
                     </div>
-                    <span
-                      className={`${getTextSizeClasses()} text-white/80 text-center px-1 sm:px-2 py-1 rounded backdrop-blur-sm bg-black/20 w-full pointer-events-none`}
-                    >
-                      {icon.name}
-                    </span>
-                  </motion.button>
-                ))}
-              </div>
+                  </div>
+                </div>
+                <span
+                  className={`${getTextSizeClasses()} text-white/80 text-center px-1 sm:px-2 py-1 rounded backdrop-blur-sm bg-black/20 w-full pointer-events-none`}
+                >
+                  {icon.name}
+                </span>
+              </motion.button>
             ))}
           </div>
         ) : (
