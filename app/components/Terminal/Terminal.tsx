@@ -1,16 +1,12 @@
 import React, { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { IconTerminal2 } from '@tabler/icons-react';
 import { safeEvaluate } from '@/lib/math';
-import { getFormattedTime } from '@/lib/utils';
 
-const TerminalClock = () => {
-  const [time, setTime] = useState(getFormattedTime());
-  useEffect(() => {
-    const timer = setInterval(() => setTime(getFormattedTime()), 1000);
-    return () => clearInterval(timer);
-  }, []);
-  return <div className="text-xs mb-2 sm:mb-4 opacity-70">Last login: {time}</div>;
-};
+const TerminalHint = () => (
+  <div className="text-xs mb-2 sm:mb-4 text-gray-500">
+    Type <span className="text-green-400">help</span> to get started.
+  </div>
+);
 
 const Terminalcomp = () => {
   const [input, setInput] = useState('');
@@ -158,7 +154,6 @@ const Terminalcomp = () => {
           {
             id: Date.now(),
             input: name,
-            time: getFormattedTime(),
             output: `Welcome ${name}! Type 'help' to see available commands.`,
             directory: currentDirectory,
           },
@@ -444,7 +439,6 @@ const Terminalcomp = () => {
       const newCommand = {
         id: Date.now(),
         input: fullCommand,
-        time: getFormattedTime(),
         output,
         directory: currentDirectory,
       };
@@ -460,7 +454,7 @@ const Terminalcomp = () => {
 
   const getPrompt = () => {
     const displayDir = currentDirectory === '~' ? '~' : currentDirectory.replace(/^~\//, '');
-    return `${userName || 'guest'}@portfolio:${displayDir}$`;
+    return `${displayDir} %`;
   };
 
   return (
@@ -472,8 +466,8 @@ const Terminalcomp = () => {
         <p className="text-gray-600 text-right text-xs">— Charles Bukowski</p>
       </div>
 
-      <div className="border-2 border-neutral-800 dark:border-neutral-700 rounded-sm w-full max-w-[700px] h-[500px] max-h-[80vh] bg-black/90 backdrop-blur-sm p-2 sm:p-4 overflow-y-auto font-mono terminal-glow mobile-hide-scrollbar custom-scrollbar">
-        <div className="flex justify-between mb-3 sm:mb-5 items-center sticky top-0 bg-black/90 z-20 backdrop-blur-lg p-1 sm:p-2 rounded-sm">
+      <div className="border border-neutral-800/50 dark:border-neutral-700/40 rounded-xl w-full max-w-[700px] h-[500px] max-h-[80vh] bg-black/90 backdrop-blur-sm p-2 sm:p-4 overflow-y-auto font-mono terminal-glow mobile-hide-scrollbar custom-scrollbar">
+        <div className="flex justify-between mb-3 sm:mb-5 items-center sticky top-0 bg-black/90 z-20 backdrop-blur-lg p-1 sm:p-2 rounded-lg">
           <div className="flex gap-1 sm:gap-2">
             <div
               className="w-2 h-2 sm:w-3 sm:h-3 duration-200 cursor-pointer bg-red-500 rounded-full hover:bg-red-400"
@@ -489,15 +483,13 @@ const Terminalcomp = () => {
           </span>
         </div>
         <div className="p-1 sm:p-2 text-green-100">
-          <TerminalClock />
+          <TerminalHint />
 
           {commands.map(command => (
             <div key={command.id} className="mb-2 sm:mb-4" suppressHydrationWarning>
               <div className="flex gap-1 sm:gap-2 text-xs sm:text-sm flex-wrap">
-                <span className="text-green-500">{userName || 'guest'}@portfolio</span>
-                <span className="text-blue-400">:</span>
                 <span className="text-blue-400">{command.directory || '~'}</span>
-                <span className="text-white">$</span>
+                <span className="text-white">%</span>
                 <span className="text-white break-all">{command.input}</span>
               </div>
               <div className="mt-1 text-xs sm:text-sm text-gray-300 break-words whitespace-pre-wrap">
@@ -512,10 +504,10 @@ const Terminalcomp = () => {
             </div>
           )}
           <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
-            <span className="text-green-500">{userName || 'guest'}@portfolio</span>
-            <span className="text-blue-400">:</span>
-            <span className="text-blue-400">{currentDirectory}</span>
-            <span className="text-white">$</span>
+            <span className="text-blue-400 whitespace-nowrap flex-shrink-0">
+              {currentDirectory}
+            </span>
+            <span className="text-white flex-shrink-0">%</span>
             <form className="w-full flex items-center gap-1 sm:gap-2">
               <input
                 type="text"
