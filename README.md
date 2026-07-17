@@ -46,9 +46,11 @@ WIP)
 
 ## Development 🛠️
 
+Requires [Bun](https://bun.sh/).
+
 ```bash
-npm install
-npm run dev
+bun install
+bun run dev
 ```
 
 Made with ❤️ and chatgpt
