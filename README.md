@@ -22,6 +22,7 @@ A portfolio experience blending GUI and CLI interfaces with dynamic window manag
   - 🎵 Spotify playback status
   - 📚 PDF book viewer
   - 🌐 Custom browser implementation
+  - 🤖 Azure Foundry résumé assistant with grounded citations
 
 WIP)
 
@@ -50,7 +51,12 @@ Requires [Bun](https://bun.sh/).
 
 ```bash
 bun install
+bun test
 bun run dev
 ```
+
+Copy `.env.example` to `.env.local` and fill in the development credentials. See
+[`docs/pranav-ai-deployment.md`](docs/pranav-ai-deployment.md) for Azure Foundry,
+Turnstile, and Vercel setup.
 
 Made with ❤️ and chatgpt

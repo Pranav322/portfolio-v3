@@ -8,6 +8,14 @@ const TOP_TRACKS_ENDPOINT = 'https://api.spotify.com/v1/me/top/tracks';
 const TOP_ARTISTS_ENDPOINT = 'https://api.spotify.com/v1/me/top/artists';
 const RECENTLY_PLAYED_ENDPOINT = 'https://api.spotify.com/v1/me/player/recently-played';
 
+interface Track {
+  title: string;
+  artist: string;
+  albumImageUrl?: string;
+  url: string;
+  playedAt: string;
+}
+
 let cachedTokenPromise: Promise<any> | null = null;
 let tokenExpirationTime = 0;
 
