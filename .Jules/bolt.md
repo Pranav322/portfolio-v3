@@ -7,3 +7,8 @@
 
 **Learning:** When multiple Next.js server components request data concurrently (e.g., Spotify API), they all trigger parallel calls to the token endpoint. Caching just the resolved token isn't enough; we must cache the _Promise_ of the fetch to prevent redundant concurrent requests. Also, tracking a "pending" state (`expiration === 0`) is required to avoid cache misses during the initial fetch.
 **Action:** Use an in-memory Promise cache with explicit error `.catch()` clearing for high-concurrency external API authentication endpoints to avoid rate limits (429s).
+
+## 2026-07-09 - [Iframe Source Binding Performance Bottleneck]
+
+**Learning:** Binding a text input directly to an iframe's src property without discrete intent (like Enter or onBlur) causes severe network thrashing, UI thread blocking, and pollutes the history stack on every single keystroke.
+**Action:** Maintain a separate local state for the input field, and only update the iframe's src and history stack on discrete intent actions (e.g., onKeyDown for Enter, or onBlur).
