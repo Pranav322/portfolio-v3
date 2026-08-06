@@ -48,7 +48,9 @@ export function GamesWindow({ onClose }: GamesWindowProps) {
           <div className="flex items-center gap-1">
             <motion.button
               whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
-              className="p-2 rounded-full"
+              aria-label="Minimize"
+              title="Minimize"
+              className="p-2 rounded-full focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-white/50"
               onClick={handleMinimize}
             >
               <IconMinus size={14} className="text-white/80" />
