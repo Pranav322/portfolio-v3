@@ -7,3 +7,8 @@
 
 **Learning:** When multiple Next.js server components request data concurrently (e.g., Spotify API), they all trigger parallel calls to the token endpoint. Caching just the resolved token isn't enough; we must cache the _Promise_ of the fetch to prevent redundant concurrent requests. Also, tracking a "pending" state (`expiration === 0`) is required to avoid cache misses during the initial fetch.
 **Action:** Use an in-memory Promise cache with explicit error `.catch()` clearing for high-concurrency external API authentication endpoints to avoid rate limits (429s).
+
+## 2025-02-12 - [Client-Side Promise Caching for Concurrent Sibling Requests]
+
+**Learning:** When sibling components (like TopArtists and TopGenres) mount simultaneously and fetch the same endpoint, they trigger parallel network requests to the Next.js API, causing redundant backend processing and potential rate limits.
+**Action:** Use an in-memory client-side Promise cache Map to deduplicate concurrent identical `fetch` requests across the application, returning the pending promise for subsequent callers.
