@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { deduplicatedFetchJSON } from '@/lib/fetch';
 
 export function TopGenres() {
   const [genres, setGenres] = useState<{ genre: string; count: number }[]>([]);
 
   useEffect(() => {
     const fetchGenres = async () => {
-      const res = await fetch('/api/spotify/top-artists');
-      const data = await res.json();
+      const data = await deduplicatedFetchJSON('/api/spotify/top-artists');
       const genreCount = data.artists.reduce((acc: any, artist: any) => {
         artist.genres.forEach((genre: string) => {
           acc[genre] = (acc[genre] || 0) + 1;
