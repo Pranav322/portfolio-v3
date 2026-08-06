@@ -1,4 +1,5 @@
 node_modules
 .next
 build
-dist 
+dist pranav/.venv/**
+pranav/.pytest_cache/**
