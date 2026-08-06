@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { IconPlaylist } from '@tabler/icons-react';
 import { LoadingSpinner } from '../ui/LoadingSpinner';
+import { deduplicatedFetchJSON } from '../../../lib/fetch';
+
 interface Playlist {
   name: string;
   image: string;
@@ -15,8 +17,7 @@ export function Playlists() {
   useEffect(() => {
     const fetchPlaylists = async () => {
       try {
-        const res = await fetch('/api/spotify/playlists');
-        const data = await res.json();
+        const data = await deduplicatedFetchJSON('/api/spotify/playlists');
         setPlaylists(data.playlists);
       } finally {
         setLoading(false);
