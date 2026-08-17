@@ -138,6 +138,7 @@ export function BrowserWindow({
           <input
             type="text"
             value={url}
+            aria-label="Address and search bar"
             onChange={e => handleUrlChange(e.target.value)}
             className="flex-1 px-3 py-1.5 bg-white/5 rounded-lg text-white/80 text-sm focus:outline-none focus:ring-1 focus:ring-blue-400/50"
           />
