@@ -176,7 +176,8 @@ export function GamesWindow({ onClose }: GamesWindowProps) {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   onClick={() => setSelectedGame(null)}
-                  className="flex items-center gap-2 text-white/80 hover:text-white transition-colors"
+                  aria-label="Back to Games"
+                  className="flex items-center gap-2 text-white/80 hover:text-white transition-colors p-1.5 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
                 >
                   <IconArrowLeft size={16} />
                   Back to Games
