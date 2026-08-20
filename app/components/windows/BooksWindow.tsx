@@ -254,10 +254,11 @@ export function BooksWindow({ onClose }: BooksWindowProps) {
             </div>
           ) : (
             <div className="h-full flex flex-col bg-[#1a1b1e]">
-              <div className="flex justify-between p-4">
+              <div className="flex justify-between p-4 border-b border-white/10">
                 <button
                   onClick={() => setSelectedBook(null)}
-                  className="text-white/80 hover:text-white"
+                  aria-label="Back to Books"
+                  className="flex items-center gap-2 text-white/80 hover:text-white transition-colors p-1.5 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
                 >
                   ← Back to Books
                 </button>
