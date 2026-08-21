@@ -39,21 +39,33 @@ export function SpotifyWindow({ onClose }: SpotifyWindowProps) {
             <span className="text-white/90 text-sm font-medium">Spotify Stats</span>
           </div>
           <div className="flex items-center gap-4">
-            <button
+            <motion.button
+              whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={handleMinimize}
-              className="text-white/50 hover:text-white transition-colors"
+              aria-label="Minimize"
+              title="Minimize"
+              className="p-2 rounded-full text-white/50 hover:text-white transition-colors focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-white/50"
             >
               <IconMinus size={18} />
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              whileHover={{ backgroundColor: 'rgba(107, 114, 128, 0.2)' }}
               onClick={toggleMaximize}
-              className="text-white/50 hover:text-white transition-colors"
+              aria-label={isMaximized ? 'Restore' : 'Maximize'}
+              title={isMaximized ? 'Restore' : 'Maximize'}
+              className="p-2 rounded-full text-white/50 hover:text-white transition-colors focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-white/50"
             >
               <IconSquare size={16} />
-            </button>
-            <button onClick={onClose} className="text-white/50 hover:text-white transition-colors">
+            </motion.button>
+            <motion.button
+              whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}
+              onClick={onClose}
+              aria-label="Close"
+              title="Close"
+              className="p-2 rounded-full text-white/50 hover:text-white transition-colors focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-white/50"
+            >
               <IconX size={20} />
-            </button>
+            </motion.button>
           </div>
         </motion.div>
 
