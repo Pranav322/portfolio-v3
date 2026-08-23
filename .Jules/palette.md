@@ -17,3 +17,7 @@
 
 **Learning:** Using Tailwind's `hidden` class on `<input type="file">` removes it from the accessibility tree and keyboard tab order, breaking keyboard navigation for custom file uploads.
 **Action:** Always use `sr-only` instead of `hidden` for file inputs, and apply `focus-within:ring-2 focus-within:outline-none` to their wrapping `<label>` to provide a visual focus indicator for keyboard users.
+
+## 2025-02-23 - Focusable Window Control Uniformity
+**Learning:** Window components in this Next.js app do not share a single window-chrome control component, meaning accessibility attributes (`aria-label`, `title`, and `focus-visible` styles) can easily drift or be forgotten on newer windows (like GamesWindow).
+**Action:** When auditing or fixing window header controls, always search across the entire `app/components/windows` directory to ensure changes to minimize, maximize, and close buttons are uniformly propagated to all window instances.
