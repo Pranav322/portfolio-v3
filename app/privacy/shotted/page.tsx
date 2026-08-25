@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy — Shotted',
@@ -131,9 +132,9 @@ export default function ShottedPrivacyPolicy() {
         <div className="mt-16 border-t border-white/10 pt-8 text-xs text-[#9aa0a6]">
           <p>
             Shotted — made by{' '}
-            <a href="/" className="text-[#8ab4f8] hover:text-white transition-colors">
+            <Link href="/" className="text-[#8ab4f8] hover:text-white transition-colors">
               Pranav
-            </a>
+            </Link>
           </p>
         </div>
       </div>
