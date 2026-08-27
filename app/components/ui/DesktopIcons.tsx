@@ -386,6 +386,12 @@ export function DesktopIcons({
                   onMouseLeave={e => {
                     e.currentTarget.style.backgroundColor = currentTheme.colors.glass;
                   }}
+                  onFocus={e => {
+                    e.currentTarget.style.backgroundColor = currentTheme.colors.hover;
+                  }}
+                  onBlur={e => {
+                    e.currentTarget.style.backgroundColor = currentTheme.colors.glass;
+                  }}
                 >
                   <div className="flex flex-col items-center">
                     <div className={getIconSizeClasses()} style={{ color: icon.color }}>
@@ -429,6 +435,12 @@ export function DesktopIcons({
                     e.currentTarget.style.backgroundColor = currentTheme.colors.hover;
                   }}
                   onMouseLeave={e => {
+                    e.currentTarget.style.backgroundColor = currentTheme.colors.glass;
+                  }}
+                  onFocus={e => {
+                    e.currentTarget.style.backgroundColor = currentTheme.colors.hover;
+                  }}
+                  onBlur={e => {
                     e.currentTarget.style.backgroundColor = currentTheme.colors.glass;
                   }}
                 >
