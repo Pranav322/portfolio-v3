@@ -17,3 +17,8 @@
 
 **Learning:** Using Tailwind's `hidden` class on `<input type="file">` removes it from the accessibility tree and keyboard tab order, breaking keyboard navigation for custom file uploads.
 **Action:** Always use `sr-only` instead of `hidden` for file inputs, and apply `focus-within:ring-2 focus-within:outline-none` to their wrapping `<label>` to provide a visual focus indicator for keyboard users.
+
+## 2025-02-23 - Keyboard Focus Parity with Hover States
+
+**Learning:** When using JavaScript event handlers (`onMouseEnter`/`onMouseLeave`) to change inline styles (like `backgroundColor`) for custom themes, keyboard users miss out on these visual changes if only CSS `focus-visible` is used on the parent button.
+**Action:** Always pair `onMouseEnter` with `onFocus`, and `onMouseLeave` with `onBlur` on the same element when relying on JavaScript for visual hover states.
