@@ -23,6 +23,7 @@ export function BrowserWindow({
   const [isMaximized, setIsMaximized] = useState(false);
   const dragControls = useDragControls();
   const [url, setUrl] = useState(initialUrl);
+  const [inputUrl, setInputUrl] = useState(initialUrl);
   const [history, setHistory] = useState<string[]>([initialUrl]);
   const [historyIndex, setHistoryIndex] = useState(0);
   const [isMinimized, setIsMinimized] = useState(false);
@@ -31,23 +32,29 @@ export function BrowserWindow({
     setIsMinimized(true);
   };
 
-  const handleUrlChange = (newUrl: string) => {
-    setUrl(newUrl);
-    setHistory(prev => [...prev.slice(0, historyIndex + 1), newUrl]);
-    setHistoryIndex(prev => prev + 1);
+  const handleUrlCommit = (newUrl: string) => {
+    if (newUrl !== url) {
+      setUrl(newUrl);
+      setHistory(prev => [...prev.slice(0, historyIndex + 1), newUrl]);
+      setHistoryIndex(prev => prev + 1);
+    }
   };
 
   const goBack = () => {
     if (historyIndex > 0) {
-      setHistoryIndex(prev => prev - 1);
-      setUrl(history[historyIndex - 1]);
+      const newIndex = historyIndex - 1;
+      setHistoryIndex(newIndex);
+      setUrl(history[newIndex]);
+      setInputUrl(history[newIndex]);
     }
   };
 
   const goForward = () => {
     if (historyIndex < history.length - 1) {
-      setHistoryIndex(prev => prev + 1);
-      setUrl(history[historyIndex + 1]);
+      const newIndex = historyIndex + 1;
+      setHistoryIndex(newIndex);
+      setUrl(history[newIndex]);
+      setInputUrl(history[newIndex]);
     }
   };
 
@@ -137,8 +144,14 @@ export function BrowserWindow({
           </button>
           <input
             type="text"
-            value={url}
-            onChange={e => handleUrlChange(e.target.value)}
+            value={inputUrl}
+            onChange={e => setInputUrl(e.target.value)}
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                handleUrlCommit(inputUrl);
+              }
+            }}
+            onBlur={() => handleUrlCommit(inputUrl)}
             className="flex-1 px-3 py-1.5 bg-white/5 rounded-lg text-white/80 text-sm focus:outline-none focus:ring-1 focus:ring-blue-400/50"
           />
         </div>
