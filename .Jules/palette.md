@@ -17,3 +17,8 @@
 
 **Learning:** Using Tailwind's `hidden` class on `<input type="file">` removes it from the accessibility tree and keyboard tab order, breaking keyboard navigation for custom file uploads.
 **Action:** Always use `sr-only` instead of `hidden` for file inputs, and apply `focus-within:ring-2 focus-within:outline-none` to their wrapping `<label>` to provide a visual focus indicator for keyboard users.
+
+## 2025-03-09 - Separating Address Bar Input State from Iframe Src
+
+**Learning:** Binding an input field's `onChange` event directly to an iframe's `src` property (and history array) causes severe network thrashing, history pollution, and UI thread blocking because it triggers a navigation attempt on every single keystroke.
+**Action:** When implementing custom browser address bars or similar inputs controlling an iframe, maintain a separate local state for the input (`inputValue`) and only update the iframe `src` state (`url`) upon discrete intent actions, such as pressing the 'Enter' key or triggering the `onBlur` event.
