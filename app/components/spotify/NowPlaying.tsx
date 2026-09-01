@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { IconMusic, IconPlayerPlay, IconPlayerPause } from '@tabler/icons-react';
+import { deduplicatedFetchJSON } from '../../../lib/fetch';
 
 interface NowPlayingResponse {
   isPlaying: boolean;
@@ -17,8 +18,7 @@ export function NowPlaying() {
   useEffect(() => {
     const fetchNowPlaying = async () => {
       try {
-        const res = await fetch('/api/spotify/now-playing');
-        const data = await res.json();
+        const data = await deduplicatedFetchJSON('/api/spotify/now-playing');
         setData(data);
       } catch (error) {
         console.error('Error fetching now playing:', error);
