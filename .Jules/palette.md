@@ -17,3 +17,8 @@
 
 **Learning:** Using Tailwind's `hidden` class on `<input type="file">` removes it from the accessibility tree and keyboard tab order, breaking keyboard navigation for custom file uploads.
 **Action:** Always use `sr-only` instead of `hidden` for file inputs, and apply `focus-within:ring-2 focus-within:outline-none` to their wrapping `<label>` to provide a visual focus indicator for keyboard users.
+
+## 2024-05-18 - Missing ARIA Labels in Window Controls
+
+**Learning:** Window header controls (minimize, maximize, close) are manually duplicated across individual window components in `app/components/windows/` rather than using a shared UI component. This causes inconsistent accessibility patterns and missing ARIA labels across different windows in the app.
+**Action:** Always audit all instances across the codebase (e.g., all files in 'app/components/windows/') when fixing accessibility issues on repeated UI patterns to ensure consistent application of ARIA labels, titles, and focus styles.
