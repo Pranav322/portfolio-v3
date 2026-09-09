@@ -23,6 +23,7 @@ export function BrowserWindow({
   const [isMaximized, setIsMaximized] = useState(false);
   const dragControls = useDragControls();
   const [url, setUrl] = useState(initialUrl);
+  const [inputValue, setInputValue] = useState(initialUrl);
   const [history, setHistory] = useState<string[]>([initialUrl]);
   const [historyIndex, setHistoryIndex] = useState(0);
   const [isMinimized, setIsMinimized] = useState(false);
@@ -31,7 +32,9 @@ export function BrowserWindow({
     setIsMinimized(true);
   };
 
-  const handleUrlChange = (newUrl: string) => {
+  const handleUrlSubmit = (newUrl: string) => {
+    // ⚡ Bolt: Prevent redundant navigations and history pollution
+    if (newUrl === url) return;
     setUrl(newUrl);
     setHistory(prev => [...prev.slice(0, historyIndex + 1), newUrl]);
     setHistoryIndex(prev => prev + 1);
@@ -41,6 +44,7 @@ export function BrowserWindow({
     if (historyIndex > 0) {
       setHistoryIndex(prev => prev - 1);
       setUrl(history[historyIndex - 1]);
+      setInputValue(history[historyIndex - 1]);
     }
   };
 
@@ -48,6 +52,7 @@ export function BrowserWindow({
     if (historyIndex < history.length - 1) {
       setHistoryIndex(prev => prev + 1);
       setUrl(history[historyIndex + 1]);
+      setInputValue(history[historyIndex + 1]);
     }
   };
 
@@ -137,8 +142,14 @@ export function BrowserWindow({
           </button>
           <input
             type="text"
-            value={url}
-            onChange={e => handleUrlChange(e.target.value)}
+            value={inputValue}
+            onChange={e => setInputValue(e.target.value)}
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                handleUrlSubmit(inputValue);
+              }
+            }}
+            onBlur={() => handleUrlSubmit(inputValue)}
             className="flex-1 px-3 py-1.5 bg-white/5 rounded-lg text-white/80 text-sm focus:outline-none focus:ring-1 focus:ring-blue-400/50"
           />
         </div>
